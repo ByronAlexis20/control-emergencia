@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="control-emergencia" transaction-type="RESOURCE_LOCAL">
+		<class>com.emergencia.model.entity.Barrio</class>
+		<class>com.emergencia.model.entity.Bombero</class>
+		<class>com.emergencia.model.entity.Canton</class>
+		<class>com.emergencia.model.entity.Chofer</class>
+		<class>com.emergencia.model.entity.CondicionLlegada</class>
+		<class>com.emergencia.model.entity.Emergencia</class>
+		<class>com.emergencia.model.entity.Establecimiento</class>
+		<class>com.emergencia.model.entity.EstadoCivil</class>
+		<class>com.emergencia.model.entity.FormaAviso</class>
+		<class>com.emergencia.model.entity.Genero</class>
+		<class>com.emergencia.model.entity.Institucion</class>
+		<class>com.emergencia.model.entity.Lesion</class>
+		<class>com.emergencia.model.entity.LocalizacionLesion</class>
+		<class>com.emergencia.model.entity.Menu</class>
+		<class>com.emergencia.model.entity.Me</class>
+		<class>com.emergencia.model.entity.Parroquia</class>
+		<class>com.emergencia.model.entity.Perfil</class>
+		<class>com.emergencia.model.entity.Permiso</class>
+		<class>com.emergencia.model.entity.Prehospitalaria</class>
+		<class>com.emergencia.model.entity.Procedimiento</class>
+		<class>com.emergencia.model.entity.Provincia</class>
+		<class>com.emergencia.model.entity.ResponsableVehiculo</class>
+		<class>com.emergencia.model.entity.SignoVital</class>
+		<class>com.emergencia.model.entity.SignoVitalEmergencia</class>
+		<class>com.emergencia.model.entity.TipoEmergencia</class>
+		<class>com.emergencia.model.entity.TipoProcedimiento</class>
+		<class>com.emergencia.model.entity.TipoSangre</class>
+		<class>com.emergencia.model.entity.TipoVehiculo</class>
+		<class>com.emergencia.model.entity.Usuario</class>
+		<class>com.emergencia.model.entity.Vehiculo</class>
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/control_emergencia"/>
+			<property name="javax.persistence.jdbc.user" value="root"/>
+			<property name="javax.persistence.jdbc.password" value="admin123"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+		</properties>
+	</persistence-unit>
+</persistence>
