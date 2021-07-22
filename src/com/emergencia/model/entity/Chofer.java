@@ -17,7 +17,7 @@ public class Chofer implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_chofer")
-	private int idChofer;
+	private Integer idChofer;
 
 	private String apellidos;
 
@@ -38,11 +38,11 @@ public class Chofer implements Serializable {
 	public Chofer() {
 	}
 
-	public int getIdChofer() {
+	public Integer getIdChofer() {
 		return this.idChofer;
 	}
 
-	public void setIdChofer(int idChofer) {
+	public void setIdChofer(Integer idChofer) {
 		this.idChofer = idChofer;
 	}
 

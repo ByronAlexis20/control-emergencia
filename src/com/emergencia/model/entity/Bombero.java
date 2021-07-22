@@ -5,11 +5,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
-/**
- * The persistent class for the bombero database table.
- * 
- */
 @Entity
 @NamedQuery(name="Bombero.findAll", query="SELECT b FROM Bombero b")
 public class Bombero implements Serializable {
@@ -18,7 +13,7 @@ public class Bombero implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_bombero")
-	private int idBombero;
+	private Integer idBombero;
 
 	private String apellidos;
 
@@ -65,11 +60,11 @@ public class Bombero implements Serializable {
 	public Bombero() {
 	}
 
-	public int getIdBombero() {
+	public Integer getIdBombero() {
 		return this.idBombero;
 	}
 
-	public void setIdBombero(int idBombero) {
+	public void setIdBombero(Integer idBombero) {
 		this.idBombero = idBombero;
 	}
 

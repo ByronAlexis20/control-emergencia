@@ -17,7 +17,7 @@ public class Menu implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_menu")
-	private int idMenu;
+	private Integer idMenu;
 
 	private String descripcion;
 
@@ -39,11 +39,11 @@ public class Menu implements Serializable {
 	public Menu() {
 	}
 
-	public int getIdMenu() {
+	public Integer getIdMenu() {
 		return this.idMenu;
 	}
 
-	public void setIdMenu(int idMenu) {
+	public void setIdMenu(Integer idMenu) {
 		this.idMenu = idMenu;
 	}
 

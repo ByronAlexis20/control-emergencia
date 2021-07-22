@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the genero database table.
- * 
- */
 @Entity
 @NamedQuery(name="Genero.findAll", query="SELECT g FROM Genero g")
 public class Genero implements Serializable {
@@ -17,7 +12,7 @@ public class Genero implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_genero")
-	private int idGenero;
+	private Integer idGenero;
 
 	private String estado;
 
@@ -30,11 +25,11 @@ public class Genero implements Serializable {
 	public Genero() {
 	}
 
-	public int getIdGenero() {
+	public Integer getIdGenero() {
 		return this.idGenero;
 	}
 
-	public void setIdGenero(int idGenero) {
+	public void setIdGenero(Integer idGenero) {
 		this.idGenero = idGenero;
 	}
 

@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the barrio database table.
- * 
- */
 @Entity
 @NamedQuery(name="Barrio.findAll", query="SELECT b FROM Barrio b")
 public class Barrio implements Serializable {
@@ -17,7 +12,7 @@ public class Barrio implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_barrio")
-	private int idBarrio;
+	private Integer idBarrio;
 
 	private String barrio;
 
@@ -30,11 +25,11 @@ public class Barrio implements Serializable {
 	public Barrio() {
 	}
 
-	public int getIdBarrio() {
+	public Integer getIdBarrio() {
 		return this.idBarrio;
 	}
 
-	public void setIdBarrio(int idBarrio) {
+	public void setIdBarrio(Integer idBarrio) {
 		this.idBarrio = idBarrio;
 	}
 

@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the tipo_procedimiento database table.
- * 
- */
 @Entity
 @Table(name="tipo_procedimiento")
 @NamedQuery(name="TipoProcedimiento.findAll", query="SELECT t FROM TipoProcedimiento t")
@@ -18,7 +13,7 @@ public class TipoProcedimiento implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_tipo_procedimiento")
-	private int idTipoProcedimiento;
+	private Integer idTipoProcedimiento;
 
 	private String estado;
 
@@ -32,11 +27,11 @@ public class TipoProcedimiento implements Serializable {
 	public TipoProcedimiento() {
 	}
 
-	public int getIdTipoProcedimiento() {
+	public Integer getIdTipoProcedimiento() {
 		return this.idTipoProcedimiento;
 	}
 
-	public void setIdTipoProcedimiento(int idTipoProcedimiento) {
+	public void setIdTipoProcedimiento(Integer idTipoProcedimiento) {
 		this.idTipoProcedimiento = idTipoProcedimiento;
 	}
 

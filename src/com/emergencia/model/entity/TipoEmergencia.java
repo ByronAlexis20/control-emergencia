@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the tipo_emergencia database table.
- * 
- */
 @Entity
 @Table(name="tipo_emergencia")
 @NamedQuery(name="TipoEmergencia.findAll", query="SELECT t FROM TipoEmergencia t")
@@ -18,7 +13,7 @@ public class TipoEmergencia implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_tipo_emergencia")
-	private int idTipoEmergencia;
+	private Integer idTipoEmergencia;
 
 	private String descripcion;
 
@@ -34,11 +29,11 @@ public class TipoEmergencia implements Serializable {
 	public TipoEmergencia() {
 	}
 
-	public int getIdTipoEmergencia() {
+	public Integer getIdTipoEmergencia() {
 		return this.idTipoEmergencia;
 	}
 
-	public void setIdTipoEmergencia(int idTipoEmergencia) {
+	public void setIdTipoEmergencia(Integer idTipoEmergencia) {
 		this.idTipoEmergencia = idTipoEmergencia;
 	}
 

@@ -16,7 +16,7 @@ public class Permiso implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_permiso")
-	private int idPermiso;
+	private Integer idPermiso;
 
 	private String estado;
 
@@ -33,11 +33,11 @@ public class Permiso implements Serializable {
 	public Permiso() {
 	}
 
-	public int getIdPermiso() {
+	public Integer getIdPermiso() {
 		return this.idPermiso;
 	}
 
-	public void setIdPermiso(int idPermiso) {
+	public void setIdPermiso(Integer idPermiso) {
 		this.idPermiso = idPermiso;
 	}
 

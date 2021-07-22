@@ -6,11 +6,6 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
-
-/**
- * The persistent class for the prehospitalaria database table.
- * 
- */
 @Entity
 @NamedQuery(name="Prehospitalaria.findAll", query="SELECT p FROM Prehospitalaria p")
 public class Prehospitalaria implements Serializable {
@@ -19,7 +14,7 @@ public class Prehospitalaria implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_prehospitalaria")
-	private int idPrehospitalaria;
+	private Integer idPrehospitalaria;
 
 	@Column(name="cedula_informante")
 	private String cedulaInformante;
@@ -94,11 +89,11 @@ public class Prehospitalaria implements Serializable {
 	public Prehospitalaria() {
 	}
 
-	public int getIdPrehospitalaria() {
+	public Integer getIdPrehospitalaria() {
 		return this.idPrehospitalaria;
 	}
 
-	public void setIdPrehospitalaria(int idPrehospitalaria) {
+	public void setIdPrehospitalaria(Integer idPrehospitalaria) {
 		this.idPrehospitalaria = idPrehospitalaria;
 	}
 

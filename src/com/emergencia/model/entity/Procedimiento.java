@@ -3,11 +3,6 @@ package com.emergencia.model.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
-/**
- * The persistent class for the procedimiento database table.
- * 
- */
 @Entity
 @NamedQuery(name="Procedimiento.findAll", query="SELECT p FROM Procedimiento p")
 public class Procedimiento implements Serializable {
@@ -33,11 +28,11 @@ public class Procedimiento implements Serializable {
 	public Procedimiento() {
 	}
 
-	public int getIdProcedimiento() {
+	public Integer getIdProcedimiento() {
 		return this.idProcedimiento;
 	}
 
-	public void setIdProcedimiento(int idProcedimiento) {
+	public void setIdProcedimiento(Integer idProcedimiento) {
 		this.idProcedimiento = idProcedimiento;
 	}
 

@@ -4,20 +4,19 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the perfil database table.
- * 
- */
 @Entity
-@NamedQuery(name="Perfil.findAll", query="SELECT p FROM Perfil p")
+@Table(name="perfil")
+@NamedQueries({
+	@NamedQuery(name="Perfil.buscarPorPatron", query="SELECT p FROM Perfil p where lower(p.nombre) like lower(:patron)"),
+	@NamedQuery(name="Perfil.buscarPerfilPorId", query="SELECT p FROM Perfil p where p.idPerfil = :idPerfil")
+})
 public class Perfil implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_perfil")
-	private int idPerfil;
+	private Integer idPerfil;
 
 	private String estado;
 
@@ -34,11 +33,11 @@ public class Perfil implements Serializable {
 	public Perfil() {
 	}
 
-	public int getIdPerfil() {
+	public Integer getIdPerfil() {
 		return this.idPerfil;
 	}
 
-	public void setIdPerfil(int idPerfil) {
+	public void setIdPerfil(Integer idPerfil) {
 		this.idPerfil = idPerfil;
 	}
 

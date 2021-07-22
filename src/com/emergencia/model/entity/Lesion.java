@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the lesion database table.
- * 
- */
 @Entity
 @NamedQuery(name="Lesion.findAll", query="SELECT l FROM Lesion l")
 public class Lesion implements Serializable {
@@ -17,7 +12,7 @@ public class Lesion implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_lesion")
-	private int idLesion;
+	private Integer idLesion;
 
 	private String estado;
 
@@ -30,11 +25,11 @@ public class Lesion implements Serializable {
 	public Lesion() {
 	}
 
-	public int getIdLesion() {
+	public Integer getIdLesion() {
 		return this.idLesion;
 	}
 
-	public void setIdLesion(int idLesion) {
+	public void setIdLesion(Integer idLesion) {
 		this.idLesion = idLesion;
 	}
 

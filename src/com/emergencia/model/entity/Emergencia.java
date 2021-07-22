@@ -5,11 +5,6 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-
-/**
- * The persistent class for the emergencia database table.
- * 
- */
 @Entity
 @NamedQuery(name="Emergencia.findAll", query="SELECT e FROM Emergencia e")
 public class Emergencia implements Serializable {
@@ -18,7 +13,7 @@ public class Emergencia implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_emergencia")
-	private int idEmergencia;
+	private Integer idEmergencia;
 
 	private int anio;
 
@@ -103,11 +98,11 @@ public class Emergencia implements Serializable {
 	public Emergencia() {
 	}
 
-	public int getIdEmergencia() {
+	public Integer getIdEmergencia() {
 		return this.idEmergencia;
 	}
 
-	public void setIdEmergencia(int idEmergencia) {
+	public void setIdEmergencia(Integer idEmergencia) {
 		this.idEmergencia = idEmergencia;
 	}
 

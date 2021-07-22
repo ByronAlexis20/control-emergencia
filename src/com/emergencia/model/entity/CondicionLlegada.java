@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the condicion_llegada database table.
- * 
- */
 @Entity
 @Table(name="condicion_llegada")
 @NamedQuery(name="CondicionLlegada.findAll", query="SELECT c FROM CondicionLlegada c")
@@ -18,7 +13,7 @@ public class CondicionLlegada implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_condicion_llegada")
-	private int idCondicionLlegada;
+	private Integer idCondicionLlegada;
 
 	@Column(name="condicion_llegada")
 	private String condicionLlegada;
@@ -32,11 +27,11 @@ public class CondicionLlegada implements Serializable {
 	public CondicionLlegada() {
 	}
 
-	public int getIdCondicionLlegada() {
+	public Integer getIdCondicionLlegada() {
 		return this.idCondicionLlegada;
 	}
 
-	public void setIdCondicionLlegada(int idCondicionLlegada) {
+	public void setIdCondicionLlegada(Integer idCondicionLlegada) {
 		this.idCondicionLlegada = idCondicionLlegada;
 	}
 
