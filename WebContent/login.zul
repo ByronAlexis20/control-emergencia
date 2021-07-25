@@ -9,7 +9,7 @@
 				body{ margin: 0; padding: 0; } 
 				body:before{ content: '';
 				position: fixed; width: 100vw; height: 100vh;
-				background-image: url("img/fondoba.jpg");
+				background-image: url("imagenes/fondo.jpg");
 				background-position: center center; 
 				background-repeat: no-repeat; 
 				background-attachment: fixed;
@@ -57,7 +57,7 @@
 			<h:form id="f" name="f" action="j_spring_security_check"
 				method="POST" xmlns:h="native">
 				<div class="contact-form">
-					<img src="img/logo.png" class="avatar" />
+					<img src="imagenes/logo.png" class="avatar" />
 					<h2>Inicio de Sesión</h2>
 					<form>
 						<p>Usuario</p>
