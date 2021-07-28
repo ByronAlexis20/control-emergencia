@@ -49,6 +49,9 @@ public class Usuario implements Serializable {
 	@JoinColumn(name="id_perfil")
 	private Perfil perfil;
 
+	@Column(name="cambio_clave")
+	private boolean cambioClave;
+	
 	public Usuario() {
 	}
 
@@ -138,6 +141,14 @@ public class Usuario implements Serializable {
 
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
+	}
+
+	public boolean isCambioClave() {
+		return cambioClave;
+	}
+
+	public void setCambioClave(boolean cambioClave) {
+		this.cambioClave = cambioClave;
 	}
 
 }
