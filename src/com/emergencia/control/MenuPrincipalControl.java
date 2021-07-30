@@ -2,6 +2,8 @@ package com.emergencia.control;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.zkoss.bind.annotation.AfterCompose;
@@ -23,22 +25,24 @@ import org.zkoss.zul.Treechildren;
 import org.zkoss.zul.Treeitem;
 import org.zkoss.zul.Treerow;
 
+import com.emergencia.model.dao.MenuDAO;
+import com.emergencia.model.dao.PermisoDAO;
+import com.emergencia.model.dao.UsuarioDAO;
+import com.emergencia.model.entity.Menu;
+import com.emergencia.model.entity.Permiso;
+import com.emergencia.model.entity.Usuario;
 import com.emergencia.security.SecurityUtil;
-
-import ec.edu.upse.gcf.dao.OpcionDao;
-import ec.edu.upse.gcf.dao.OpcionPerfilDAO;
-import ec.edu.upse.gcf.dao.UsuarioPerfilDao;
-import ec.edu.upse.gcf.modelo.Opcion;
-import ec.edu.upse.gcf.modelo.Opcionperfil;
 
 @SuppressWarnings("unchecked")
 public class MenuPrincipalControl {
-	private Opcion opcionSeleccionado;
-	private List<Opcion> listaOpcion;
-	private OpcionDao opcionDao = new OpcionDao();
-	private UsuarioPerfilDao usuarioPerfilDao = new UsuarioPerfilDao();
+	private Menu opcionSeleccionado;
+	private List<Menu> listaOpcion;
+	private MenuDAO menuDAO = new MenuDAO();
+	private UsuarioDAO usuarioDAO = new UsuarioDAO();
+	List<Menu> listaPermisosPadre = new ArrayList<Menu>();
+	List<Permiso> listaPermisosHijo = new ArrayList<Permiso>();
 
-	private OpcionPerfilDAO opcionPerfilDAO = new OpcionPerfilDAO();
+	private PermisoDAO permisoDAO = new PermisoDAO();
 	@Wire
 	Tree menu;
 
@@ -52,95 +56,98 @@ public class MenuPrincipalControl {
 	}
 
 	public void loadTree() throws IOException{
-
-		if(listaOpcion != null) {
-			listaOpcion = null;
-		}
-
-		listaOpcion = new ArrayList<Opcion>();
-
-		if(menu.getChildren() != null) {
-			menu.getChildren().clear();
-		}
-
-		Integer id = usuarioPerfilDao.getUsuarioPorRol(SecurityUtil.getUser().getUsername().trim()); 
-
-		if (id != null){		
-			List<Opcionperfil> listaMenu = opcionPerfilDAO.getMenuPerfil(id);
-			for(Opcionperfil op : listaMenu) {
-				Opcion opc = op.getOpcion();				
-				while(opc.getIdOpcionPadre() != null) {
-					opc = opcionDao.getOpcionId(opc.getIdOpcionPadre());
-				}				
-				boolean banderita = false;
-				for(Opcion opcionMen : listaOpcion) {
-					if(opcionMen.getIdOpcion() == opc.getIdOpcion())
-						banderita = true;
-				}				
-				if(banderita == false) {
-					listaOpcion.add(opc);
-				}
-			}
-			if (listaOpcion.size() > 0) {
-				menu.appendChild(getTreechildren(listaOpcion,id));   
-			}			
-		}			
-
-		listaOpcion = null;	
-	}
-
-	private Treechildren getTreechildren(List<Opcion> opciones, Integer idPerfil) {
-		Treechildren retorno = new Treechildren();
-		for(Opcion opcion : opciones) {
-			Treeitem ti = getTreeitem(opcion);
-			retorno.appendChild(ti);
-			List<Opcion> listaPadreHijo = new ArrayList<Opcion>();
-
-			List<Opcionperfil> listaHijos = opcionPerfilDAO.getMenuHijos(idPerfil);
+		Usuario usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim()); 
+		if (usuario != null){
+			//listaPermisosPadre = permisoDAO.getListaPermisosPadre(usuario.getSegPerfil().getIdPerfil());
+			listaPermisosHijo = permisoDAO.getListaPermisosHijo(usuario.getPerfil().getIdPerfil());
 			
-			for(Opcionperfil opc : listaHijos) {
-				Opcion obj = opc.getOpcion();
-				Opcion opcionPadre = new Opcion();	
-				Integer idMenu = 0;
-
-				while(obj.getIdOpcionPadre() != null) {
-					if(obj.getIdOpcionPadre() == opcion.getIdOpcion()) {
-						idMenu = obj.getIdOpcion();
-						opcionPadre = obj;
-					}
-					obj = opcionDao.getOpcionId(obj.getIdOpcionPadre());
-				}
-				if(idMenu != 0) {
-					boolean bandera = false;
-					for(Opcion opci : listaPadreHijo) {
-						if(opci.getIdOpcion() == opcionPadre.getIdOpcion())
-							bandera = true;
-
+			//obtener la lista de menus padre de cada menu
+			boolean bandera = false;
+			for(Permiso per : listaPermisosHijo) {
+				bandera = false;
+				List<Menu> listaMenu = menuDAO.getMenuPadre(per.getMenu().getIdMenuPadre());
+				if(listaMenu.size() > 0) {
+					for(Menu mnu : listaPermisosPadre) {
+						for(Menu mnu2 : listaMenu) {
+							if(mnu.getIdMenu() == mnu2.getIdMenu())
+								bandera = true;
+						}
 					}
 					if(bandera == false)
-						listaPadreHijo.add(opcionPadre);
+						listaPermisosPadre.add(listaMenu.get(0));
 				}
-
 			}
 			
-			if (!listaPadreHijo.isEmpty()) {
-				ti.appendChild(getTreechildren(listaPadreHijo,idPerfil));
+			if (listaPermisosPadre.size() > 0) { //si tiene permisos el usuario
+				//capturar solo los menus
+				List<Menu> listaMenu = new ArrayList<Menu>();
+				for(Menu permiso : listaPermisosPadre) {
+					listaMenu.add(permiso);
+				}
+				Collections.sort(listaMenu, new Comparator<Menu>() {
+					@SuppressWarnings("deprecation")
+					@Override
+					public int compare(Menu p1, Menu p2) {
+						return new Integer(p1.getPosicion()).compareTo(new Integer(p2.getPosicion()));
+					}
+				});
+				menu.appendChild(getTreechildren(listaMenu));   
 			}
-
+			cargarFotoUsuario(usuario);
+		}
+	}
+	public void cargarFotoUsuario(Usuario us) {
+//		if(us != null) {
+//			if(us.getFoto() != null) {
+//				fotoUsuario.setContent(getImagenUsuario(us));
+//			}
+//		}
+	}
+//	public AImage getImagenUsuario(Usuario us) {
+//		AImage retorno = null;
+//		if (us.getFoto() != null) {
+//			try {
+//				retorno = FileUtil.getImagenTamanoFijo(new AImage(us.getFoto()), 100, -1);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return retorno; 
+//	}
+	private Treechildren getTreechildren(List<Menu> listaMenu) {
+		Treechildren retorno = new Treechildren();
+		for(Menu opcion : listaMenu) {
+			Treeitem ti = getTreeitem(opcion);
+			ti.setStyle("color: #FFFFFF;");
+			retorno.appendChild(ti);
+			List<Menu> listaPadreHijo = new ArrayList<Menu>();
+			for(Permiso permiso : listaPermisosHijo) {
+				if(permiso.getMenu().getIdMenuPadre() == opcion.getIdMenu()) {
+					listaPadreHijo.add(permiso.getMenu());
+				}
+			}
+			if (!listaPadreHijo.isEmpty()) {
+				Collections.sort(listaPadreHijo, new Comparator<Menu>() {
+					@SuppressWarnings("deprecation")
+					@Override
+					public int compare(Menu p1, Menu p2) {
+						return new Integer(p1.getPosicion()).compareTo(new Integer(p2.getPosicion()));
+					}
+				});
+				ti.appendChild(getTreechildren(listaPadreHijo));
+			}
 		}
 		return retorno;
 	}
 
-
 	@SuppressWarnings({ "rawtypes", "deprecation" })
-	private Treeitem getTreeitem(Opcion opcion) {
+	private Treeitem getTreeitem(Menu opcion) {
 		Treeitem retorno = new Treeitem();
 		Treerow tr = new Treerow();
-		Treecell tc = new Treecell(opcion.getTitulo());		
-		if (opcion.getImagen() != null) {
-			tc.setSrc(opcion.getImagen());
+		Treecell tc = new Treecell(opcion.getDescripcion());		
+		if (opcion.getIcono() != null) {
+			tc.setSrc(opcion.getIcono());
 		}
-
 		tr.addEventListener(Events.ON_CLICK, new EventListener() {
 			@Override
 			public void onEvent(Event arg0) throws Exception {
@@ -151,7 +158,6 @@ public class MenuPrincipalControl {
 				}
 			}
 		});
-
 		tr.appendChild(tc);
 		retorno.appendChild(tr);
 		retorno.setOpen(false);
@@ -159,8 +165,7 @@ public class MenuPrincipalControl {
 	}
 
 	@NotifyChange({"areaContenido"})
-	public void loadContenido(Opcion opcion) {
-
+	public void loadContenido(Menu opcion) {
 		if (opcion.getUrl().toLowerCase().substring(0, 2).toLowerCase().equals("http")) {
 			Sessions.getCurrent().setAttribute("FormularioActual", null);
 			Executions.getCurrent().sendRedirect(opcion.getUrl(), "_blank");			
@@ -168,43 +173,32 @@ public class MenuPrincipalControl {
 			Sessions.getCurrent().setAttribute("FormularioActual", opcion);	
 			areaContenido.setSrc(opcion.getUrl());
 		}	
-
 	}
-
 	public String getNombreUsuario() {
 		return SecurityUtil.getUser().getUsername();
 	}
-
-
-	public List<Opcion> getListaOpcion() {
+	public List<Menu> getListaOpcion() {
 		return listaOpcion;
 	}
-
-	public void setListaOpcion(List<Opcion> listaOpcion) {
+	public void setListaOpcion(List<Menu> listaOpcion) {
 		this.listaOpcion = listaOpcion;
 	}
-
 	public Tree getMenu() {
 		return menu;
 	}
-
 	public void setMenu(Tree menu) {
 		this.menu = menu;
 	}
-
 	public Include getAreaContenido() {
 		return areaContenido;
 	}
-
 	public void setAreaContenido(Include areaContenido) {
 		this.areaContenido = areaContenido;
 	}
-
-	public Opcion getOpcionSeleccionado() {
+	public Menu getOpcionSeleccionado() {
 		return opcionSeleccionado;
 	}
-
-	public void setOpcionSeleccionado(Opcion opcionSeleccionado) {
+	public void setOpcionSeleccionado(Menu opcionSeleccionado) {
 		this.opcionSeleccionado = opcionSeleccionado;
 	}
 }

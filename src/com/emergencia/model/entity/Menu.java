@@ -4,13 +4,14 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the menu database table.
- * 
- */
 @Entity
-@NamedQuery(name="Menu.findAll", query="SELECT m FROM Menu m")
+@Table(name="menu")
+@NamedQueries({
+	@NamedQuery(name="Menu.findAll", query="SELECT s FROM Menu s where s.estado='A' order by s.posicion asc"),
+	@NamedQuery(name="Menu.buscarHijos", query="SELECT s FROM Menu s where s.estado = 'A' and s.idMenuPadre = :idPadre order by s.posicion asc"),
+	@NamedQuery(name="Menu.buscarListadoHijos", query="SELECT s FROM Menu s where s.estado='A' and s.idMenuPadre <> 0"),
+	@NamedQuery(name="Menu.menuPadre", query="SELECT s FROM Menu s where s.estado='A' and s.idMenu = :idMenuPadre"),
+})
 public class Menu implements Serializable {
 	private static final long serialVersionUID = 1L;
 

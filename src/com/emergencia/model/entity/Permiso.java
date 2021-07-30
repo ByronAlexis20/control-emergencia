@@ -3,13 +3,15 @@ package com.emergencia.model.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
-/**
- * The persistent class for the permiso database table.
- * 
- */
 @Entity
-@NamedQuery(name="Permiso.findAll", query="SELECT p FROM Permiso p")
+@Table(name="permiso")
+@NamedQueries({
+	@NamedQuery(name="Permiso.findAll", query="SELECT s FROM Permiso s"),
+	@NamedQuery(name="Permiso.buscarPadrePorPerfil", query="SELECT s FROM Permiso s "
+			+ "where s.perfil.idPerfil = :idperfil and s.estado = 'A' and s.menu.idMenuPadre = 0"),
+	@NamedQuery(name="Permiso.buscarTodosPorPerfil", query="SELECT s FROM Permiso s where s.perfil.idPerfil = :idperfil "
+			+ "and s.estado = 'A' and s.menu.idMenuPadre <> 0"),
+})
 public class Permiso implements Serializable {
 	private static final long serialVersionUID = 1L;
 
