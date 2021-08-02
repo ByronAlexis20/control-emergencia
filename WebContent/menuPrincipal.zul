@@ -1,4 +1,4 @@
-<?page title="" contentType="text/html;charset=UTF-8"?>
+<?page title="Control de emergencia" contentType="text/html;charset=UTF-8"?>
 <?script src="/styles/bootstrap-4.6.0/js/bootstrap.min.js" ?>
 <?script src="/styles/bootstrap-4.6.0/js/bootstrap.bundle.min.js" ?>
 <?script src="/styles/bootstrap-4.6.0/js/jquery-3.6.0.min.js" ?>
@@ -13,83 +13,53 @@
 <?link rel="stylesheet" href="/styles/vendor/font-awesome/css/font-awesome.min.css" ?>
 <?link rel="stylesheet" href="/styles/vendor/datatables/dataTables.bootstrap4.css" ?>
 <?link rel="stylesheet" href="/styles/css/sb-admin.css" ?>
-<zk>
-	<div apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('com.emergencia.control.MenuPrincipalControl')" height="100%">
-		<div sclass="container-fluid" height="100%">
-			<div sclass="row" height="100px">
-				<image src="/img/bannerf.jpg" hflex="1px" vflex="1px" />
-			</div>
-			<div sclass="row" vflex="1">
-				<!-- DATOS Y OPCIONES -->
-				<div sclass="col-3">
-					<div sclass="row">
-						<div width="350px">
-							<!-- PANEL USUARIO -->
-							<div class="panel panel-default"
-								style="border:1px;">
-								<!-- ENCABEZADO -->
-								<div class="panel-heading" 
-									align="center" style="background:#EBEAEA;">
-									<label
-										value="¡Bienvenido al Sistema!" style="font-size:12px;"
-										class="font-weight-bold" />
-								</div>
-								<!-- CONTENIDO -->
-								<div class="panel-body"
-									style="border:1px;">
-									<hlayout valign="middle">
-										<label
-											value="@load(vm.nombreUsuario)"
-											sclass=" p-2 mb font-weight-bold" style="font-size:13px;" />
-										<a href="/Mantenimiento/usuarios/cambioDatos.zul"
-											style="font-size:13px;color:red">
-											Cambiar Contraseña
-										</a>
-										<h:form id="f" name="f"
-											action="j_spring_security_logout" method="POST"
-											xmlns:h="native">
-											<html>
-												<input type="hidden"
-													name="${_csrf.parameterName}" value="${_csrf.token}" />
-												<input value="Salir"
-													style="color:blue;background:#FFFFFF;border:0px;font-size:14px"
-													type="submit" />
-											</html>
-										</h:form>
-									</hlayout>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div sclass="row" vflex="1">
-						<!-- OPCIONES -->
-						<div class="panel panel-default bg-dark" vflex="1">
-							<!-- ENCABEZADO -->
-							<div class="panel-heading" align="center"
-								style="background:#EBEAEA;">
-								<label value="Opciones del Sistema"
-									style="font-size:12px;" class="font-weight-bold" />
-							</div>
-							<!-- CONTENIDO -->
-							<div class="panel-body" vflex="1">
-								<tree id="menu" vflex="1" />
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- AREA DE TRABAJO -->
-				<div sclass="col-9">
-					<div sclass="row" vflex="1">
-						<borderlayout>
-							<center>
-								<div hflex="1" vflex="1">
-									<include id="areaContenido" />
-								</div>
-							</center>
-						</borderlayout>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<zk xmlns:n="native">	
+	<borderlayout hflex="1" vflex="1" apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('com.emergencia.control.MenuPrincipalControl')">
+		<north height="43px" border="none" style="background-color: #3c8dbc" hflex="1" flex="false">
+			<hbox vflex="1" hflex="1" style="background-color: transparent;" pack="start">
+				<separator orient="horizontal" width="10px" />
+				<vbox pack="center" vflex="1">
+					<image src="/imagenes/logo.png" height="30px" />
+				</vbox>
+				<hbox pack="start" align="start" hflex="1" vflex="1">
+					<vbox pack="center" vflex="1" sclass="hotel-letter">
+						<label style="font: 120% sans-serif; font-weight: bold; color: white; " value="Control de emergencias"/>
+					</vbox>
+				</hbox>
+				<hbox vflex="1" hflex="1" pack="end">
+					<vbox vflex="1" pack="center">
+						<image src="/imagenes/logo_usuario.png" height="30px" style="border-radius:160px;width:30px;height:30px;"/>
+					</vbox>
+					<separator orient="horizontal" width="1px" />
+					<vbox vflex="1" pack="center">
+						<label value="@load(vm.nombreUsuario)" style="font: 100% sans-serif;color:white" />
+					</vbox>
+					<separator orient="horizontal" width="10px" />
+					
+					<vbox vflex="1" pack="center" style="margin-right:10px;">
+						<h:form id="f" name="f" action="j_spring_security_logout" method="POST" xmlns:h="native">
+							<html>	
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+							</html>
+							<button type="submit" image="/imagenes/salir.png" width="50px" sclass="btn-borde" tooltip="Salir del sistema"/>
+						</h:form>
+					</vbox>
+				</hbox>
+			</hbox>
+		</north>
+		<west  width="230px" flex="true" maxsize="250" class="menu" splittable="true" collapsible="true">
+	    	<div vflex="1" hflex="1">
+	      		<tree  id="menu" vflex="1"  hflex="1"  style="padding-top:20px;"/>
+	    	</div>
+	    </west>
+	    
+		<center id="mainContent" autoscroll="true" style="background-color: transparent;">
+			<include id="areaContenido" hflex="1" vflex="1"/>
+		</center>
+		
+		<south height="25px" border="none" style="background-color: transparent;">
+			<include src="/footer.zul" vflex="1" hflex="1" />
+		</south>
+	</borderlayout>
+	
 </zk>
