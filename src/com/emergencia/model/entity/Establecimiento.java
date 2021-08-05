@@ -4,6 +4,11 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
+
+/**
+ * The persistent class for the establecimiento database table.
+ * 
+ */
 @Entity
 @NamedQuery(name="Establecimiento.findAll", query="SELECT e FROM Establecimiento e")
 public class Establecimiento implements Serializable {
@@ -12,7 +17,7 @@ public class Establecimiento implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_establecimiento")
-	private Integer idEstablecimiento;
+	private int idEstablecimiento;
 
 	private String direccion;
 
@@ -27,11 +32,11 @@ public class Establecimiento implements Serializable {
 	public Establecimiento() {
 	}
 
-	public Integer getIdEstablecimiento() {
+	public int getIdEstablecimiento() {
 		return this.idEstablecimiento;
 	}
 
-	public void setIdEstablecimiento(Integer idEstablecimiento) {
+	public void setIdEstablecimiento(int idEstablecimiento) {
 		this.idEstablecimiento = idEstablecimiento;
 	}
 

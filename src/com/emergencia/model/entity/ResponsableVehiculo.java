@@ -3,6 +3,11 @@ package com.emergencia.model.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
+
+/**
+ * The persistent class for the responsable_vehiculo database table.
+ * 
+ */
 @Entity
 @Table(name="responsable_vehiculo")
 @NamedQuery(name="ResponsableVehiculo.findAll", query="SELECT r FROM ResponsableVehiculo r")
@@ -12,7 +17,7 @@ public class ResponsableVehiculo implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_responsable")
-	private Integer idResponsable;
+	private int idResponsable;
 
 	private String estado;
 
@@ -29,11 +34,11 @@ public class ResponsableVehiculo implements Serializable {
 	public ResponsableVehiculo() {
 	}
 
-	public Integer getIdResponsable() {
+	public int getIdResponsable() {
 		return this.idResponsable;
 	}
 
-	public void setIdResponsable(Integer idResponsable) {
+	public void setIdResponsable(int idResponsable) {
 		this.idResponsable = idResponsable;
 	}
 

@@ -17,7 +17,7 @@ public class Parroquia implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_parroquia")
-	private Integer idParroquia;
+	private int idParroquia;
 
 	private String estado;
 
@@ -35,11 +35,11 @@ public class Parroquia implements Serializable {
 	public Parroquia() {
 	}
 
-	public Integer getIdParroquia() {
+	public int getIdParroquia() {
 		return this.idParroquia;
 	}
 
-	public void setIdParroquia(Integer idParroquia) {
+	public void setIdParroquia(int idParroquia) {
 		this.idParroquia = idParroquia;
 	}
 

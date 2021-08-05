@@ -4,6 +4,11 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
+
+/**
+ * The persistent class for the mes database table.
+ * 
+ */
 @Entity
 @Table(name="mes")
 @NamedQuery(name="Me.findAll", query="SELECT m FROM Me m")
@@ -13,7 +18,7 @@ public class Me implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_mes")
-	private Integer idMes;
+	private int idMes;
 
 	private String estado;
 
@@ -26,11 +31,11 @@ public class Me implements Serializable {
 	public Me() {
 	}
 
-	public Integer getIdMes() {
+	public int getIdMes() {
 		return this.idMes;
 	}
 
-	public void setIdMes(Integer idMes) {
+	public void setIdMes(int idMes) {
 		this.idMes = idMes;
 	}
 

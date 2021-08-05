@@ -4,6 +4,11 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Time;
 
+
+/**
+ * The persistent class for the signo_vital database table.
+ * 
+ */
 @Entity
 @Table(name="signo_vital")
 @NamedQuery(name="SignoVital.findAll", query="SELECT s FROM SignoVital s")
@@ -13,7 +18,7 @@ public class SignoVital implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_signo_vital")
-	private Integer idSignoVital;
+	private int idSignoVital;
 
 	private String estado;
 
@@ -44,11 +49,11 @@ public class SignoVital implements Serializable {
 	public SignoVital() {
 	}
 
-	public Integer getIdSignoVital() {
+	public int getIdSignoVital() {
 		return this.idSignoVital;
 	}
 
-	public void setIdSignoVital(Integer idSignoVital) {
+	public void setIdSignoVital(int idSignoVital) {
 		this.idSignoVital = idSignoVital;
 	}
 

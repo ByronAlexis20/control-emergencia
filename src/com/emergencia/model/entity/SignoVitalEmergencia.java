@@ -4,6 +4,11 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Time;
 
+
+/**
+ * The persistent class for the signo_vital_emergencia database table.
+ * 
+ */
 @Entity
 @Table(name="signo_vital_emergencia")
 @NamedQuery(name="SignoVitalEmergencia.findAll", query="SELECT s FROM SignoVitalEmergencia s")

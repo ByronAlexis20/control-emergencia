@@ -1,0 +1,182 @@
+<?page title="Perfiles" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window id="winSignosVitales" width="455px" vflex="1"
+		apply="org.zkoss.bind.BindComposer" border="none" position="center"
+		mode="overlapped" class="modal-title"
+		viewModel="@id('vm') @init('com.emergencia.control.emergencia.SignosVitales')">
+		<caption label="Ingrese datos" height="25px"/>
+		<vlayout>
+			<grid>
+				<columns>
+					<column align="right" hflex="min" />
+					<column align="left" hflex="1" />
+				</columns>
+				<rows>
+					<row>
+						<label value="Hora: " class="label-form"/>
+						<timebox id="tmHora" hflex="1"/>
+					</row>
+					<row>
+						<label value="Presión arterial " class="label-form"/>
+						<textbox id="txtPresionArterial" class="form-control form-control-sm" hflex="1"/>
+					</row>
+					<row>
+						<label value="Pulso mínimo " class="label-form"/>
+						<textbox id="txtPulsoMin" class="form-control form-control-sm" hflex="1" xmlns:w="client">
+							<attribute w:name="doKeyDown_"><![CDATA[
+								function (evt) {
+									var keyCode = event.keyCode;
+									if( keyCode == 8 // back space
+										|| keyCode == 13 // enter
+										|| keyCode == 16 // enter
+										|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
+										|| keyCode == 46) { // Delete
+										this.$doKeyDown_(evt);
+									} else if ( !evt.shiftKey &&  // only do without shift key
+										(keyCode >= 48 && keyCode <= 57)
+										|| (keyCode >= 96 && keyCode <= 105)) {// number range
+										this.$doKeyDown_(evt);
+									} else {
+										evt.stop();
+										return;
+									}
+								}
+							]]></attribute>
+						</textbox>
+					</row>
+					<row>
+						<label value="Temperatura corporal: " class="label-form"/>
+						<textbox id="txtTemperaturaCorporal" class="form-control form-control-sm" hflex="1" xmlns:w="client">
+							<attribute w:name="doKeyDown_"><![CDATA[
+								function (evt) {
+									var keyCode = event.keyCode;
+									if( keyCode == 8 // back space
+										|| keyCode == 13 // enter
+										|| keyCode == 16 // enter
+										|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
+										|| keyCode == 46) { // Delete
+										this.$doKeyDown_(evt);
+									} else if ( !evt.shiftKey &&  // only do without shift key
+										(keyCode >= 48 && keyCode <= 57)
+										|| (keyCode >= 96 && keyCode <= 105)) {// number range
+										this.$doKeyDown_(evt);
+									} else {
+										evt.stop();
+										return;
+									}
+								}
+							]]></attribute>
+						</textbox>
+					</row>
+					<row>
+						<label value="Frecuencia respiratoria: " class="label-form"/>
+						<textbox id="txtFrecuenciaRespiratoria" class="form-control form-control-sm" hflex="1" xmlns:w="client">
+							<attribute w:name="doKeyDown_"><![CDATA[
+								function (evt) {
+									var keyCode = event.keyCode;
+									if( keyCode == 8 // back space
+										|| keyCode == 13 // enter
+										|| keyCode == 16 // enter
+										|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
+										|| keyCode == 46) { // Delete
+										this.$doKeyDown_(evt);
+									} else if ( !evt.shiftKey &&  // only do without shift key
+										(keyCode >= 48 && keyCode <= 57)
+										|| (keyCode >= 96 && keyCode <= 105)) {// number range
+										this.$doKeyDown_(evt);
+									} else {
+										evt.stop();
+										return;
+									}
+								}
+							]]></attribute>
+						</textbox>
+					</row>
+					<row>
+						<label value="Llenado capilar: " class="label-form"/>
+						<textbox id="txtLlenadoCapilar" class="form-control form-control-sm" hflex="1" xmlns:w="client">
+							<attribute w:name="doKeyDown_"><![CDATA[
+								function (evt) {
+									var keyCode = event.keyCode;
+									if( keyCode == 8 // back space
+										|| keyCode == 13 // enter
+										|| keyCode == 16 // enter
+										|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
+										|| keyCode == 46) { // Delete
+										this.$doKeyDown_(evt);
+									} else if ( !evt.shiftKey &&  // only do without shift key
+										(keyCode >= 48 && keyCode <= 57)
+										|| (keyCode >= 96 && keyCode <= 105)) {// number range
+										this.$doKeyDown_(evt);
+									} else {
+										evt.stop();
+										return;
+									}
+								}
+							]]></attribute>
+						</textbox>
+					</row>
+					<row>
+						<label value="Saturación oxígeno: " class="label-form"/>
+						<textbox id="txtSaturacionOxigeno" class="form-control form-control-sm" hflex="1" xmlns:w="client">
+							<attribute w:name="doKeyDown_"><![CDATA[
+								function (evt) {
+									var keyCode = event.keyCode;
+									if( keyCode == 8 // back space
+										|| keyCode == 13 // enter
+										|| keyCode == 16 // enter
+										|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
+										|| keyCode == 46) { // Delete
+										this.$doKeyDown_(evt);
+									} else if ( !evt.shiftKey &&  // only do without shift key
+										(keyCode >= 48 && keyCode <= 57)
+										|| (keyCode >= 96 && keyCode <= 105)) {// number range
+										this.$doKeyDown_(evt);
+									} else {
+										evt.stop();
+										return;
+									}
+								}
+							]]></attribute>
+						</textbox>
+					</row>
+					<row>
+						<label value="Escala Glasgow: " class="label-form"/>
+						<textbox id="txtEscalaGlasgow" class="form-control form-control-sm" hflex="1" xmlns:w="client">
+							<attribute w:name="doKeyDown_"><![CDATA[
+								function (evt) {
+									var keyCode = event.keyCode;
+									if( keyCode == 8 // back space
+										|| keyCode == 13 // enter
+										|| keyCode == 16 // enter
+										|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
+										|| keyCode == 46) { // Delete
+										this.$doKeyDown_(evt);
+									} else if ( !evt.shiftKey &&  // only do without shift key
+										(keyCode >= 48 && keyCode <= 57)
+										|| (keyCode >= 96 && keyCode <= 105)) {// number range
+										this.$doKeyDown_(evt);
+									} else {
+										evt.stop();
+										return;
+									}
+								}
+							]]></attribute>
+						</textbox>
+					</row>
+				</rows>
+			</grid>
+			<!-- Los iconos listados con iconSclass son de: http://fontawesome.io/icons/ -->
+			<vbox hflex="1" align="center" sclass="modal-title" height="35px" pack="center">
+				<div hflex="1" align="center">
+					<button id="grabar" label="Agregar"
+						iconSclass="z-icon-save" zclass="btn btn-primary btn-sm"
+						onClick="@command('agregar')" />
+					<button id="salir" label="Salir"
+						iconSclass="z-icon-sign-out" zclass="btn btn-danger btn-sm"
+						onClick="@command('salir')" />
+				</div>
+			</vbox>
+		</vlayout>
+	</window>
+</zk>

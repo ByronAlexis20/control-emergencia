@@ -4,6 +4,11 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
+
+/**
+ * The persistent class for the provincia database table.
+ * 
+ */
 @Entity
 @NamedQuery(name="Provincia.findAll", query="SELECT p FROM Provincia p")
 public class Provincia implements Serializable {
@@ -12,7 +17,7 @@ public class Provincia implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_provincia")
-	private Integer idProvincia;
+	private int idProvincia;
 
 	private String estado;
 
@@ -25,11 +30,11 @@ public class Provincia implements Serializable {
 	public Provincia() {
 	}
 
-	public Integer getIdProvincia() {
+	public int getIdProvincia() {
 		return this.idProvincia;
 	}
 
-	public void setIdProvincia(Integer idProvincia) {
+	public void setIdProvincia(int idProvincia) {
 		this.idProvincia = idProvincia;
 	}
 

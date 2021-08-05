@@ -4,6 +4,11 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
+
+/**
+ * The persistent class for the forma_aviso database table.
+ * 
+ */
 @Entity
 @Table(name="forma_aviso")
 @NamedQuery(name="FormaAviso.findAll", query="SELECT f FROM FormaAviso f")
@@ -13,7 +18,7 @@ public class FormaAviso implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_forma_aviso")
-	private Integer idFormaAviso;
+	private int idFormaAviso;
 
 	private String estado;
 
@@ -27,11 +32,11 @@ public class FormaAviso implements Serializable {
 	public FormaAviso() {
 	}
 
-	public Integer getIdFormaAviso() {
+	public int getIdFormaAviso() {
 		return this.idFormaAviso;
 	}
 
-	public void setIdFormaAviso(Integer idFormaAviso) {
+	public void setIdFormaAviso(int idFormaAviso) {
 		this.idFormaAviso = idFormaAviso;
 	}
 

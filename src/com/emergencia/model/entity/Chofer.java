@@ -17,17 +17,11 @@ public class Chofer implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_chofer")
-	private Integer idChofer;
-
-	private String apellidos;
+	private int idChofer;
 
 	private String cargo;
 
-	private String cedula;
-
 	private String estado;
-
-	private String nombres;
 
 	private String puesto;
 
@@ -35,23 +29,20 @@ public class Chofer implements Serializable {
 	@OneToMany(mappedBy="chofer")
 	private List<ResponsableVehiculo> responsableVehiculos;
 
+	//bi-directional many-to-one association to Persona
+	@ManyToOne
+	@JoinColumn(name="id_persona")
+	private Persona persona;
+
 	public Chofer() {
 	}
 
-	public Integer getIdChofer() {
+	public int getIdChofer() {
 		return this.idChofer;
 	}
 
-	public void setIdChofer(Integer idChofer) {
+	public void setIdChofer(int idChofer) {
 		this.idChofer = idChofer;
-	}
-
-	public String getApellidos() {
-		return this.apellidos;
-	}
-
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
 	}
 
 	public String getCargo() {
@@ -62,28 +53,12 @@ public class Chofer implements Serializable {
 		this.cargo = cargo;
 	}
 
-	public String getCedula() {
-		return this.cedula;
-	}
-
-	public void setCedula(String cedula) {
-		this.cedula = cedula;
-	}
-
 	public String getEstado() {
 		return this.estado;
 	}
 
 	public void setEstado(String estado) {
 		this.estado = estado;
-	}
-
-	public String getNombres() {
-		return this.nombres;
-	}
-
-	public void setNombres(String nombres) {
-		this.nombres = nombres;
 	}
 
 	public String getPuesto() {
@@ -114,6 +89,14 @@ public class Chofer implements Serializable {
 		responsableVehiculo.setChofer(null);
 
 		return responsableVehiculo;
+	}
+
+	public Persona getPersona() {
+		return this.persona;
+	}
+
+	public void setPersona(Persona persona) {
+		this.persona = persona;
 	}
 
 }

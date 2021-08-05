@@ -3,7 +3,13 @@ package com.emergencia.model.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
+
+/**
+ * The persistent class for the institucion database table.
+ * 
+ */
 @Entity
+@Table(name="institucion")
 @NamedQuery(name="Institucion.findAll", query="SELECT i FROM Institucion i")
 public class Institucion implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -11,7 +17,7 @@ public class Institucion implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_institucion")
-	private Integer idInstitucion;
+	private int idInstitucion;
 
 	private String direccion;
 
@@ -34,11 +40,11 @@ public class Institucion implements Serializable {
 	public Institucion() {
 	}
 
-	public Integer getIdInstitucion() {
+	public int getIdInstitucion() {
 		return this.idInstitucion;
 	}
 
-	public void setIdInstitucion(Integer idInstitucion) {
+	public void setIdInstitucion(int idInstitucion) {
 		this.idInstitucion = idInstitucion;
 	}
 

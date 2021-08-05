@@ -6,7 +6,8 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
-@NamedQuery(name="Emergencia.findAll", query="SELECT e FROM Emergencia e")
+@Table(name="emergencia")
+@NamedQuery(name="Emergencia.findAll", query="SELECT e FROM Emergencia e where e.estado = 'A'")
 public class Emergencia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -52,11 +53,6 @@ public class Emergencia implements Serializable {
 
 	private String telefono;
 
-	//bi-directional many-to-one association to FormaAviso
-	@ManyToOne
-	@JoinColumn(name="id_forma_aviso")
-	private FormaAviso formaAviso;
-
 	//bi-directional many-to-one association to Barrio
 	@ManyToOne
 	@JoinColumn(name="id_barrio")
@@ -66,6 +62,11 @@ public class Emergencia implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_bombero")
 	private Bombero bombero;
+
+	//bi-directional many-to-one association to FormaAviso
+	@ManyToOne
+	@JoinColumn(name="id_forma_aviso")
+	private FormaAviso formaAviso;
 
 	//bi-directional many-to-one association to Me
 	@ManyToOne
@@ -226,14 +227,6 @@ public class Emergencia implements Serializable {
 		this.telefono = telefono;
 	}
 
-	public FormaAviso getFormaAviso() {
-		return this.formaAviso;
-	}
-
-	public void setFormaAviso(FormaAviso formaAviso) {
-		this.formaAviso = formaAviso;
-	}
-
 	public Barrio getBarrio() {
 		return this.barrio;
 	}
@@ -248,6 +241,14 @@ public class Emergencia implements Serializable {
 
 	public void setBombero(Bombero bombero) {
 		this.bombero = bombero;
+	}
+
+	public FormaAviso getFormaAviso() {
+		return this.formaAviso;
+	}
+
+	public void setFormaAviso(FormaAviso formaAviso) {
+		this.formaAviso = formaAviso;
 	}
 
 	public Me getMe() {

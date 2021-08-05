@@ -1,6 +1,62 @@
-<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<?page title="Permisos" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="new page title" border="normal">
-New Content Here!
-</window>
+	<window apply="org.zkoss.bind.BindComposer" border="none"
+		viewModel="@id('vm') @init('com.emergencia.control.seguridad.Permisos')"
+		hflex="1" vflex="1">
+		<vlayout vflex="1">
+			<div style="margin-top:10px">
+				<label value="Permisos"
+					style="font-size:25px;font-weight: bold;" />
+			</div>
+			<vlayout hflex="1" vflex="1">
+				<groupbox>
+					<hlayout>
+						<div>
+							Seleccionar perfil
+							<combobox id="cboPerfil" width="300px" readonly="true"
+								model="@load(vm.perfiles)" onChange="@command('cambioPerfil')"
+								selectedItem="@bind(vm.perfilSeleccionado)">
+								<template name="model">
+									<comboitem label="${each.nombre}" />
+								</template>
+							</combobox>
+						</div>
+						<space />
+					</hlayout>
+				</groupbox>
+				<hbox hflex="1" vflex="1" align="center">
+					<listbox id="lstPermisosTodos"
+						autopaging="true" mold="paging"
+						hflex="1" vflex="1">
+						<listhead>
+							<listheader label="Opciones Disponible" />
+						</listhead>
+						<template name="model">
+							<listitem>
+								<listcell label="${each.presentacion}"/>
+							</listitem>
+						</template>
+					</listbox>
+					<vbox>
+						<button id="btnAgregar" iconSclass="z-icon-angle-right"
+							zclass="btn btn-success btn-sm" onClick="@command('agregar')"/>
+						<button id="btnQuitar" iconSclass="z-icon-angle-left"
+							zclass="btn btn-danger btn-sm" onClick="@command('quitar')" />
+					</vbox>
+					<listbox id="lstPermisoPerfil"
+						autopaging="true" mold="paging"
+						hflex="1" vflex="1">
+						<listhead>
+							<listheader label="Opciones Disponible"/>
+						</listhead>
+						<template name="model">
+							<listitem>
+								<listcell label="${each.menu.presentacion}"/>
+							</listitem>
+						</template>
+					</listbox>
+				</hbox>
+			</vlayout>
+		</vlayout>
+	</window>
 </zk>

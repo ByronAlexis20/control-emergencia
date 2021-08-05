@@ -3,6 +3,11 @@ package com.emergencia.model.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
+
+/**
+ * The persistent class for the localizacion_lesion database table.
+ * 
+ */
 @Entity
 @Table(name="localizacion_lesion")
 @NamedQuery(name="LocalizacionLesion.findAll", query="SELECT l FROM LocalizacionLesion l")
@@ -12,7 +17,7 @@ public class LocalizacionLesion implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_localizacion_lesion")
-	private Integer idLocalizacionLesion;
+	private int idLocalizacionLesion;
 
 	private String estado;
 
@@ -32,11 +37,11 @@ public class LocalizacionLesion implements Serializable {
 	public LocalizacionLesion() {
 	}
 
-	public Integer getIdLocalizacionLesion() {
+	public int getIdLocalizacionLesion() {
 		return this.idLocalizacionLesion;
 	}
 
-	public void setIdLocalizacionLesion(Integer idLocalizacionLesion) {
+	public void setIdLocalizacionLesion(int idLocalizacionLesion) {
 		this.idLocalizacionLesion = idLocalizacionLesion;
 	}
 

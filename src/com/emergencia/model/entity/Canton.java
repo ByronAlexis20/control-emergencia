@@ -17,7 +17,7 @@ public class Canton implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_canton")
-	private Integer idCanton;
+	private int idCanton;
 
 	private String canton;
 
@@ -35,11 +35,11 @@ public class Canton implements Serializable {
 	public Canton() {
 	}
 
-	public Integer getIdCanton() {
+	public int getIdCanton() {
 		return this.idCanton;
 	}
 
-	public void setIdCanton(Integer idCanton) {
+	public void setIdCanton(int idCanton) {
 		this.idCanton = idCanton;
 	}
 

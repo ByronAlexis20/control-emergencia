@@ -1,139 +1,140 @@
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" arg0="./winUsuarioEditar" ?>
-<?script src="/webjars/bootstrap/4.0.0/js/bootstrap.min.js" ?>
-<?link rel="stylesheet" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css" ?>
+<?page title="Usuarios" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window id="winUsuarioEditar" width="550px" vflex="1"
-		style="padding: 0 0 0 0;background:#122BC7;" mode="overlapped"
+	<window id="winUsuarioEditar" width="37%" vflex="1"
 		apply="org.zkoss.bind.BindComposer" border="none" position="center"
-		viewModel="@id('vm') @init('ec.edu.upse.gcf.editar.UsuarioEditar')">
-		<caption label="Ingrese datos" height="20px"
-			sclass="p-1 mb text-white font-italic font-weight-bold" />
+		mode="overlapped" class="modal-title"
+		viewModel="@id('vm') @init('com.emergencia.control.seguridad.UsuarioEditar')">
+		<caption label="Ingrese datos" height="25px" class="modal-title-letters"/>
 		<vlayout>
-			<grid>
+			<grid hflex="1">
 				<columns>
 					<column align="right" hflex="min" />
-					<column align="left" hflex="1" />
+					<column/>
 				</columns>
 				<rows>
 					<row>
-						<label value="Cédula : * "
-							sclass="font-weight-bold col-form-label" />
-						<textbox id="cedula" xmlns:w="client"
-							value="@bind(vm.usuario.cedula)" hflex="1" maxlength="10"
-							onChange="@command('cedulaV')" onOK="@command('cedulaV')">
-							<attribute w:name="doKeyPress_">
-								function(evt){ if(this.getValue().length
-								> 0 ){ if (!this._shallIgnore(evt,
-								"0123456789")) this.$doKeyPress_(evt);
-								}else{ if (!this._shallIgnore(evt,
-								"0123456789")) this.$doKeyPress_(evt); }
-								}
-							</attribute>
-						</textbox>
+						<cell class="label-form">No. Cédula:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm"
+								id="txtNoDocumento" hflex="1" value="@bind(vm.usuario.persona.cedula)" xmlns:w="client">
+								<attribute w:name="doKeyDown_"><![CDATA[
+									function (evt) {
+										var keyCode = event.keyCode;
+										if( keyCode == 8 // back space
+											|| keyCode == 13 // enter
+											|| keyCode == 16 // enter
+											|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
+											|| keyCode == 46) { // Delete
+											this.$doKeyDown_(evt);
+										} else if ( !evt.shiftKey &&  // only do without shift key
+											(keyCode >= 48 && keyCode <= 57)
+											|| (keyCode >= 96 && keyCode <= 105)) {// number range
+											this.$doKeyDown_(evt);
+										} else {
+											evt.stop();
+											return;
+										}
+									}
+								]]></attribute>
+							</textbox>
+						</cell>
 					</row>
 					<row>
-						<label value="Nombres : * "
-							sclass="font-weight-bold col-form-label" />
-						<textbox id="nombres" xmlns:w="client"
-							style="text-transform:uppercase"
-							value="@bind(vm.usuario.nombres)" hflex="1" maxlength="255">
-							<attribute w:name="doKeyPress_">
-								function(evt){ if(this.getValue().length
-								> 0 ){ if (!this._shallIgnore(evt,
-								"QWERTYUIOPASDFGHJKLÑZXCVBNM "))
-								this.$doKeyPress_(evt); }else{ if
-								(!this._shallIgnore(evt,
-								"QWERTYUIOPASDFGHJKLÑZXCVBNM "))
-								this.$doKeyPress_(evt); } }
-							</attribute>
-						</textbox>
+						<cell class="label-form">Perfil:</cell>
+						<cell>
+							<combobox id="cboPerfil" hflex="1"
+								model="@load(vm.perfiles)" readonly="true"
+								selectedItem="@bind(vm.perfilSeleccionado)">
+								<template name="model">
+									<comboitem label="${each.nombre}" />
+								</template>
+							</combobox>
+						</cell>
 					</row>
 					<row>
-						<label value="Apellidos : * "
-							sclass="font-weight-bold col-form-label" />
-						<textbox id="apellidos" xmlns:w="client"
-							style="text-transform:uppercase"
-							value="@bind(vm.usuario.apellidos)" hflex="1" maxlength="255">
-							<attribute w:name="doKeyPress_">
-								function(evt){ if(this.getValue().length
-								> 0 ){ if (!this._shallIgnore(evt,
-								"QWERTYUIOPASDFGHJKLÑZXCVBNM "))
-								this.$doKeyPress_(evt); }else{ if
-								(!this._shallIgnore(evt,
-								"QWERTYUIOPASDFGHJKLÑZXCVBNM "))
-								this.$doKeyPress_(evt); } }
-							</attribute>
-						</textbox>
+						<cell class="label-form">Nombres:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm" id="txtNombres" hflex="1" value="@bind(vm.usuario.persona.nombres)"/>
+						</cell>
 					</row>
 					<row>
-						<label value="Dirección : "
-							sclass="font-weight-bold col-form-label" />
-						<textbox id="direccion" xmlns:w="client"
-							style="text-transform:uppercase"
-							value="@bind(vm.usuario.direccion)" hflex="1" maxlength="255">
-							<attribute w:name="doKeyPress_">
-								function(evt){ if(this.getValue().length
-								> 0 ){ if (!this._shallIgnore(evt,
-								"QWERTYUIOPASDFGHJKLÑZXCVBNM "))
-								this.$doKeyPress_(evt); }else{ if
-								(!this._shallIgnore(evt,
-								"QWERTYUIOPASDFGHJKLÑZXCVBNM "))
-								this.$doKeyPress_(evt); } }
-							</attribute>
-						</textbox>
+						<cell class="label-form">Apellidos:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm" id="txtApellidos" hflex="1" value="@bind(vm.usuario.persona.apellidos)"/>
+						</cell>
 					</row>
 					<row>
-						<label value="Teléfono : "
-							sclass="font-weight-bold col-form-label" />
-						<textbox id="telefono" xmlns:w="client"
-							value="@bind(vm.usuario.telefono)" width="250px"
-							maxlength="10">
-							<attribute w:name="doKeyPress_">
-								function(evt){ if(this.getValue().length
-								> 0 ){ if (!this._shallIgnore(evt,
-								"0123456789")) this.$doKeyPress_(evt);
-								}else{ if (!this._shallIgnore(evt,
-								"0123456789")) this.$doKeyPress_(evt); }
-								}
-							</attribute>
-						</textbox>
+						<cell class="label-form">Dirección:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm" id="txtDireccion" hflex="1" value="@bind(vm.usuario.persona.direccionDomiciliaria)"/>
+						</cell>
 					</row>
 					<row>
-						<label value="Correo : * "
-							sclass="font-weight-bold col-form-label" />
-						<textbox id="correo" xmlns:w="client"
-							style="text-transform:lowercase" value="@bind(vm.usuario.correo)"
-							hflex="1" onChange="@command('correoV')"
-							onOK="@command('correoV')" maxlength="255">
-
-						</textbox>
+						<cell class="label-form">Teléfono:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm"
+								id="txtTelefono" hflex="1" value="@bind(vm.usuario.persona.telefono)" xmlns:w="client" maxlength="10">
+								<attribute w:name="doKeyDown_"><![CDATA[
+									function (evt) {
+										var keyCode = event.keyCode;
+										if( keyCode == 8 // back space
+											|| keyCode == 13 // enter
+											|| keyCode == 16 // enter
+											|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
+											|| keyCode == 46) { // Delete
+											this.$doKeyDown_(evt);
+										} else if ( !evt.shiftKey &&  // only do without shift key
+											(keyCode >= 48 && keyCode <= 57)
+											|| (keyCode >= 96 && keyCode <= 105)) {// number range
+											this.$doKeyDown_(evt);
+										} else {
+											evt.stop();
+											return;
+										}
+									}
+								]]></attribute>
+							</textbox>
+						</cell>
 					</row>
 					<row>
-						<label value="Usuario : * "
-							sclass="font-weight-bold col-form-label" />
-						<textbox id="nombUsuario"
-							style="text-transform:lowerrcase"
-							value="@bind(vm.usuario.usuario)" width="250px" maxlength="255" />
+						<cell class="label-form">Correo:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm" id="txtCorreo" hflex="1" value="@bind(vm.usuario.persona.correo)"/>
+						</cell>
 					</row>
 					<row>
-						<label value="Clave : * "
-							sclass="font-weight-bold col-form-label" />
-						<textbox id="clave" type="password"
-							value="@bind(vm.usuario.clave)" hflex="1" maxlength="255"
-							onOK="@command('isValidarV')" />
+						<cell class="label-form">Usuario:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm" id="txtUsuario" hflex="1" value="@bind(vm.usuario.usuario)"/>
+						</cell>
+					</row>
+					<row>
+						<cell class="label-form">Clave:</cell>
+						<cell>
+							<textbox hflex="1" class="form-control form-control-sm" type="password"
+								id="txtClave" value="@bind(vm.usuario.clave)"/>
+						</cell>
 					</row>
 				</rows>
 			</grid>
 			<!-- Los iconos listados con iconSclass son de: http://fontawesome.io/icons/ -->
-			<div>
-				<button id="btnGrabar" label="Grabar"
-					iconSclass="z-icon-save"
-					zclass="btn btn-outline-primary btn btn-sm"
-					onClick="@command('grabar')" />
-				<button label="Salir" iconSclass="z-icon-sign-out"
-					zclass="btn btn-outline-danger btn btn-sm"
-					onClick="@command('salir')" />
-			</div>
+			<vbox hflex="1" align="center" sclass="modal-title" height="35px" pack="center">
+				<div hflex="1" align="center">
+					<button id="grabar" label="Grabar"
+						iconSclass="z-icon-save" zclass="btn btn-primary btn-sm"
+						onClick="@command('grabar')" />
+					<button id="salir" label="Salir"
+						iconSclass="z-icon-sign-out" zclass="btn btn-danger btn-sm"
+						onClick="@command('salir')" />
+				</div>
+			</vbox>
 		</vlayout>
 	</window>
 </zk>

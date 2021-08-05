@@ -19,6 +19,7 @@
 		<class>com.emergencia.model.entity.Parroquia</class>
 		<class>com.emergencia.model.entity.Perfil</class>
 		<class>com.emergencia.model.entity.Permiso</class>
+		<class>com.emergencia.model.entity.Persona</class>
 		<class>com.emergencia.model.entity.Prehospitalaria</class>
 		<class>com.emergencia.model.entity.Procedimiento</class>
 		<class>com.emergencia.model.entity.Provincia</class>

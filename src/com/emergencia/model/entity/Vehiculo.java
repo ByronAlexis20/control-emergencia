@@ -4,6 +4,11 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
+
+/**
+ * The persistent class for the vehiculo database table.
+ * 
+ */
 @Entity
 @NamedQuery(name="Vehiculo.findAll", query="SELECT v FROM Vehiculo v")
 public class Vehiculo implements Serializable {
@@ -12,7 +17,7 @@ public class Vehiculo implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_vehiculo")
-	private Integer idVehiculo;
+	private int idVehiculo;
 
 	private String codigo;
 
@@ -36,11 +41,11 @@ public class Vehiculo implements Serializable {
 	public Vehiculo() {
 	}
 
-	public Integer getIdVehiculo() {
+	public int getIdVehiculo() {
 		return this.idVehiculo;
 	}
 
-	public void setIdVehiculo(Integer idVehiculo) {
+	public void setIdVehiculo(int idVehiculo) {
 		this.idVehiculo = idVehiculo;
 	}
 

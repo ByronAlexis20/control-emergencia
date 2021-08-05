@@ -9,13 +9,9 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 
-import com.emergencia.model.dao.UsuarioDAO;
-import com.emergencia.model.entity.Usuario;
-import com.emergencia.security.SecurityUtil;
-
 public class Index {
 	
-	private UsuarioDAO usuarioDAO = new UsuarioDAO();
+	//private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
@@ -24,11 +20,11 @@ public class Index {
 	}
 
 	private void principal() {
-		Usuario objeto  = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim()); 		
-		if(objeto.isCambioClave() == false) {
+		//Usuario objeto  = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim()); 		
+		//if(objeto.isCambioClave() == false) {
 			Executions.getCurrent().sendRedirect("/menuPrincipal.zul");
-		}else {
-			Executions.sendRedirect("/Mantenimiento/usuarios/cambioClave.zul");
-		}
+		//}else {
+		//	Executions.sendRedirect("/Mantenimiento/usuarios/cambioClave.zul");
+		//}
 	}
 }
