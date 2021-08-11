@@ -93,7 +93,7 @@ public class Emergencia implements Serializable {
 	private List<Prehospitalaria> prehospitalarias;
 
 	//bi-directional many-to-one association to SignoVitalEmergencia
-	@OneToMany(mappedBy="emergencia")
+	@OneToMany(mappedBy="emergencia", cascade = CascadeType.ALL)
 	private List<SignoVitalEmergencia> signoVitalEmergencias;
 
 	public Emergencia() {

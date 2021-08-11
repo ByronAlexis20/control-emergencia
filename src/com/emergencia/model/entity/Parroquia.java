@@ -10,7 +10,7 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Parroquia.findAll", query="SELECT p FROM Parroquia p")
+@NamedQuery(name="Parroquia.buscarPorCanton", query="SELECT p FROM Parroquia p where p.canton.idCanton = :idCanton")
 public class Parroquia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
