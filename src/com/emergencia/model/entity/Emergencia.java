@@ -14,7 +14,7 @@ public class Emergencia implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_emergencia")
-	private int idEmergencia;
+	private Integer idEmergencia;
 
 	private int anio;
 
@@ -93,17 +93,17 @@ public class Emergencia implements Serializable {
 	private List<Prehospitalaria> prehospitalarias;
 
 	//bi-directional many-to-one association to SignoVitalEmergencia
-	@OneToMany(mappedBy="emergencia")
+	@OneToMany(mappedBy="emergencia", cascade = CascadeType.ALL)
 	private List<SignoVitalEmergencia> signoVitalEmergencias;
 
 	public Emergencia() {
 	}
 
-	public int getIdEmergencia() {
+	public Integer getIdEmergencia() {
 		return this.idEmergencia;
 	}
 
-	public void setIdEmergencia(int idEmergencia) {
+	public void setIdEmergencia(Integer idEmergencia) {
 		this.idEmergencia = idEmergencia;
 	}
 

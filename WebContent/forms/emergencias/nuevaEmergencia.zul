@@ -1,6 +1,6 @@
 <?page title="Aspirantes" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window id="winAspirantesEditar" border="none"  width="750px" class="modal-title"
+	<window id="winNuevaEmergencia" border="none"  width="750px" class="modal-title"
 		apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('com.emergencia.control.emergencia.NuevaEmergencia')">
 		<caption label="Ingrese datos" height="25px" class="modal-title-letters"/>
 		<vlayout>
@@ -22,7 +22,7 @@
 							<row>
 								<cell>Día (*):</cell>
 								<cell>
-									<textbox id="txtDia" class="form-control form-control-sm" maxlength="10" placeholder="Día"
+									<textbox id="txtDia" class="form-control form-control-sm" maxlength="2" placeholder="Día"
 										hflex="1" xmlns:w="client">
 										<attribute w:name="doKeyDown_"><![CDATA[
 											function (evt) {
@@ -59,7 +59,7 @@
 								<cell>
 									<textbox id="txtAnio" xmlns:w="client"
 										class="form-control form-control-sm"
-										placeholder="Año" hflex="1" maxlength="10">
+										placeholder="Año" hflex="1" maxlength="4">
 										<attribute w:name="doKeyDown_"><![CDATA[
 											function (evt) {
 												var keyCode = event.keyCode;
@@ -96,7 +96,7 @@
 								<cell sclass="row-title">Cantón (*):</cell>
 								<cell>
 									<combobox id="cboCanton" hflex="1" placeholder="Cantón"
-										model="@load(vm.listaCanton)" readonly="true"
+										model="@load(vm.listaCanton)" readonly="true" onChange="@command('seleccionarCanton')"
 										selectedItem="@bind(vm.cantonSeleccionado)">
 										<template name="model">
 											<comboitem label="${each.canton}" />
@@ -153,7 +153,7 @@
 								</cell>
 							</row>
 							<row>
-								<cell sclass="row-title">Teléfono (*):</cell>
+								<cell sclass="row-title">Teléfono:</cell>
 								<cell>
 									<textbox id="txtTelefono" hflex="1"/>
 								</cell>
@@ -177,7 +177,7 @@
 							</row>
 							<row>
 								<cell colspan="6">
-									<textbox multiline="true" hflex="1" height="60px"/>
+									<textbox multiline="true" hflex="1" id="txtDescripcionOperaciones"/>
 								</cell>
 							</row>
 							<row>
@@ -185,7 +185,7 @@
 							</row>
 							<row>
 								<cell colspan="6">
-									<textbox multiline="true" hflex="1" height="60px"/>
+									<textbox multiline="true" hflex="1" id="txtNovedades"/>
 								</cell>
 							</row>
 						</rows>
@@ -203,9 +203,8 @@
 								iconSclass="z-icon-trash-o" onClick="@command('eliminarDocumento')" />
 						</hlayout>
 						<listbox id="lstSignosVitales"  autopaging="true" model="@load(vm.listaSignosVitales)"
-							mold="paging" hflex="1" vflex="1">
+							mold="paging" hflex="1" vflex="1" height="50px">
 							<listhead>
-								<listheader label="Hora"/>
 								<listheader label="Presión arterial"/>
 								<listheader label="Pulso mínimo"/>
 								<listheader label="Temperatura corporal"/>
@@ -214,10 +213,9 @@
 							</listhead>
 							<template name="model">
 								<listitem>
-									<listcell label="${each.hora}"/>
 									<listcell label="${each.presionArterial}"/>
-									<listcell label="${each.pulsoMin}"/>
-									<listcell label="${each.temperatura}"/>
+									<listcell label="${each.pulsoMinimo}"/>
+									<listcell label="${each.temperaturaCorporal}"/>
 									<listcell label="${each.frecuenciaRespiratoria}"/>
 									<listcell label="${each.saturacionOxigeno}"/>
 								</listitem>
@@ -229,10 +227,10 @@
 			<vbox hflex="1" align="center" sclass="modal-title" height="35px" pack="center">
 				<div hflex="1" align="center">
 					<button id="grabar" label="Grabar" focus="true"
-						iconSclass="z-icon-save" zclass="btn-modal"
+						iconSclass="z-icon-save" zclass="btn btn-primary btn-sm"
 						onClick="@command('grabar')" />
 					<button id="salir" label="Salir"
-						iconSclass="z-icon-sign-out" zclass="btn-modal"
+						iconSclass="z-icon-sign-out" zclass="btn btn-danger btn-sm"
 						onClick="@command('salir')" />
 				</div>
 			</vbox>

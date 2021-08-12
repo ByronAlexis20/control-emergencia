@@ -28,21 +28,15 @@
 					<listhead>
 						<listheader label="Tipo Emergencia"/>
 						<listheader label="Parroquia" />
-						<listheader label="Barrio" />
-						<listheader label="Bombero que acudió" />
+						<listheader label="Teléfono" />
 						<listheader label="Dirección evento"/>
 						<listheader label="Acción" width="min" align="center"/>
 					</listhead>
 					<template name="model">
 						<listitem>
-							<listcell label="@load(each.tipoEmergencia.descripcion)" />
+							<listcell label="@load(each.tipoEmergencia.tipoEmergencia)" />
 							<listcell label="@load(each.parroquia.parroquia)"/>
-							<listcell label="@load(each.barrio.barrio)"/>
-							<listcell>
-								<label value="@load(each.bombero.persona.nombres)" />
-								<label value=" "/>
-								<label value="@load(each.bombero.persona.apellidos)" />
-							</listcell>
+							<listcell label="@load(each.telefono)"/>
 							<listcell label="@load(each.direccionEvento)" />
 							<listcell>
 								<div align="center">

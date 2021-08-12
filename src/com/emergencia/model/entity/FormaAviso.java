@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="forma_aviso")
-@NamedQuery(name="FormaAviso.findAll", query="SELECT f FROM FormaAviso f")
+@NamedQuery(name="FormaAviso.findAll", query="SELECT f FROM FormaAviso f where f.estado = 'A'")
 public class FormaAviso implements Serializable {
 	private static final long serialVersionUID = 1L;
 
