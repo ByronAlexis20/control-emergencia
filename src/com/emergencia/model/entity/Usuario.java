@@ -2,6 +2,7 @@ package com.emergencia.model.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="usuario")
@@ -32,7 +33,17 @@ public class Usuario implements Serializable {
 
 	private String foto;
 
+	private String grado;
+
 	private String usuario;
+
+	//bi-directional many-to-one association to Emergencia
+	@OneToMany(mappedBy="usuario")
+	private List<Emergencia> emergencias;
+
+	//bi-directional many-to-one association to ResponsableVehiculo
+	@OneToMany(mappedBy="usuario")
+	private List<ResponsableVehiculo> responsableVehiculos;
 
 	//bi-directional many-to-one association to Perfil
 	@ManyToOne
@@ -79,12 +90,64 @@ public class Usuario implements Serializable {
 		this.foto = foto;
 	}
 
+	public String getGrado() {
+		return this.grado;
+	}
+
+	public void setGrado(String grado) {
+		this.grado = grado;
+	}
+
 	public String getUsuario() {
 		return this.usuario;
 	}
 
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+
+	public List<Emergencia> getEmergencias() {
+		return this.emergencias;
+	}
+
+	public void setEmergencias(List<Emergencia> emergencias) {
+		this.emergencias = emergencias;
+	}
+
+	public Emergencia addEmergencia(Emergencia emergencia) {
+		getEmergencias().add(emergencia);
+		emergencia.setUsuario(this);
+
+		return emergencia;
+	}
+
+	public Emergencia removeEmergencia(Emergencia emergencia) {
+		getEmergencias().remove(emergencia);
+		emergencia.setUsuario(null);
+
+		return emergencia;
+	}
+
+	public List<ResponsableVehiculo> getResponsableVehiculos() {
+		return this.responsableVehiculos;
+	}
+
+	public void setResponsableVehiculos(List<ResponsableVehiculo> responsableVehiculos) {
+		this.responsableVehiculos = responsableVehiculos;
+	}
+
+	public ResponsableVehiculo addResponsableVehiculo(ResponsableVehiculo responsableVehiculo) {
+		getResponsableVehiculos().add(responsableVehiculo);
+		responsableVehiculo.setUsuario(this);
+
+		return responsableVehiculo;
+	}
+
+	public ResponsableVehiculo removeResponsableVehiculo(ResponsableVehiculo responsableVehiculo) {
+		getResponsableVehiculos().remove(responsableVehiculo);
+		responsableVehiculo.setUsuario(null);
+
+		return responsableVehiculo;
 	}
 
 	public Perfil getPerfil() {

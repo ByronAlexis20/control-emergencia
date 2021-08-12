@@ -31,9 +31,9 @@ public class Menu implements Serializable {
 
 	private int posicion;
 
-	private String url;
-	
 	private String presentacion;
+
+	private String url;
 
 	//bi-directional many-to-one association to Permiso
 	@OneToMany(mappedBy="menu")
@@ -90,6 +90,14 @@ public class Menu implements Serializable {
 		this.posicion = posicion;
 	}
 
+	public String getPresentacion() {
+		return this.presentacion;
+	}
+
+	public void setPresentacion(String presentacion) {
+		this.presentacion = presentacion;
+	}
+
 	public String getUrl() {
 		return this.url;
 	}
@@ -112,13 +120,7 @@ public class Menu implements Serializable {
 
 		return permiso;
 	}
-	public String getPresentacion() {
-		return presentacion;
-	}
 
-	public void setPresentacion(String presentacion) {
-		this.presentacion = presentacion;
-	}
 	public Permiso removePermiso(Permiso permiso) {
 		getPermisos().remove(permiso);
 		permiso.setMenu(null);

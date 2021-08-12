@@ -16,14 +16,19 @@ import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+import com.emergencia.model.dao.EstadoCivilDAO;
 import com.emergencia.model.dao.PerfilDAO;
+import com.emergencia.model.dao.TipoSangreDAO;
 import com.emergencia.model.dao.UsuarioDAO;
+import com.emergencia.model.entity.EstadoCivil;
 import com.emergencia.model.entity.Perfil;
 import com.emergencia.model.entity.Persona;
+import com.emergencia.model.entity.TipoSangre;
 import com.emergencia.model.entity.Usuario;
 import com.emergencia.util.ControllerHelper;
 
@@ -31,6 +36,8 @@ import com.emergencia.util.ControllerHelper;
 public class UsuarioEditar {
 	@Wire private Window winUsuarioEditar;
 	@Wire private Combobox cboPerfil;
+	@Wire private Combobox cboEstadoCivil;
+	@Wire private Combobox cboTipoSangre;
 	@Wire private Textbox txtNombres;
 	@Wire private Textbox txtApellidos;
 	@Wire private Textbox txtNoDocumento;
@@ -39,14 +46,18 @@ public class UsuarioEditar {
 	@Wire private Textbox txtDireccion;
 	@Wire private Textbox txtClave;
 	@Wire private Textbox txtCorreo;
+	@Wire private Datebox dtpFechaNacimiento;
 	
 	PerfilDAO perfilDAO = new PerfilDAO();
-	
 	UsuarioDAO usuarioDAO = new UsuarioDAO();
 	Usuario usuario;
 	Perfil perfilSeleccionado;
 	ControllerHelper helper = new ControllerHelper();
 	Persona persona;
+	EstadoCivilDAO estadoCivilDAO = new EstadoCivilDAO();
+	EstadoCivil estadoCivilSeleccionado;
+	TipoSangreDAO tipoSangreDAO = new TipoSangreDAO();
+	TipoSangre tipoSangreSeleccionado;
 	
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -60,10 +71,16 @@ public class UsuarioEditar {
 			persona.setEstado("A");
 			usuario.setPersona(persona);
 			perfilSeleccionado = null;
+			estadoCivilSeleccionado = null;
 		}else {
 			persona = usuario.getPersona();
 			perfilSeleccionado = usuario.getPerfil();
+			estadoCivilSeleccionado = usuario.getPersona().getEstadoCivil();
 			cboPerfil.setText(usuario.getPerfil().getNombre());
+			cboEstadoCivil.setText(usuario.getPersona().getEstadoCivil().getEstadoCivil());
+			dtpFechaNacimiento.setValue(usuario.getPersona().getFechaNacimiento());
+			tipoSangreSeleccionado = usuario.getPersona().getTipoSangre();
+			cboTipoSangre.setText(usuario.getPersona().getTipoSangre().getTipoSangre());
 		}
 	}
 	
@@ -82,13 +99,20 @@ public class UsuarioEditar {
 						usuario.setClave(helper.encriptar(txtClave.getText()));
 						usuarioDAO.getEntityManager().getTransaction().begin();			
 						if (usuario.getIdUsuario() == null) {
+							persona.setFechaNacimiento(dtpFechaNacimiento.getValue());
+							persona.setEstadoCivil((EstadoCivil)cboEstadoCivil.getSelectedItem().getValue());
+							persona.setTipoSangre((TipoSangre)cboTipoSangre.getSelectedItem().getValue());
 							usuario.setPersona(persona);
 							List<Usuario> lista = new ArrayList<>();
 							lista.add(usuario);
 							persona.setUsuarios(lista);
 							usuarioDAO.getEntityManager().persist(persona);
 						}else{
+							usuario.getPersona().setEstadoCivil((EstadoCivil)cboEstadoCivil.getSelectedItem().getValue());
+							usuario.getPersona().setTipoSangre((TipoSangre)cboTipoSangre.getSelectedItem().getValue());
+							usuario.getPersona().setFechaNacimiento(dtpFechaNacimiento.getValue());
 							usuario = (Usuario) usuarioDAO.getEntityManager().merge(usuario);
+							usuarioDAO.getEntityManager().merge(usuario.getPersona());
 						}
 						usuarioDAO.getEntityManager().getTransaction().commit();
 						Clients.showNotification("Proceso Ejecutado con exito.");
@@ -118,8 +142,20 @@ public class UsuarioEditar {
 			txtNoDocumento.focus();
 			return false;
 		}
+		if(cboEstadoCivil.getSelectedIndex() == -1) {
+			Clients.showNotification("Debe seleccionar estado civil","info",cboEstadoCivil,"end_center",2000);
+			return false;
+		}
+		if(cboTipoSangre.getSelectedIndex() == -1) {
+			Clients.showNotification("Debe seleccionar tipo de sangre","info",cboTipoSangre,"end_center",2000);
+			return false;
+		}
 		if(cboPerfil.getSelectedIndex() == -1) {
 			Clients.showNotification("Debe seleccionar el Perfil de usuario","info",cboPerfil,"end_center",2000);
+			return false;
+		}
+		if(dtpFechaNacimiento.getValue() == null) {
+			Clients.showNotification("Debe registrar fecha de nacimiento","info",dtpFechaNacimiento,"end_center",2000);
 			return false;
 		}
 		//luego preguntar si el numero de documento ya se encuentra sobre los registros
@@ -198,6 +234,13 @@ public class UsuarioEditar {
 		return perfilDAO.getPerfilesPorDescripcion("");
 	}
 	
+	public List<EstadoCivil> getEstadosCiviles(){
+		return estadoCivilDAO.obtenerEstadosCiviles();
+	}
+	
+	public List<TipoSangre> getTiposSangres(){
+		return tipoSangreDAO.obtenerTipoSangre();
+	}
 	@Command
 	public void salir(){
 		BindUtils.postGlobalCommand(null, null, "Usuario.buscarPorPatron", null);
@@ -228,4 +271,20 @@ public class UsuarioEditar {
 		this.persona = persona;
 	}
 
+	public EstadoCivil getEstadoCivilSeleccionado() {
+		return estadoCivilSeleccionado;
+	}
+
+	public void setEstadoCivilSeleccionado(EstadoCivil estadoCivilSeleccionado) {
+		this.estadoCivilSeleccionado = estadoCivilSeleccionado;
+	}
+
+	public TipoSangre getTipoSangreSeleccionado() {
+		return tipoSangreSeleccionado;
+	}
+
+	public void setTipoSangreSeleccionado(TipoSangre tipoSangreSeleccionado) {
+		this.tipoSangreSeleccionado = tipoSangreSeleccionado;
+	}
+	
 }

@@ -74,6 +74,43 @@
 						</cell>
 					</row>
 					<row>
+						<cell class="label-form">Referencia:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm" id="txtReferencia" hflex="1" value="@bind(vm.usuario.persona.referenciaDomiciliaria)"/>
+						</cell>
+					</row>
+					<row>
+						<cell class="label-form">Estado civil:</cell>
+						<cell>
+							<combobox id="cboEstadoCivil" hflex="1"
+								model="@load(vm.estadosCiviles)" readonly="true"
+								selectedItem="@bind(vm.estadoCivilSeleccionado)">
+								<template name="model">
+									<comboitem label="${each.estadoCivil}" />
+								</template>
+							</combobox>
+						</cell>
+					</row>
+					<row>
+						<cell class="label-form">Tipo de sangre:</cell>
+						<cell>
+							<combobox id="cboTipoSangre" hflex="1"
+								model="@load(vm.tiposSangres)" readonly="true"
+								selectedItem="@bind(vm.tipoSangreSeleccionado)">
+								<template name="model">
+									<comboitem label="${each.tipoSangre}" />
+								</template>
+							</combobox>
+						</cell>
+					</row>
+					<row>
+						<cell class="label-form">Fecha de nacimiento:</cell>
+						<cell>
+							<datebox id="dtpFechaNacimiento" hflex="1"/>
+						</cell>
+					</row>
+					<row>
 						<cell class="label-form">Teléfono:</cell>
 						<cell>
 							<textbox
@@ -109,6 +146,13 @@
 						</cell>
 					</row>
 					<row>
+						<cell class="label-form">Grado:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm" id="txtGrado" hflex="1" value="@bind(vm.usuario.grado)"/>
+						</cell>
+					</row>
+					<row>
 						<cell class="label-form">Usuario:</cell>
 						<cell>
 							<textbox
@@ -119,7 +163,7 @@
 						<cell class="label-form">Clave:</cell>
 						<cell>
 							<textbox hflex="1" class="form-control form-control-sm" type="password"
-								id="txtClave" value="@bind(vm.usuario.clave)"/>
+								id="txtClave"/>
 						</cell>
 					</row>
 				</rows>

@@ -4,14 +4,9 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the tipo_sangre database table.
- * 
- */
 @Entity
 @Table(name="tipo_sangre")
-@NamedQuery(name="TipoSangre.findAll", query="SELECT t FROM TipoSangre t")
+@NamedQuery(name="TipoSangre.findAll", query="SELECT t FROM TipoSangre t where t.estado = 'A'")
 public class TipoSangre implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -25,9 +20,9 @@ public class TipoSangre implements Serializable {
 	@Column(name="tipo_sangre")
 	private String tipoSangre;
 
-	//bi-directional many-to-one association to Bombero
+	//bi-directional many-to-one association to Persona
 	@OneToMany(mappedBy="tipoSangre")
-	private List<Bombero> bomberos;
+	private List<Persona> personas;
 
 	public TipoSangre() {
 	}
@@ -56,26 +51,26 @@ public class TipoSangre implements Serializable {
 		this.tipoSangre = tipoSangre;
 	}
 
-	public List<Bombero> getBomberos() {
-		return this.bomberos;
+	public List<Persona> getPersonas() {
+		return this.personas;
 	}
 
-	public void setBomberos(List<Bombero> bomberos) {
-		this.bomberos = bomberos;
+	public void setPersonas(List<Persona> personas) {
+		this.personas = personas;
 	}
 
-	public Bombero addBombero(Bombero bombero) {
-		getBomberos().add(bombero);
-		bombero.setTipoSangre(this);
+	public Persona addPersona(Persona persona) {
+		getPersonas().add(persona);
+		persona.setTipoSangre(this);
 
-		return bombero;
+		return persona;
 	}
 
-	public Bombero removeBombero(Bombero bombero) {
-		getBomberos().remove(bombero);
-		bombero.setTipoSangre(null);
+	public Persona removePersona(Persona persona) {
+		getPersonas().remove(persona);
+		persona.setTipoSangre(null);
 
-		return bombero;
+		return persona;
 	}
 
 }

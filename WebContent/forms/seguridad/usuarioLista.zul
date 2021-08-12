@@ -17,7 +17,7 @@
 						<textbox value="@bind(vm.textoBuscar)" onOK="@command('buscar')"
 							width="300px" class="form-control tamanio-textbox"
 							placeholder="Búsqueda por nombres o apellidos" />
-						<button iconSclass="z-icon-search" class="btn btn-info btn-sm"
+						<button iconSclass="z-icon-search" zclass="btn btn-info btn-sm"
 							onClick="@command('buscar')" />
 					</hbox>
 				</hlayout>
@@ -45,9 +45,9 @@
 							
 							<listcell>
 								<div align="center">
-									<button label="Editar" iconSclass="z-icon-pencil" zclass="btn btn-success btn-sm"
+									<button iconSclass="z-icon-pencil" zclass="btn btn-success btn-sm"
 										onClick="@command('editar',usuario=each)" />
-									<button label="Eliminar" iconSclass="z-icon-trash-o" zclass="btn btn-danger btn-sm"
+									<button iconSclass="z-icon-trash-o" zclass="btn btn-danger btn-sm"
 										onClick="@command('eliminar',usuario=each)" />
 								</div>
 							</listcell>

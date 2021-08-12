@@ -21,10 +21,10 @@ public class ResponsableVehiculo implements Serializable {
 
 	private String estado;
 
-	//bi-directional many-to-one association to Chofer
+	//bi-directional many-to-one association to Usuario
 	@ManyToOne
 	@JoinColumn(name="id_chofer")
-	private Chofer chofer;
+	private Usuario usuario;
 
 	//bi-directional many-to-one association to Vehiculo
 	@ManyToOne
@@ -50,12 +50,12 @@ public class ResponsableVehiculo implements Serializable {
 		this.estado = estado;
 	}
 
-	public Chofer getChofer() {
-		return this.chofer;
+	public Usuario getUsuario() {
+		return this.usuario;
 	}
 
-	public void setChofer(Chofer chofer) {
-		this.chofer = chofer;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Vehiculo getVehiculo() {

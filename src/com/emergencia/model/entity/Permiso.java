@@ -66,5 +66,5 @@ public class Permiso implements Serializable {
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
-	
+
 }

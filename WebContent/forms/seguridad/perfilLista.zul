@@ -30,7 +30,7 @@
 						<listheader label="Código" align="center" width="15%"/>
 						<listheader label="Perfil" align="center"/>
 						<listheader label="Estado" width="7%" align="center"/>
-						<listheader label="Acción" width="min" align="center"/>
+						<listheader label="Acción" align="center"/>
 					</listhead>
 					<template name="model">
 						<listitem>
@@ -39,9 +39,9 @@
 							<listcell label="@load(each.estado)"/>
 							<listcell>
 								<div align="center">
-									<button label="Editar" iconSclass="z-icon-pencil" zclass="btn btn-success btn-sm"
+									<button iconSclass="z-icon-pencil" zclass="btn btn-success btn-sm"
 										onClick="@command('editar',perfil=each)" />
-									<button label="Eliminar" iconSclass="z-icon-trash-o" zclass="btn btn-danger btn-sm"
+									<button iconSclass="z-icon-trash-o" zclass="btn btn-danger btn-sm"
 										onClick="@command('eliminar',perfil=each)" />
 								</div>
 							</listcell>

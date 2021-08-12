@@ -14,7 +14,7 @@ public class Emergencia implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_emergencia")
-	private Integer idEmergencia;
+	private int idEmergencia;
 
 	private int anio;
 
@@ -58,11 +58,6 @@ public class Emergencia implements Serializable {
 	@JoinColumn(name="id_barrio")
 	private Barrio barrio;
 
-	//bi-directional many-to-one association to Bombero
-	@ManyToOne
-	@JoinColumn(name="id_bombero")
-	private Bombero bombero;
-
 	//bi-directional many-to-one association to FormaAviso
 	@ManyToOne
 	@JoinColumn(name="id_forma_aviso")
@@ -83,6 +78,11 @@ public class Emergencia implements Serializable {
 	@JoinColumn(name="id_tipo_emergencia")
 	private TipoEmergencia tipoEmergencia;
 
+	//bi-directional many-to-one association to Usuario
+	@ManyToOne
+	@JoinColumn(name="id_bombero")
+	private Usuario usuario;
+
 	//bi-directional many-to-one association to Vehiculo
 	@ManyToOne
 	@JoinColumn(name="id_vehiculo")
@@ -99,11 +99,11 @@ public class Emergencia implements Serializable {
 	public Emergencia() {
 	}
 
-	public Integer getIdEmergencia() {
+	public int getIdEmergencia() {
 		return this.idEmergencia;
 	}
 
-	public void setIdEmergencia(Integer idEmergencia) {
+	public void setIdEmergencia(int idEmergencia) {
 		this.idEmergencia = idEmergencia;
 	}
 
@@ -235,14 +235,6 @@ public class Emergencia implements Serializable {
 		this.barrio = barrio;
 	}
 
-	public Bombero getBombero() {
-		return this.bombero;
-	}
-
-	public void setBombero(Bombero bombero) {
-		this.bombero = bombero;
-	}
-
 	public FormaAviso getFormaAviso() {
 		return this.formaAviso;
 	}
@@ -273,6 +265,14 @@ public class Emergencia implements Serializable {
 
 	public void setTipoEmergencia(TipoEmergencia tipoEmergencia) {
 		this.tipoEmergencia = tipoEmergencia;
+	}
+
+	public Usuario getUsuario() {
+		return this.usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Vehiculo getVehiculo() {

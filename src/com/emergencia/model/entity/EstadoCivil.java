@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="estado_civil")
-@NamedQuery(name="EstadoCivil.findAll", query="SELECT e FROM EstadoCivil e")
+@NamedQuery(name="EstadoCivil.findAll", query="SELECT e FROM EstadoCivil e where e.estado = 'A'")
 public class EstadoCivil implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -25,9 +25,9 @@ public class EstadoCivil implements Serializable {
 	@Column(name="estado_civil")
 	private String estadoCivil;
 
-	//bi-directional many-to-one association to Bombero
+	//bi-directional many-to-one association to Persona
 	@OneToMany(mappedBy="estadoCivil")
-	private List<Bombero> bomberos;
+	private List<Persona> personas;
 
 	public EstadoCivil() {
 	}
@@ -56,26 +56,26 @@ public class EstadoCivil implements Serializable {
 		this.estadoCivil = estadoCivil;
 	}
 
-	public List<Bombero> getBomberos() {
-		return this.bomberos;
+	public List<Persona> getPersonas() {
+		return this.personas;
 	}
 
-	public void setBomberos(List<Bombero> bomberos) {
-		this.bomberos = bomberos;
+	public void setPersonas(List<Persona> personas) {
+		this.personas = personas;
 	}
 
-	public Bombero addBombero(Bombero bombero) {
-		getBomberos().add(bombero);
-		bombero.setEstadoCivil(this);
+	public Persona addPersona(Persona persona) {
+		getPersonas().add(persona);
+		persona.setEstadoCivil(this);
 
-		return bombero;
+		return persona;
 	}
 
-	public Bombero removeBombero(Bombero bombero) {
-		getBomberos().remove(bombero);
-		bombero.setEstadoCivil(null);
+	public Persona removePersona(Persona persona) {
+		getPersonas().remove(persona);
+		persona.setEstadoCivil(null);
 
-		return bombero;
+		return persona;
 	}
 
 }

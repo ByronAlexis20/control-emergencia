@@ -18,7 +18,7 @@ public class Persona implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_persona")
-	private int idPersona;
+	private Integer idPersona;
 
 	private String apellidos;
 
@@ -44,13 +44,15 @@ public class Persona implements Serializable {
 
 	private String telefono;
 
-	//bi-directional many-to-one association to Bombero
-	@OneToMany(mappedBy="persona", cascade = CascadeType.ALL)
-	private List<Bombero> bomberos;
+	//bi-directional many-to-one association to EstadoCivil
+	@ManyToOne
+	@JoinColumn(name="id_estado_civil")
+	private EstadoCivil estadoCivil;
 
-	//bi-directional many-to-one association to Chofer
-	@OneToMany(mappedBy="persona", cascade = CascadeType.ALL)
-	private List<Chofer> chofers;
+	//bi-directional many-to-one association to TipoSangre
+	@ManyToOne
+	@JoinColumn(name="id_tipo_sangre")
+	private TipoSangre tipoSangre;
 
 	//bi-directional many-to-one association to Usuario
 	@OneToMany(mappedBy="persona", cascade = CascadeType.ALL)
@@ -59,11 +61,11 @@ public class Persona implements Serializable {
 	public Persona() {
 	}
 
-	public int getIdPersona() {
+	public Integer getIdPersona() {
 		return this.idPersona;
 	}
 
-	public void setIdPersona(int idPersona) {
+	public void setIdPersona(Integer idPersona) {
 		this.idPersona = idPersona;
 	}
 
@@ -147,48 +149,20 @@ public class Persona implements Serializable {
 		this.telefono = telefono;
 	}
 
-	public List<Bombero> getBomberos() {
-		return this.bomberos;
+	public EstadoCivil getEstadoCivil() {
+		return this.estadoCivil;
 	}
 
-	public void setBomberos(List<Bombero> bomberos) {
-		this.bomberos = bomberos;
+	public void setEstadoCivil(EstadoCivil estadoCivil) {
+		this.estadoCivil = estadoCivil;
 	}
 
-	public Bombero addBombero(Bombero bombero) {
-		getBomberos().add(bombero);
-		bombero.setPersona(this);
-
-		return bombero;
+	public TipoSangre getTipoSangre() {
+		return this.tipoSangre;
 	}
 
-	public Bombero removeBombero(Bombero bombero) {
-		getBomberos().remove(bombero);
-		bombero.setPersona(null);
-
-		return bombero;
-	}
-
-	public List<Chofer> getChofers() {
-		return this.chofers;
-	}
-
-	public void setChofers(List<Chofer> chofers) {
-		this.chofers = chofers;
-	}
-
-	public Chofer addChofer(Chofer chofer) {
-		getChofers().add(chofer);
-		chofer.setPersona(this);
-
-		return chofer;
-	}
-
-	public Chofer removeChofer(Chofer chofer) {
-		getChofers().remove(chofer);
-		chofer.setPersona(null);
-
-		return chofer;
+	public void setTipoSangre(TipoSangre tipoSangre) {
+		this.tipoSangre = tipoSangre;
 	}
 
 	public List<Usuario> getUsuarios() {
