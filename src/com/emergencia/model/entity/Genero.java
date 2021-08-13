@@ -10,7 +10,7 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Genero.findAll", query="SELECT g FROM Genero g")
+@NamedQuery(name="Genero.findAll", query="SELECT g FROM Genero g where g.estado = 'A'")
 public class Genero implements Serializable {
 	private static final long serialVersionUID = 1L;
 

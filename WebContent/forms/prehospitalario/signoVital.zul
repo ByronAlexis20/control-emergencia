@@ -3,7 +3,7 @@
 	<window id="winSignosVitales" width="455px" vflex="1"
 		apply="org.zkoss.bind.BindComposer" border="none" position="center"
 		mode="overlapped" class="modal-title"
-		viewModel="@id('vm') @init('com.emergencia.control.emergencia.SignosVitales')">
+		viewModel="@id('vm') @init('com.emergencia.control.prehospitalaria.SignoVitalPrehospitalario')">
 		<caption label="Ingrese datos" height="25px"/>
 		<vlayout>
 			<grid>
@@ -115,30 +115,6 @@
 					<row>
 						<label value="Saturación oxígeno: " class="label-form"/>
 						<textbox id="txtSaturacionOxigeno" class="form-control form-control-sm" hflex="1" xmlns:w="client">
-							<attribute w:name="doKeyDown_"><![CDATA[
-								function (evt) {
-									var keyCode = event.keyCode;
-									if( keyCode == 8 // back space
-										|| keyCode == 13 // enter
-										|| keyCode == 16 // enter
-										|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
-										|| keyCode == 46) { // Delete
-										this.$doKeyDown_(evt);
-									} else if ( !evt.shiftKey &&  // only do without shift key
-										(keyCode >= 48 && keyCode <= 57)
-										|| (keyCode >= 96 && keyCode <= 105)) {// number range
-										this.$doKeyDown_(evt);
-									} else {
-										evt.stop();
-										return;
-									}
-								}
-							]]></attribute>
-						</textbox>
-					</row>
-					<row>
-						<label value="Escala Glasgow: " class="label-form"/>
-						<textbox id="txtEscalaGlasgow" class="form-control form-control-sm" hflex="1" xmlns:w="client">
 							<attribute w:name="doKeyDown_"><![CDATA[
 								function (evt) {
 									var keyCode = event.keyCode;

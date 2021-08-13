@@ -9,14 +9,14 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@NamedQuery(name="Procedimiento.findAll", query="SELECT p FROM Procedimiento p")
+@NamedQuery(name="Procedimiento.buscarPorPrehospitalario", query="SELECT p FROM Procedimiento p where p.prehospitalaria.idPrehospitalaria = :id and p.estado = 'A'")
 public class Procedimiento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_procedimiento")
-	private int idProcedimiento;
+	private Integer idProcedimiento;
 
 	private String estado;
 
@@ -33,11 +33,11 @@ public class Procedimiento implements Serializable {
 	public Procedimiento() {
 	}
 
-	public int getIdProcedimiento() {
+	public Integer getIdProcedimiento() {
 		return this.idProcedimiento;
 	}
 
-	public void setIdProcedimiento(int idProcedimiento) {
+	public void setIdProcedimiento(Integer idProcedimiento) {
 		this.idProcedimiento = idProcedimiento;
 	}
 

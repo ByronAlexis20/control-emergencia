@@ -11,14 +11,14 @@ import java.sql.Time;
  */
 @Entity
 @Table(name="signo_vital")
-@NamedQuery(name="SignoVital.findAll", query="SELECT s FROM SignoVital s")
+@NamedQuery(name="SignoVital.buscarPorPrehospitalario", query="SELECT s FROM SignoVital s where s.prehospitalaria.idPrehospitalaria = :id and s.estado = 'A'")
 public class SignoVital implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_signo_vital")
-	private int idSignoVital;
+	private Integer idSignoVital;
 
 	private String estado;
 
@@ -49,11 +49,11 @@ public class SignoVital implements Serializable {
 	public SignoVital() {
 	}
 
-	public int getIdSignoVital() {
+	public Integer getIdSignoVital() {
 		return this.idSignoVital;
 	}
 
-	public void setIdSignoVital(int idSignoVital) {
+	public void setIdSignoVital(Integer idSignoVital) {
 		this.idSignoVital = idSignoVital;
 	}
 

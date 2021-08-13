@@ -1,4 +1,4 @@
-package com.emergencia.control.emergencia;
+package com.emergencia.control.prehospitalaria;
 
 import java.io.IOException;
 
@@ -16,10 +16,10 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
-import com.emergencia.model.entity.Emergencia;
-import com.emergencia.model.entity.SignoVitalEmergencia;
+import com.emergencia.model.entity.Prehospitalaria;
+import com.emergencia.model.entity.SignoVital;
 
-public class SignosVitales {
+public class SignoVitalPrehospitalario {
 	@Wire Window winSignosVitales;
 	@Wire Textbox txtPresionArterial;
 	@Wire Textbox txtPulsoMin;
@@ -27,30 +27,28 @@ public class SignosVitales {
 	@Wire Textbox txtFrecuenciaRespiratoria;
 	@Wire Textbox txtLlenadoCapilar;
 	@Wire Textbox txtSaturacionOxigeno;
-	@Wire Textbox txtEscalaGlasgow;
 
-	SignoVitalEmergencia signoVital;
-	Emergencia emergencia;
-	NuevaEmergencia nuevaEmergencia;
+	SignoVital signoVital;
+	Prehospitalaria prehospitalario;
+	RegistroPrehospitalario registroPrehospitalario;
 	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
-		emergencia = (Emergencia) Executions.getCurrent().getArg().get("Emergencia");
-		nuevaEmergencia = (NuevaEmergencia) Executions.getCurrent().getArg().get("NuevaEmergencia");
-		signoVital = (SignoVitalEmergencia) Executions.getCurrent().getArg().get("SignoVital");
+		prehospitalario = (Prehospitalaria) Executions.getCurrent().getArg().get("Prehospitalaria");
+		registroPrehospitalario = (RegistroPrehospitalario) Executions.getCurrent().getArg().get("RegistroPrehospitalario");
+		signoVital = (SignoVital) Executions.getCurrent().getArg().get("SignoVital");
 		if(signoVital != null) {
 			recuperarDatos();
 		}
 	}
 	private void recuperarDatos() {
-		txtPresionArterial.setText(signoVital.getPresionArterial());
-		txtPulsoMin.setText(String.valueOf(signoVital.getPulsoMinimo()));
-		txtTemperaturaCorporal.setText(String.valueOf(signoVital.getTemperaturaCorporal()));
+		txtPresionArterial.setText(String.valueOf(signoVital.getPresionArterial()));
+		txtPulsoMin.setText(String.valueOf(signoVital.getPulsoMin()));
+		txtTemperaturaCorporal.setText(String.valueOf(signoVital.getTemperatura()));
 		txtFrecuenciaRespiratoria.setText(String.valueOf(signoVital.getFrecuenciaRespiratoria()));
 		txtLlenadoCapilar.setText(String.valueOf(signoVital.getLlenadoCapilar()));
 		txtSaturacionOxigeno.setText(String.valueOf(signoVital.getSaturacionOxigeno()));
-		txtEscalaGlasgow.setText(String.valueOf(signoVital.getEscalaGlasgow()));
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
@@ -60,17 +58,16 @@ public class SignosVitales {
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {		
 					try {
-						SignoVitalEmergencia signos = new SignoVitalEmergencia();
-						signos.setEscalaGlasgow(Integer.parseInt(txtEscalaGlasgow.getText()));
+						SignoVital signos = new SignoVital();
 						signos.setEstado("A");
 						signos.setFrecuenciaRespiratoria(Integer.parseInt(txtFrecuenciaRespiratoria.getText()));
 						signos.setIdSignoVital(null);
 						signos.setLlenadoCapilar(Integer.parseInt(txtLlenadoCapilar.getText()));
-						signos.setPresionArterial(txtPresionArterial.getText());
-						signos.setPulsoMinimo(Integer.parseInt(txtPulsoMin.getText()));
+						signos.setPresionArterial(Integer.parseInt(txtPresionArterial.getText()));
+						signos.setPulsoMin(Integer.parseInt(txtPulsoMin.getText()));
 						signos.setSaturacionOxigeno(Integer.parseInt(txtSaturacionOxigeno.getText()));
-						signos.setTemperaturaCorporal(Integer.parseInt(txtTemperaturaCorporal.getText()));
-						nuevaEmergencia.agregarSignoVital(signos);
+						signos.setTemperatura(Integer.parseInt(txtTemperaturaCorporal.getText()));
+						registroPrehospitalario.agregarSignoVital(signos);
 						salir();						
 					} catch (Exception e) {
 						System.out.println(e.getMessage());
@@ -83,16 +80,17 @@ public class SignosVitales {
 	public void salir() {
 		winSignosVitales.detach();
 	}
-	public SignoVitalEmergencia getSignoVital() {
+	public SignoVital getSignoVital() {
 		return signoVital;
 	}
-	public void setSignoVital(SignoVitalEmergencia signoVital) {
+	public void setSignoVital(SignoVital signoVital) {
 		this.signoVital = signoVital;
 	}
-	public Emergencia getEmergencia() {
-		return emergencia;
+	public Prehospitalaria getPrehospitalario() {
+		return prehospitalario;
 	}
-	public void setEmergencia(Emergencia emergencia) {
-		this.emergencia = emergencia;
+	public void setPrehospitalario(Prehospitalaria prehospitalario) {
+		this.prehospitalario = prehospitalario;
 	}
+	
 }

@@ -12,14 +12,14 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Prehospitalaria.findAll", query="SELECT p FROM Prehospitalaria p")
+@NamedQuery(name="Prehospitalaria.findAll", query="SELECT p FROM Prehospitalaria p where p.estado = 'A'")
 public class Prehospitalaria implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_prehospitalaria")
-	private int idPrehospitalaria;
+	private Integer idPrehospitalaria;
 
 	@Column(name="cedula_informante")
 	private String cedulaInformante;
@@ -60,7 +60,7 @@ public class Prehospitalaria implements Serializable {
 	private String nombreUsuario;
 
 	//bi-directional many-to-one association to LocalizacionLesion
-	@OneToMany(mappedBy="prehospitalaria")
+	@OneToMany(mappedBy="prehospitalaria", cascade = CascadeType.ALL)
 	private List<LocalizacionLesion> localizacionLesions;
 
 	//bi-directional many-to-one association to CondicionLlegada
@@ -84,21 +84,21 @@ public class Prehospitalaria implements Serializable {
 	private Genero genero;
 
 	//bi-directional many-to-one association to Procedimiento
-	@OneToMany(mappedBy="prehospitalaria")
+	@OneToMany(mappedBy="prehospitalaria", cascade = CascadeType.ALL)
 	private List<Procedimiento> procedimientos;
 
 	//bi-directional many-to-one association to SignoVital
-	@OneToMany(mappedBy="prehospitalaria")
+	@OneToMany(mappedBy="prehospitalaria", cascade = CascadeType.ALL)
 	private List<SignoVital> signoVitals;
 
 	public Prehospitalaria() {
 	}
 
-	public int getIdPrehospitalaria() {
+	public Integer getIdPrehospitalaria() {
 		return this.idPrehospitalaria;
 	}
 
-	public void setIdPrehospitalaria(int idPrehospitalaria) {
+	public void setIdPrehospitalaria(Integer idPrehospitalaria) {
 		this.idPrehospitalaria = idPrehospitalaria;
 	}
 

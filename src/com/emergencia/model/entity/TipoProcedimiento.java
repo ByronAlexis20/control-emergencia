@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="tipo_procedimiento")
-@NamedQuery(name="TipoProcedimiento.findAll", query="SELECT t FROM TipoProcedimiento t")
+@NamedQuery(name="TipoProcedimiento.findAll", query="SELECT t FROM TipoProcedimiento t where t.estado = 'A'")
 public class TipoProcedimiento implements Serializable {
 	private static final long serialVersionUID = 1L;
 

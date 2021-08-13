@@ -10,14 +10,14 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="localizacion_lesion")
-@NamedQuery(name="LocalizacionLesion.findAll", query="SELECT l FROM LocalizacionLesion l")
+@NamedQuery(name="LocalizacionLesion.buscarPorPrehospitalario", query="SELECT l FROM LocalizacionLesion l where l.prehospitalaria.idPrehospitalaria = :id and l.estado = 'A'")
 public class LocalizacionLesion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_localizacion_lesion")
-	private int idLocalizacionLesion;
+	private Integer idLocalizacionLesion;
 
 	private String estado;
 
@@ -37,11 +37,11 @@ public class LocalizacionLesion implements Serializable {
 	public LocalizacionLesion() {
 	}
 
-	public int getIdLocalizacionLesion() {
+	public Integer getIdLocalizacionLesion() {
 		return this.idLocalizacionLesion;
 	}
 
-	public void setIdLocalizacionLesion(int idLocalizacionLesion) {
+	public void setIdLocalizacionLesion(Integer idLocalizacionLesion) {
 		this.idLocalizacionLesion = idLocalizacionLesion;
 	}
 

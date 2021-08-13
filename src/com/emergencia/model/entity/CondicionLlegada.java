@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="condicion_llegada")
-@NamedQuery(name="CondicionLlegada.findAll", query="SELECT c FROM CondicionLlegada c")
+@NamedQuery(name="CondicionLlegada.findAll", query="SELECT c FROM CondicionLlegada c where c.estado = 'A'")
 public class CondicionLlegada implements Serializable {
 	private static final long serialVersionUID = 1L;
 
