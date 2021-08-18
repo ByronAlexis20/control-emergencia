@@ -10,14 +10,18 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Genero.findAll", query="SELECT g FROM Genero g where g.estado = 'A'")
+@Table(name="genero")
+@NamedQueries({
+	@NamedQuery(name="Genero.findAll", query="SELECT g FROM Genero g where g.estado = 'A'"),
+	@NamedQuery(name="Genero.buscarPorPatron", query="SELECT g FROM Genero g where lower(g.genero) like lower(:patron) and g.estado = 'A'")
+})
 public class Genero implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_genero")
-	private int idGenero;
+	private Integer idGenero;
 
 	private String estado;
 
@@ -30,11 +34,11 @@ public class Genero implements Serializable {
 	public Genero() {
 	}
 
-	public int getIdGenero() {
+	public Integer getIdGenero() {
 		return this.idGenero;
 	}
 
-	public void setIdGenero(int idGenero) {
+	public void setIdGenero(Integer idGenero) {
 		this.idGenero = idGenero;
 	}
 

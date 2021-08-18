@@ -15,7 +15,7 @@
 <?link rel="stylesheet" href="/styles/css/sb-admin.css" ?>
 <zk xmlns:n="native">	
 	<borderlayout hflex="1" vflex="1" apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('com.emergencia.control.MenuPrincipalControl')">
-		<north height="43px" border="none" style="background-color: #3c8dbc" hflex="1" flex="false">
+		<north height="43px" border="none" style="background-color: #000000" hflex="1">
 			<hbox vflex="1" hflex="1" style="background-color: transparent;" pack="start">
 				<separator orient="horizontal" width="10px" />
 				<vbox pack="center" vflex="1">
@@ -47,13 +47,13 @@
 				</hbox>
 			</hbox>
 		</north>
-		<west  width="230px" flex="true" maxsize="250" class="menu" splittable="true" collapsible="true">
+		<west  width="230px" flex="true" border="none" maxsize="250" style="background-color: #000000" splittable="true" collapsible="true">
 	    	<div vflex="1" hflex="1">
-	      		<tree  id="menu" vflex="1"  hflex="1"  style="padding-top:20px;"/>
+	      		<tree id="menu" vflex="1"  hflex="1"  style="padding-top:20px;"/>
 	    	</div>
 	    </west>
 	    
-		<center id="mainContent" autoscroll="true" style="background-color: transparent;">
+		<center id="mainContent" autoscroll="true" style="background-color: #DEDEDE;">
 			<include id="areaContenido" hflex="1" vflex="1"/>
 		</center>
 		

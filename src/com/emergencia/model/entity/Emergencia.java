@@ -88,10 +88,6 @@ public class Emergencia implements Serializable {
 	@JoinColumn(name="id_vehiculo")
 	private Vehiculo vehiculo;
 
-	//bi-directional many-to-one association to Prehospitalaria
-	@OneToMany(mappedBy="emergencia")
-	private List<Prehospitalaria> prehospitalarias;
-
 	//bi-directional many-to-one association to SignoVitalEmergencia
 	@OneToMany(mappedBy="emergencia", cascade = CascadeType.ALL)
 	private List<SignoVitalEmergencia> signoVitalEmergencias;
@@ -281,28 +277,6 @@ public class Emergencia implements Serializable {
 
 	public void setVehiculo(Vehiculo vehiculo) {
 		this.vehiculo = vehiculo;
-	}
-
-	public List<Prehospitalaria> getPrehospitalarias() {
-		return this.prehospitalarias;
-	}
-
-	public void setPrehospitalarias(List<Prehospitalaria> prehospitalarias) {
-		this.prehospitalarias = prehospitalarias;
-	}
-
-	public Prehospitalaria addPrehospitalaria(Prehospitalaria prehospitalaria) {
-		getPrehospitalarias().add(prehospitalaria);
-		prehospitalaria.setEmergencia(this);
-
-		return prehospitalaria;
-	}
-
-	public Prehospitalaria removePrehospitalaria(Prehospitalaria prehospitalaria) {
-		getPrehospitalarias().remove(prehospitalaria);
-		prehospitalaria.setEmergencia(null);
-
-		return prehospitalaria;
 	}
 
 	public List<SignoVitalEmergencia> getSignoVitalEmergencias() {

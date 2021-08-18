@@ -1,0 +1,34 @@
+<?page title="Barrios" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window id="winCondicionEditar" width="455px" vflex="1"
+		apply="org.zkoss.bind.BindComposer" border="none" position="center"
+		mode="overlapped" class="modal-title"
+		viewModel="@id('vm') @init('com.emergencia.control.parametros.CondicionLlegadaEditar')">
+		<caption label="Ingrese datos" height="25px"/>
+		<vlayout>
+			<grid>
+				<columns>
+					<column align="right" hflex="min" />
+					<column align="left" hflex="1" />
+				</columns>
+				<rows>
+					<row>
+						<label value="Condicion: " class="label-form"/>
+						<textbox id="txtCondicion" value="@bind(vm.condicion.condicionLlegada)" hflex="1" />
+					</row>
+				</rows>
+			</grid>
+			<!-- Los iconos listados con iconSclass son de: http://fontawesome.io/icons/ -->
+			<vbox hflex="1" align="center" sclass="modal-title" height="35px" pack="center">
+				<div hflex="1" align="center">
+					<button id="grabar" label="Grabar"
+						iconSclass="z-icon-save" zclass="btn btn-primary btn-sm"
+						onClick="@command('grabar')" />
+					<button id="salir" label="Salir"
+						iconSclass="z-icon-sign-out" zclass="btn btn-danger btn-sm"
+						onClick="@command('salir')" />
+				</div>
+			</vbox>
+		</vlayout>
+	</window>
+</zk>

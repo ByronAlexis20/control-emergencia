@@ -31,6 +31,10 @@ public class TipoEmergencia implements Serializable {
 	@OneToMany(mappedBy="tipoEmergencia")
 	private List<Emergencia> emergencias;
 
+	//bi-directional many-to-one association to PreHospitalaria
+	@OneToMany(mappedBy="tipoEmergencia")
+	private List<Prehospitalaria> prehospitalarias;
+		
 	public TipoEmergencia() {
 	}
 
@@ -88,4 +92,25 @@ public class TipoEmergencia implements Serializable {
 		return emergencia;
 	}
 
+	public List<Prehospitalaria> getPrehospitalarias() {
+		return prehospitalarias;
+	}
+
+	public void setPrehospitalarias(List<Prehospitalaria> prehospitalarias) {
+		this.prehospitalarias = prehospitalarias;
+	}
+
+	public Prehospitalaria addPrehospitalaria(Prehospitalaria prehospitalaria) {
+		getPrehospitalarias().add(prehospitalaria);
+		prehospitalaria.setTipoEmergencia(this);
+
+		return prehospitalaria;
+	}
+
+	public Prehospitalaria removePrehospitalaria(Prehospitalaria prehodpitalaria) {
+		getPrehospitalarias().remove(prehodpitalaria);
+		prehodpitalaria.setTipoEmergencia(null);
+
+		return prehodpitalaria;
+	}
 }

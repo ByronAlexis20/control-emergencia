@@ -15,4 +15,21 @@ public class CondicionLlegadaDAO extends ClaseDAO {
 		resultado = (List<CondicionLlegada>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CondicionLlegada> getCondicionPorDescripcion(String value) {
+		List<CondicionLlegada> resultado; 
+		String patron = value;
+
+		if (value == null || value.length() == 0) {
+			patron = "%";
+		}else{
+			patron = "%" + patron.toLowerCase() + "%";
+		}
+		Query query = getEntityManager().createNamedQuery("CondicionLlegada.buscarPorPatron");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("patron", patron);
+		resultado = (List<CondicionLlegada>) query.getResultList();
+		return resultado;
+	}
 }

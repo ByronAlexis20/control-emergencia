@@ -11,14 +11,17 @@ import java.util.List;
  */
 @Entity
 @Table(name="condicion_llegada")
-@NamedQuery(name="CondicionLlegada.findAll", query="SELECT c FROM CondicionLlegada c where c.estado = 'A'")
+@NamedQueries({
+	@NamedQuery(name="CondicionLlegada.findAll", query="SELECT c FROM CondicionLlegada c where c.estado = 'A'"),
+	@NamedQuery(name="CondicionLlegada.buscarPorPatron", query="SELECT c FROM CondicionLlegada c where lower(c.condicionLlegada) like lower(:patron) and c.estado = 'A'")
+})
 public class CondicionLlegada implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_condicion_llegada")
-	private int idCondicionLlegada;
+	private Integer idCondicionLlegada;
 
 	@Column(name="condicion_llegada")
 	private String condicionLlegada;
@@ -32,11 +35,11 @@ public class CondicionLlegada implements Serializable {
 	public CondicionLlegada() {
 	}
 
-	public int getIdCondicionLlegada() {
+	public Integer getIdCondicionLlegada() {
 		return this.idCondicionLlegada;
 	}
 
-	public void setIdCondicionLlegada(int idCondicionLlegada) {
+	public void setIdCondicionLlegada(Integer idCondicionLlegada) {
 		this.idCondicionLlegada = idCondicionLlegada;
 	}
 

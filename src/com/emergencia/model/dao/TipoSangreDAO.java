@@ -16,4 +16,21 @@ public class TipoSangreDAO extends ClaseDAO {
 		resultado = (List<TipoSangre>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<TipoSangre> getTipoPorDescripcion(String value) {
+		List<TipoSangre> resultado; 
+		String patron = value;
+
+		if (value == null || value.length() == 0) {
+			patron = "%";
+		}else{
+			patron = "%" + patron.toLowerCase() + "%";
+		}
+		Query query = getEntityManager().createNamedQuery("TipoSangre.buscarPorPatron");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("patron", patron);
+		resultado = (List<TipoSangre>) query.getResultList();
+		return resultado;
+	}
 }

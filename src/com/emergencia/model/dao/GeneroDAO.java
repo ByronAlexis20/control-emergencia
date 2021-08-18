@@ -15,4 +15,21 @@ public class GeneroDAO extends ClaseDAO {
 		resultado = (List<Genero>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Genero> getGeneroPorDescripcion(String value) {
+		List<Genero> resultado; 
+		String patron = value;
+
+		if (value == null || value.length() == 0) {
+			patron = "%";
+		}else{
+			patron = "%" + patron.toLowerCase() + "%";
+		}
+		Query query = getEntityManager().createNamedQuery("Genero.buscarPorPatron");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("patron", patron);
+		resultado = (List<Genero>) query.getResultList();
+		return resultado;
+	}
 }

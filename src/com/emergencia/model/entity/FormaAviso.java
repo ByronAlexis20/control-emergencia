@@ -11,14 +11,17 @@ import java.util.List;
  */
 @Entity
 @Table(name="forma_aviso")
-@NamedQuery(name="FormaAviso.findAll", query="SELECT f FROM FormaAviso f where f.estado = 'A'")
+@NamedQueries({
+	@NamedQuery(name="FormaAviso.findAll", query="SELECT f FROM FormaAviso f where f.estado = 'A'"),
+	@NamedQuery(name="FormaAviso.buscarPorPatron", query="SELECT f FROM FormaAviso f where lower(f.formaAviso) like lower(:patron) and f.estado = 'A'")
+})
 public class FormaAviso implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_forma_aviso")
-	private int idFormaAviso;
+	private Integer idFormaAviso;
 
 	private String estado;
 
@@ -32,11 +35,11 @@ public class FormaAviso implements Serializable {
 	public FormaAviso() {
 	}
 
-	public int getIdFormaAviso() {
+	public Integer getIdFormaAviso() {
 		return this.idFormaAviso;
 	}
 
-	public void setIdFormaAviso(int idFormaAviso) {
+	public void setIdFormaAviso(Integer idFormaAviso) {
 		this.idFormaAviso = idFormaAviso;
 	}
 

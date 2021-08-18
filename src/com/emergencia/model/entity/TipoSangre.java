@@ -6,14 +6,17 @@ import java.util.List;
 
 @Entity
 @Table(name="tipo_sangre")
-@NamedQuery(name="TipoSangre.findAll", query="SELECT t FROM TipoSangre t where t.estado = 'A'")
+@NamedQueries({
+	@NamedQuery(name="TipoSangre.findAll", query="SELECT t FROM TipoSangre t where t.estado = 'A'"),
+	@NamedQuery(name="TipoSangre.buscarPorPatron", query="SELECT t FROM TipoSangre t where lower(t.tipoSangre) like lower(:patron) and t.estado = 'A'")
+})
 public class TipoSangre implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_tipo_sangre")
-	private int idTipoSangre;
+	private Integer idTipoSangre;
 
 	private String estado;
 
@@ -27,11 +30,11 @@ public class TipoSangre implements Serializable {
 	public TipoSangre() {
 	}
 
-	public int getIdTipoSangre() {
+	public Integer getIdTipoSangre() {
 		return this.idTipoSangre;
 	}
 
-	public void setIdTipoSangre(int idTipoSangre) {
+	public void setIdTipoSangre(Integer idTipoSangre) {
 		this.idTipoSangre = idTipoSangre;
 	}
 

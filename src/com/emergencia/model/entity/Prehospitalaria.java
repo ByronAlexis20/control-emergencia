@@ -6,28 +6,27 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * The persistent class for the prehospitalaria database table.
  * 
  */
 @Entity
-@NamedQuery(name="Prehospitalaria.findAll", query="SELECT p FROM Prehospitalaria p where p.estado = 'A'")
+@NamedQuery(name = "Prehospitalaria.findAll", query = "SELECT p FROM Prehospitalaria p where p.estado = 'A'")
 public class Prehospitalaria implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_prehospitalaria")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_prehospitalaria")
 	private Integer idPrehospitalaria;
 
-	@Column(name="cedula_informante")
+	@Column(name = "cedula_informante")
 	private String cedulaInformante;
 
-	@Column(name="cedula_usuario")
+	@Column(name = "cedula_usuario")
 	private String cedulaUsuario;
 
-	@Column(name="direccion_evento")
+	@Column(name = "direccion_evento")
 	private String direccionEvento;
 
 	private int edad;
@@ -35,60 +34,60 @@ public class Prehospitalaria implements Serializable {
 	private String estado;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="fecha_atencion")
+	@Column(name = "fecha_atencion")
 	private Date fechaAtencion;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="fecha_evento")
+	@Column(name = "fecha_evento")
 	private Date fechaEvento;
 
-	@Column(name="hora_atencion")
+	@Column(name = "hora_atencion")
 	private Time horaAtencion;
 
-	@Column(name="hora_evanto")
+	@Column(name = "hora_evanto")
 	private Time horaEvanto;
 
 	private String interrogatorio;
 
-	@Column(name="lugar_evento")
+	@Column(name = "lugar_evento")
 	private String lugarEvento;
 
-	@Column(name="nombre_informante")
+	@Column(name = "nombre_informante")
 	private String nombreInformante;
 
-	@Column(name="nombre_usuario")
+	@Column(name = "nombre_usuario")
 	private String nombreUsuario;
 
-	//bi-directional many-to-one association to LocalizacionLesion
-	@OneToMany(mappedBy="prehospitalaria", cascade = CascadeType.ALL)
+	// bi-directional many-to-one association to LocalizacionLesion
+	@OneToMany(mappedBy = "prehospitalaria", cascade = CascadeType.ALL)
 	private List<LocalizacionLesion> localizacionLesions;
 
-	//bi-directional many-to-one association to CondicionLlegada
+	// bi-directional many-to-one association to CondicionLlegada
 	@ManyToOne
-	@JoinColumn(name="id_condicion_llegada")
+	@JoinColumn(name = "id_condicion_llegada")
 	private CondicionLlegada condicionLlegada;
 
-	//bi-directional many-to-one association to Emergencia
+	// bi-directional many-to-one association to Emergencia
 	@ManyToOne
-	@JoinColumn(name="id_emergencia")
-	private Emergencia emergencia;
+	@JoinColumn(name = "id_tipo_emergencia")
+	private TipoEmergencia tipoEmergencia;
 
-	//bi-directional many-to-one association to Establecimiento
+	// bi-directional many-to-one association to Establecimiento
 	@ManyToOne
-	@JoinColumn(name="id_establecimiento")
+	@JoinColumn(name = "id_establecimiento")
 	private Establecimiento establecimiento;
 
-	//bi-directional many-to-one association to Genero
+	// bi-directional many-to-one association to Genero
 	@ManyToOne
-	@JoinColumn(name="id_genero")
+	@JoinColumn(name = "id_genero")
 	private Genero genero;
 
-	//bi-directional many-to-one association to Procedimiento
-	@OneToMany(mappedBy="prehospitalaria", cascade = CascadeType.ALL)
+	// bi-directional many-to-one association to Procedimiento
+	@OneToMany(mappedBy = "prehospitalaria", cascade = CascadeType.ALL)
 	private List<Procedimiento> procedimientos;
 
-	//bi-directional many-to-one association to SignoVital
-	@OneToMany(mappedBy="prehospitalaria", cascade = CascadeType.ALL)
+	// bi-directional many-to-one association to SignoVital
+	@OneToMany(mappedBy = "prehospitalaria", cascade = CascadeType.ALL)
 	private List<SignoVital> signoVitals;
 
 	public Prehospitalaria() {
@@ -236,12 +235,12 @@ public class Prehospitalaria implements Serializable {
 		this.condicionLlegada = condicionLlegada;
 	}
 
-	public Emergencia getEmergencia() {
-		return this.emergencia;
+	public TipoEmergencia getTipoEmergencia() {
+		return tipoEmergencia;
 	}
 
-	public void setEmergencia(Emergencia emergencia) {
-		this.emergencia = emergencia;
+	public void setTipoEmergencia(TipoEmergencia tipoEmergencia) {
+		this.tipoEmergencia = tipoEmergencia;
 	}
 
 	public Establecimiento getEstablecimiento() {
