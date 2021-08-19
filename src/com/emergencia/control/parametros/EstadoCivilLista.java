@@ -43,7 +43,7 @@ public class EstadoCivilLista {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@GlobalCommand("EstadoCivil.buscarPorPatron")
 	@Command
-	@NotifyChange({"listaBarrios"})
+	@NotifyChange({"listaEstadoCivil"})
 	public void buscar(){
 		if (listaEstadoCivil != null) {
 			listaEstadoCivil = null; 

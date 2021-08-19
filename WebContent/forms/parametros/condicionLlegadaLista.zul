@@ -16,7 +16,7 @@
 					<hbox align="center">
 						<textbox value="@bind(vm.textoBuscar)" onOK="@command('buscar')"
 							width="300px" class="form-control tamanio-textbox"
-							placeholder="Búsqueda por nombre del barrio" />
+							placeholder="Búsqueda por descripción" />
 						<button iconSclass="z-icon-search" class="but btn-form btn-sm"
 							onClick="@command('buscar')" />
 					</hbox>

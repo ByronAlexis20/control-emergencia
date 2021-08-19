@@ -25,14 +25,14 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
-import com.emergencia.model.dao.GeneroDAO;
-import com.emergencia.model.entity.Genero;
+import com.emergencia.model.dao.TipoEmergenciaDAO;
+import com.emergencia.model.entity.TipoEmergencia;
 
-public class GeneroLista {
+public class TipoEmergenciaLista {
 	public String textoBuscar;
-	List<Genero> listaGeneros;
-	@Wire private Listbox lstGeneros;
-	GeneroDAO generoDAO = new GeneroDAO();
+	List<TipoEmergencia> listaTipoEmergencia;
+	@Wire private Listbox lstTipoEmergencia;
+	TipoEmergenciaDAO tipoEmergenciaDAO = new TipoEmergenciaDAO();
 	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
@@ -41,39 +41,39 @@ public class GeneroLista {
 		buscar();
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@GlobalCommand("Genero.buscarPorPatron")
+	@GlobalCommand("TipoEmergencia.buscarPorPatron")
 	@Command
-	@NotifyChange({"listaGeneros"})
+	@NotifyChange({"listaTipoEmergencia"})
 	public void buscar(){
-		if (listaGeneros != null) {
-			listaGeneros = null; 
+		if (listaTipoEmergencia != null) {
+			listaTipoEmergencia = null; 
 		}
-		listaGeneros = generoDAO.getGeneroPorDescripcion(textoBuscar);
-		lstGeneros.setModel(new ListModelList(listaGeneros));
-		if(listaGeneros.size() == 0) {
+		listaTipoEmergencia = tipoEmergenciaDAO.getTipoEmergenciaPorDescripcion(textoBuscar);
+		lstTipoEmergencia.setModel(new ListModelList(listaTipoEmergencia));
+		if(listaTipoEmergencia.size() == 0) {
 			Clients.showNotification("No hay datos para mostrar.!!");
 		}
 	}
 	@Command
 	public void nuevo(){
-		Window ventanaCargar = (Window) Executions.createComponents("/forms/parametros/generoEditar.zul", null, null);
+		Window ventanaCargar = (Window) Executions.createComponents("/forms/parametros/tipoEmergenciaEditar.zul", null, null);
 		ventanaCargar.doModal();
 	}
 	@Command
-	public void editar(@BindingParam("genero") Genero gen){
-		if(gen == null) {
+	public void editar(@BindingParam("tipo") TipoEmergencia tip){
+		if(tip == null) {
 			Clients.showNotification("Seleccione una opción de la lista.");
 			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("Genero", gen);
-		Window ventanaCargar = (Window) Executions.createComponents("/forms/parametros/generoEditar.zul", null, params);
+		params.put("TipoEmergencia", tip);
+		Window ventanaCargar = (Window) Executions.createComponents("/forms/parametros/tipoEmergenciaEditar.zul", null, params);
 		ventanaCargar.doModal();
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
-	public void eliminar(@BindingParam("genero") Genero gen){
-		if (gen == null) {
+	public void eliminar(@BindingParam("tipo") TipoEmergencia tip){
+		if (tip == null) {
 			Clients.showNotification("Seleccione una opción de la lista.");
 			return; 
 		}
@@ -82,31 +82,31 @@ public class GeneroLista {
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {
 					try {
-						generoDAO.getEntityManager().getTransaction().begin();
-						gen.setEstado("I");
-						generoDAO.getEntityManager().merge(gen);
-						generoDAO.getEntityManager().getTransaction().commit();
-						BindUtils.postGlobalCommand(null, null, "Genero.buscarPorPatron", null);
+						tipoEmergenciaDAO.getEntityManager().getTransaction().begin();
+						tip.setEstado("I");
+						tipoEmergenciaDAO.getEntityManager().merge(tip);
+						tipoEmergenciaDAO.getEntityManager().getTransaction().commit();
+						BindUtils.postGlobalCommand(null, null, "TipoEmergencia.buscarPorPatron", null);
 						Clients.showNotification("Transaccion ejecutada con exito.");
 					} catch (Exception e) {
 						e.printStackTrace();
-						generoDAO.getEntityManager().getTransaction().rollback();
+						tipoEmergenciaDAO.getEntityManager().getTransaction().rollback();
 					}
 				}
 			}
 		});		
 	}
-	public List<Genero> getListaGeneros() {
-		return listaGeneros;
-	}
-	public void setListaGeneros(List<Genero> listaGeneros) {
-		this.listaGeneros = listaGeneros;
-	}
 	public String getTextoBuscar() {
 		return textoBuscar;
 	}
+
 	public void setTextoBuscar(String textoBuscar) {
 		this.textoBuscar = textoBuscar;
 	}
-	
+	public List<TipoEmergencia> getListaTipoEmergencia() {
+		return listaTipoEmergencia;
+	}
+	public void setListaTipoEmergencia(List<TipoEmergencia> listaTipoEmergencia) {
+		this.listaTipoEmergencia = listaTipoEmergencia;
+	}
 }

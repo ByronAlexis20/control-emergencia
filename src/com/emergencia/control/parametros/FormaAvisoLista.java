@@ -109,5 +109,4 @@ public class FormaAvisoLista {
 	public void setListaFormaAviso(List<FormaAviso> listaFormaAviso) {
 		this.listaFormaAviso = listaFormaAviso;
 	}
-
 }

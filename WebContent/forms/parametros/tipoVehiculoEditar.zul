@@ -1,9 +1,9 @@
 <?page title="Barrios" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window id="winEstadoEditar" width="455px" vflex="1"
+	<window id="winTipoEditar" width="455px" vflex="1"
 		apply="org.zkoss.bind.BindComposer" border="none" position="center"
 		mode="overlapped" class="modal-title"
-		viewModel="@id('vm') @init('com.emergencia.control.parametros.EstadoCivilEditar')">
+		viewModel="@id('vm') @init('com.emergencia.control.parametros.TipoVehiculoEditar')">
 		<caption label="Ingrese datos" height="25px"/>
 		<vlayout>
 			<grid>
@@ -13,8 +13,8 @@
 				</columns>
 				<rows>
 					<row>
-						<label value="Estado civil: " class="label-form"/>
-						<textbox id="txtEstado" value="@bind(vm.estadoCivil.estadoCivil)" hflex="1" />
+						<label value="Tipo de vehículo: " class="label-form"/>
+						<textbox id="txtTipo" value="@bind(vm.tipoVehiculo.tipoVehiculo)" hflex="1" />
 					</row>
 				</rows>
 			</grid>

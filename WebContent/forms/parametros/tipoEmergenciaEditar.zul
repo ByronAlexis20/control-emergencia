@@ -1,9 +1,9 @@
-<?page title="Barrios" contentType="text/html;charset=UTF-8"?>
+<?page title="Tipo Emergencia" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window id="winEstadoEditar" width="455px" vflex="1"
+	<window id="winTipoEmergenciaEditar" width="455px" vflex="1"
 		apply="org.zkoss.bind.BindComposer" border="none" position="center"
 		mode="overlapped" class="modal-title"
-		viewModel="@id('vm') @init('com.emergencia.control.parametros.EstadoCivilEditar')">
+		viewModel="@id('vm') @init('com.emergencia.control.parametros.TipoEmergenciaEditar')">
 		<caption label="Ingrese datos" height="25px"/>
 		<vlayout>
 			<grid>
@@ -13,8 +13,18 @@
 				</columns>
 				<rows>
 					<row>
-						<label value="Estado civil: " class="label-form"/>
-						<textbox id="txtEstado" value="@bind(vm.estadoCivil.estadoCivil)" hflex="1" />
+						<label value="Tipo de emergencia: " class="label-form"/>
+						<textbox id="txtTipoEmergencia" value="@bind(vm.barrio.barrio)" hflex="1" />
+					</row>
+					<row>
+						<label value="Grupo: " class="label-form"/>
+						<combobox id="cboGrupo" hflex="1"
+							model="@load(vm.listaGrupoEmergencia)" readonly="true"
+							selectedItem="@bind(vm.grupoSeleccionado)">
+							<template name="model">
+								<comboitem label="${each.descripcion}" />
+							</template>
+						</combobox>
 					</row>
 				</rows>
 			</grid>

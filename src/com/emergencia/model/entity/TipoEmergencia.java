@@ -11,18 +11,23 @@ import java.util.List;
  */
 @Entity
 @Table(name="tipo_emergencia")
-@NamedQuery(name="TipoEmergencia.findAll", query="SELECT t FROM TipoEmergencia t where t.estado = 'A'")
+@NamedQueries({
+	@NamedQuery(name="TipoEmergencia.findAll", query="SELECT t FROM TipoEmergencia t where t.estado = 'A'"),
+	@NamedQuery(name="TipoEmergencia.buscarPorPatron", query="SELECT t FROM TipoEmergencia t where lower(t.descripcion) like lower(:patron) and t.estado = 'A'")
+})
 public class TipoEmergencia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_tipo_emergencia")
-	private int idTipoEmergencia;
+	private Integer idTipoEmergencia;
 
 	private String descripcion;
 
 	private String estado;
+	
+	private String grupo;
 
 	@Column(name="tipo_emergencia")
 	private String tipoEmergencia;
@@ -38,11 +43,11 @@ public class TipoEmergencia implements Serializable {
 	public TipoEmergencia() {
 	}
 
-	public int getIdTipoEmergencia() {
+	public Integer getIdTipoEmergencia() {
 		return this.idTipoEmergencia;
 	}
 
-	public void setIdTipoEmergencia(int idTipoEmergencia) {
+	public void setIdTipoEmergencia(Integer idTipoEmergencia) {
 		this.idTipoEmergencia = idTipoEmergencia;
 	}
 
@@ -90,6 +95,14 @@ public class TipoEmergencia implements Serializable {
 		emergencia.setTipoEmergencia(null);
 
 		return emergencia;
+	}
+
+	public String getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(String grupo) {
+		this.grupo = grupo;
 	}
 
 	public List<Prehospitalaria> getPrehospitalarias() {

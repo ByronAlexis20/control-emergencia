@@ -5,43 +5,43 @@
 		hflex="1" vflex="1">
 		<vlayout vflex="1">
 			<div style="margin-top:10px">
-				<label value="Tipo de sangre" style="font-size:25px;font-weight: bold;" />
+				<label value="Formas de aviso" style="font-size:25px;font-weight: bold;" />
 			</div>
 			<div hflex="1">
 				<hlayout hflex="1">
 					<div hflex="1">
-						<button label="Nuevo Tipo de sangre" zclass="btn btn-primary btn-sm"
+						<button label="Nuevo forma de aviso" zclass="btn btn-primary btn-sm"
 							iconSclass="z-icon-plus" onClick="@command('nuevo')" />
 					</div>
 					<hbox align="center">
 						<textbox value="@bind(vm.textoBuscar)" onOK="@command('buscar')"
 							width="300px" class="form-control tamanio-textbox"
-							placeholder="Búsqueda por tipo de sangre" />
+							placeholder="Búsqueda forma de aviso" />
 						<button iconSclass="z-icon-search" class="but btn-form btn-sm"
 							onClick="@command('buscar')" />
 					</hbox>
 				</hlayout>
 			</div>
 			<hlayout vflex="1" hflex="1">
-				<listbox id="lstFormaAviso" model="@load(vm.listaTipoSangre)" autopaging="true"
+				<listbox id="lstFormaAviso" model="@load(vm.listaFormaAviso)" autopaging="true"
 					mold="paging" hflex="1" vflex="1">
 					<listhead>
 						<listheader label="Código" align="center" width="15%"/>
-						<listheader label="Tipo de sangre" align="center"/>
+						<listheader label="Forma de aviso" align="center"/>
 						<listheader label="Estado" width="7%" align="center"/>
 						<listheader label="Acción" align="center"/>
 					</listhead>
 					<template name="model">
 						<listitem>
-							<listcell label="@load(each.idTipoSangre)"/>
-							<listcell label="@load(each.tipoSangre)"/>
+							<listcell label="@load(each.idFormaAviso)"/>
+							<listcell label="@load(each.formaAviso)"/>
 							<listcell label="@load(each.estado)"/>
 							<listcell>
 								<div align="center">
 									<button iconSclass="z-icon-pencil" zclass="btn btn-success btn-sm"
-										onClick="@command('editar',tipo=each)" />
+										onClick="@command('editar',forma=each)" />
 									<button iconSclass="z-icon-trash-o" zclass="btn btn-danger btn-sm"
-										onClick="@command('eliminar',tipo=each)" />
+										onClick="@command('eliminar',forma=each)" />
 								</div>
 							</listcell>
 						</listitem>

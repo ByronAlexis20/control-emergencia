@@ -5,7 +5,7 @@
 		hflex="1" vflex="1">
 		<vlayout vflex="1">
 			<div style="margin-top:10px">
-				<label value="Generos" style="font-size:25px;font-weight: bold;" />
+				<label value="Géneros" style="font-size:25px;font-weight: bold;" />
 			</div>
 			<div hflex="1">
 				<hlayout hflex="1">
@@ -16,7 +16,7 @@
 					<hbox align="center">
 						<textbox value="@bind(vm.textoBuscar)" onOK="@command('buscar')"
 							width="300px" class="form-control tamanio-textbox"
-							placeholder="Búsqueda por nombre del barrio" />
+							placeholder="Búsqueda descripción" />
 						<button iconSclass="z-icon-search" class="but btn-form btn-sm"
 							onClick="@command('buscar')" />
 					</hbox>

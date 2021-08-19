@@ -16,5 +16,20 @@ public class TipoEmergenciaDAO extends ClaseDAO{
 		resultado = (List<TipoEmergencia>) query.getResultList();
 		return resultado;
 	}
-	
+	@SuppressWarnings("unchecked")
+	public List<TipoEmergencia> getTipoEmergenciaPorDescripcion(String value) {
+		List<TipoEmergencia> resultado; 
+		String patron = value;
+
+		if (value == null || value.length() == 0) {
+			patron = "%";
+		}else{
+			patron = "%" + patron.toLowerCase() + "%";
+		}
+		Query query = getEntityManager().createNamedQuery("TipoEmergencia.buscarPorPatron");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("patron", patron);
+		resultado = (List<TipoEmergencia>) query.getResultList();
+		return resultado;
+	}
 }

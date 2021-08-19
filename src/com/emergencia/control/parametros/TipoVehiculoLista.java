@@ -25,14 +25,14 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
-import com.emergencia.model.dao.BarrioDAO;
-import com.emergencia.model.entity.Barrio;
+import com.emergencia.model.dao.TipoVehiculoDAO;
+import com.emergencia.model.entity.TipoVehiculo;
 
 public class TipoVehiculoLista {
 	public String textoBuscar;
-	List<Barrio> listaBarrios;
-	@Wire private Listbox lstBarrios;
-	BarrioDAO barrioDAO = new BarrioDAO();
+	List<TipoVehiculo> listaTipoVehiculo;
+	@Wire private Listbox lstVehiculos;
+	TipoVehiculoDAO tipoVehiculoDAO = new TipoVehiculoDAO();
 	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
@@ -41,39 +41,39 @@ public class TipoVehiculoLista {
 		buscar();
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@GlobalCommand("Barrio.buscarPorPatron")
+	@GlobalCommand("TipoVehiculo.buscarPorPatron")
 	@Command
-	@NotifyChange({"listaBarrios"})
+	@NotifyChange({"listaTipoVehiculo"})
 	public void buscar(){
-		if (listaBarrios != null) {
-			listaBarrios = null; 
+		if (listaTipoVehiculo != null) {
+			listaTipoVehiculo = null; 
 		}
-		listaBarrios = barrioDAO.getBarrioPorDescripcion(textoBuscar);
-		lstBarrios.setModel(new ListModelList(listaBarrios));
-		if(listaBarrios.size() == 0) {
+		listaTipoVehiculo = tipoVehiculoDAO.getTipoVehiculoPorDescripcion(textoBuscar);
+		lstVehiculos.setModel(new ListModelList(listaTipoVehiculo));
+		if(listaTipoVehiculo.size() == 0) {
 			Clients.showNotification("No hay datos para mostrar.!!");
 		}
 	}
 	@Command
 	public void nuevo(){
-		Window ventanaCargar = (Window) Executions.createComponents("/forms/parametros/barrioEditar.zul", null, null);
+		Window ventanaCargar = (Window) Executions.createComponents("/forms/parametros/tipoVehiculoEditar.zul", null, null);
 		ventanaCargar.doModal();
 	}
 	@Command
-	public void editar(@BindingParam("barrio") Barrio bar){
-		if(bar == null) {
+	public void editar(@BindingParam("tipo") TipoVehiculo tip){
+		if(tip == null) {
 			Clients.showNotification("Seleccione una opción de la lista.");
 			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("Barrio", bar);
-		Window ventanaCargar = (Window) Executions.createComponents("/forms/parametros/barrioEditar.zul", null, params);
+		params.put("TipoVehiculo", tip);
+		Window ventanaCargar = (Window) Executions.createComponents("/forms/parametros/tipoVehiculoEditar.zul", null, params);
 		ventanaCargar.doModal();
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
-	public void eliminar(@BindingParam("barrio") Barrio bar){
-		if (bar == null) {
+	public void eliminar(@BindingParam("tipo") TipoVehiculo tip){
+		if (tip == null) {
 			Clients.showNotification("Seleccione una opción de la lista.");
 			return; 
 		}
@@ -82,15 +82,15 @@ public class TipoVehiculoLista {
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {
 					try {
-						barrioDAO.getEntityManager().getTransaction().begin();
-						bar.setEstado("I");
-						barrioDAO.getEntityManager().merge(bar);
-						barrioDAO.getEntityManager().getTransaction().commit();
-						BindUtils.postGlobalCommand(null, null, "Barrio.buscarPorPatron", null);
+						tipoVehiculoDAO.getEntityManager().getTransaction().begin();
+						tip.setEstado("I");
+						tipoVehiculoDAO.getEntityManager().merge(tip);
+						tipoVehiculoDAO.getEntityManager().getTransaction().commit();
+						BindUtils.postGlobalCommand(null, null, "TipoVehiculo.buscarPorPatron", null);
 						Clients.showNotification("Transaccion ejecutada con exito.");
 					} catch (Exception e) {
 						e.printStackTrace();
-						barrioDAO.getEntityManager().getTransaction().rollback();
+						tipoVehiculoDAO.getEntityManager().getTransaction().rollback();
 					}
 				}
 			}
@@ -99,16 +99,13 @@ public class TipoVehiculoLista {
 	public String getTextoBuscar() {
 		return textoBuscar;
 	}
-
 	public void setTextoBuscar(String textoBuscar) {
 		this.textoBuscar = textoBuscar;
 	}
-
-	public List<Barrio> getListaBarrios() {
-		return listaBarrios;
+	public List<TipoVehiculo> getListaTipoVehiculo() {
+		return listaTipoVehiculo;
 	}
-
-	public void setListaBarrios(List<Barrio> listaBarrios) {
-		this.listaBarrios = listaBarrios;
+	public void setListaTipoVehiculo(List<TipoVehiculo> listaTipoVehiculo) {
+		this.listaTipoVehiculo = listaTipoVehiculo;
 	}
 }
