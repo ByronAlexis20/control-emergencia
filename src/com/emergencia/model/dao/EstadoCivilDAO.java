@@ -16,4 +16,21 @@ public class EstadoCivilDAO extends ClaseDAO {
 		resultado = (List<EstadoCivil>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<EstadoCivil> getEstadoCivilPorDescripcion(String value) {
+		List<EstadoCivil> resultado; 
+		String patron = value;
+
+		if (value == null || value.length() == 0) {
+			patron = "%";
+		}else{
+			patron = "%" + patron.toLowerCase() + "%";
+		}
+		Query query = getEntityManager().createNamedQuery("EstadoCivil.buscarPorPatron");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("patron", patron);
+		resultado = (List<EstadoCivil>) query.getResultList();
+		return resultado;
+	}
 }

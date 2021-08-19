@@ -11,14 +11,17 @@ import java.util.List;
  */
 @Entity
 @Table(name="estado_civil")
-@NamedQuery(name="EstadoCivil.findAll", query="SELECT e FROM EstadoCivil e where e.estado = 'A'")
+@NamedQueries({
+	@NamedQuery(name="EstadoCivil.findAll", query="SELECT e FROM EstadoCivil e where e.estado = 'A'"),
+	@NamedQuery(name="EstadoCivil.buscarPorPatron", query="SELECT e FROM EstadoCivil e where lower(e.estadoCivil) like lower(:patron) and e.estado = 'A'")
+})
 public class EstadoCivil implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_estado_civil")
-	private int idEstadoCivil;
+	private Integer idEstadoCivil;
 
 	private String estado;
 
@@ -32,11 +35,11 @@ public class EstadoCivil implements Serializable {
 	public EstadoCivil() {
 	}
 
-	public int getIdEstadoCivil() {
+	public Integer getIdEstadoCivil() {
 		return this.idEstadoCivil;
 	}
 
-	public void setIdEstadoCivil(int idEstadoCivil) {
+	public void setIdEstadoCivil(Integer idEstadoCivil) {
 		this.idEstadoCivil = idEstadoCivil;
 	}
 
