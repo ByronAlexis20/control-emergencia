@@ -180,7 +180,7 @@
 								<button zclass="btn btn-danger btn-sm" label="Eliminar"
 									iconSclass="z-icon-trash-o" onClick="@command('eliminarSignoVital')" />
 							</hlayout>
-							<listbox id="lstSignosVitales"  autopaging="true" model="@load(vm.listaSignoVital)"
+							<listbox id="lstSignosVitales" model="@load(vm.listaSignoVital)"
 								mold="paging" hflex="1" vflex="1">
 								<listhead>
 									<listheader label="Presión arterial"/>
@@ -241,7 +241,7 @@
 										<button zclass="btn btn-danger btn-sm" label="Eliminar"
 											iconSclass="z-icon-trash-o" onClick="@command('eliminarLocalizacionLesion')" />
 									</hlayout>
-									<listbox id="lstLocalizacion"  autopaging="true" model="@load(vm.listaLocalizacionLesion)"
+									<listbox id="lstLocalizacion" model="@load(vm.listaLocalizacionLesion)"
 										mold="paging" hflex="1" vflex="1">
 										<listhead>
 											<listheader label="Lesión" class="lb-listheader"/>

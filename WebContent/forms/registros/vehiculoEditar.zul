@@ -1,9 +1,9 @@
-<?page title="Tipo Emergencia" contentType="text/html;charset=UTF-8"?>
+<?page title="Vehiculos" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window id="winTipoEmergenciaEditar" width="455px" vflex="1"
+	<window id="winVehiculoEditar" width="455px" vflex="1"
 		apply="org.zkoss.bind.BindComposer" border="none" position="center"
 		mode="overlapped" class="modal-title"
-		viewModel="@id('vm') @init('com.emergencia.control.parametros.TipoEmergenciaEditar')">
+		viewModel="@id('vm') @init('com.emergencia.control.registros.VehiculoEditar')">
 		<caption label="Ingrese datos" height="25px"/>
 		<vlayout>
 			<grid>
@@ -13,18 +13,22 @@
 				</columns>
 				<rows>
 					<row>
-						<label value="Tipo de emergencia: " class="label-form"/>
-						<textbox id="txtTipoEmergencia" value="@bind(vm.tipoEmergencia.tipoEmergencia)" hflex="1" />
+						<label value="Código: " class="label-form"/>
+						<textbox id="txtCodigo" value="@bind(vm.vehiculo.codigo)" hflex="1" />
 					</row>
 					<row>
-						<label value="Grupo: " class="label-form"/>
-						<combobox id="cboGrupo" hflex="1"
-							model="@load(vm.listaGrupoEmergencia)" readonly="true"
-							selectedItem="@bind(vm.grupoSeleccionado)">
+						<label value="Tipo de vehículo: " class="label-form"/>
+						<combobox id="cboTipoVehiculo" hflex="1"
+							model="@load(vm.listaTipoVehiculos)" readonly="true"
+							selectedItem="@bind(vm.tipoVehiculoSeleccionado)">
 							<template name="model">
-								<comboitem label="${each.descripcion}" />
+								<comboitem label="${each.tipoVehiculo}" />
 							</template>
 						</combobox>
+					</row>
+					<row>
+						<label value="Descripción: " class="label-form"/>
+						<textbox id="txtDescripcion" value="@bind(vm.vehiculo.descripcion)" hflex="1" />
 					</row>
 				</rows>
 			</grid>

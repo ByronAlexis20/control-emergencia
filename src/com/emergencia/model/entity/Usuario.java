@@ -11,13 +11,16 @@ import java.util.List;
 	@NamedQuery(name="Usuario.buscaUsuario", 
 	query="SELECT u FROM Usuario u WHERE u.usuario = :nombreUsuario and u.estado = 'A'"),
 	@NamedQuery(name="Usuario.buscarPorPatron", query="SELECT u FROM Usuario u where (lower(u.persona.nombres) "
-			+ "like(:patron) or lower(u.persona.apellidos) like(:patron)) and u.estado = 'A'"),
+			+ "like(:patron) or lower(u.persona.apellidos) like(:patron)) and u.estado = 'A' and u.perfil.idPerfil IN (1,2,3)"),
 	@NamedQuery(name="Usuario.buscarPorCedula", query="SELECT u FROM Usuario u where u.persona.cedula = :cedula and u.estado = 'A'"),
 	@NamedQuery(name="Usuario.buscarPorCedulaDiferenteAlUsuarioActual", query="SELECT u FROM Usuario u where u.persona.cedula = :cedula and u.estado = 'A' "
 			+ "and u.idUsuario <> :idUsuario"),
 	@NamedQuery(name="Usuario.buscarPorUsuario", query="SELECT s FROM Usuario s where s.usuario = :patron and s.idUsuario <> :idUsuario and s.estado = 'A'"),
 	@NamedQuery(name="Usuario.buscarUsuarioPorCedula", query="SELECT s FROM Usuario s where s.persona.cedula = :cedula and s.estado = 'A'"),
-	
+	@NamedQuery(name="Usuario.buscarBomberoPorPatron", query="SELECT u FROM Usuario u where (lower(u.persona.nombres) "
+			+ "like(:patron) or lower(u.persona.apellidos) like(:patron)) and u.estado = 'A' and u.perfil.idPerfil IN (4,6)"),
+	@NamedQuery(name="Usuario.buscarChoferPorPatron", query="SELECT u FROM Usuario u where (lower(u.persona.nombres) "
+			+ "like(:patron) or lower(u.persona.apellidos) like(:patron)) and u.estado = 'A' and u.perfil.idPerfil = 5"),
 })
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;

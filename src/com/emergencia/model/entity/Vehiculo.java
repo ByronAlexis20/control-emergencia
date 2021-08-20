@@ -10,14 +10,19 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Vehiculo.findAll", query="SELECT v FROM Vehiculo v")
+@Table(name="vehiculo")
+@NamedQueries({
+	@NamedQuery(name="Vehiculo.buscarPorPatron", query="SELECT v FROM Vehiculo v where v.estado = 'A' and (lower(v.codigo) like lower(:patron) or lower(v.descripcion) like lower(:patron))"),
+	@NamedQuery(name="Vehiculo.buscarPorCodigo", query="SELECT v FROM Vehiculo v where v.estado = 'A' and v.codigo = :codigo"),
+	@NamedQuery(name="Vehiculo.buscarPorCodigoDiferenteActual", query="SELECT v FROM Vehiculo v where v.estado = 'A' and v.codigo = :codigo and v.idVehiculo <> :id")
+})
 public class Vehiculo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_vehiculo")
-	private int idVehiculo;
+	private Integer idVehiculo;
 
 	private String codigo;
 
@@ -41,11 +46,11 @@ public class Vehiculo implements Serializable {
 	public Vehiculo() {
 	}
 
-	public int getIdVehiculo() {
+	public Integer getIdVehiculo() {
 		return this.idVehiculo;
 	}
 
-	public void setIdVehiculo(int idVehiculo) {
+	public void setIdVehiculo(Integer idVehiculo) {
 		this.idVehiculo = idVehiculo;
 	}
 

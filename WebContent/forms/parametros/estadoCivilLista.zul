@@ -24,7 +24,7 @@
 				</hlayout>
 			</div>
 			<hlayout vflex="1" hflex="1">
-				<listbox id="lstEstadoCivil" model="@load(vm.listaEstadoCivil)" autopaging="true"
+				<listbox id="lstEstadoCivil" model="@load(vm.listaEstadoCivil)"
 					mold="paging" hflex="1" vflex="1">
 					<listhead>
 						<listheader label="Código" align="center" width="15%"/>

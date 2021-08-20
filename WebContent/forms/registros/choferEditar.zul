@@ -1,0 +1,144 @@
+<?page title="Usuarios" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window id="winChoferEditar" width="37%" vflex="1"
+		apply="org.zkoss.bind.BindComposer" border="none" position="center"
+		mode="overlapped" class="modal-title"
+		viewModel="@id('vm') @init('com.emergencia.control.registros.ChoferEditar')">
+		<caption label="Ingrese datos" height="25px" class="modal-title-letters"/>
+		<vlayout>
+			<grid hflex="1">
+				<columns>
+					<column align="right" hflex="min" />
+					<column/>
+				</columns>
+				<rows>
+					<row>
+						<cell class="label-form">No. Cédula:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm"
+								id="txtNoDocumento" hflex="1" value="@bind(vm.usuario.persona.cedula)" xmlns:w="client">
+								<attribute w:name="doKeyDown_"><![CDATA[
+									function (evt) {
+										var keyCode = event.keyCode;
+										if( keyCode == 8 // back space
+											|| keyCode == 13 // enter
+											|| keyCode == 16 // enter
+											|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
+											|| keyCode == 46) { // Delete
+											this.$doKeyDown_(evt);
+										} else if ( !evt.shiftKey &&  // only do without shift key
+											(keyCode >= 48 && keyCode <= 57)
+											|| (keyCode >= 96 && keyCode <= 105)) {// number range
+											this.$doKeyDown_(evt);
+										} else {
+											evt.stop();
+											return;
+										}
+									}
+								]]></attribute>
+							</textbox>
+						</cell>
+					</row>
+					<row>
+						<cell class="label-form">Nombres:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm" id="txtNombres" hflex="1" value="@bind(vm.usuario.persona.nombres)"/>
+						</cell>
+					</row>
+					<row>
+						<cell class="label-form">Apellidos:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm" id="txtApellidos" hflex="1" value="@bind(vm.usuario.persona.apellidos)"/>
+						</cell>
+					</row>
+					<row>
+						<cell class="label-form">Dirección Domicilio:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm" id="txtDireccion" hflex="1" value="@bind(vm.usuario.persona.direccionDomiciliaria)"/>
+						</cell>
+					</row>
+					<row>
+						<cell class="label-form">Estado civil:</cell>
+						<cell>
+							<combobox id="cboEstadoCivil" hflex="1"
+								model="@load(vm.estadosCiviles)" readonly="true"
+								selectedItem="@bind(vm.estadoCivilSeleccionado)">
+								<template name="model">
+									<comboitem label="${each.estadoCivil}" />
+								</template>
+							</combobox>
+						</cell>
+					</row>
+					<row>
+						<cell class="label-form">Tipo de sangre:</cell>
+						<cell>
+							<combobox id="cboTipoSangre" hflex="1"
+								model="@load(vm.tiposSangres)" readonly="true"
+								selectedItem="@bind(vm.tipoSangreSeleccionado)">
+								<template name="model">
+									<comboitem label="${each.tipoSangre}" />
+								</template>
+							</combobox>
+						</cell>
+					</row>
+					<row>
+						<cell class="label-form">Fecha de nacimiento:</cell>
+						<cell>
+							<datebox id="dtpFechaNacimiento" hflex="1"/>
+						</cell>
+					</row>
+					<row>
+						<cell class="label-form">Teléfono:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm"
+								id="txtTelefono" hflex="1" value="@bind(vm.usuario.persona.telefono)" xmlns:w="client" maxlength="10">
+								<attribute w:name="doKeyDown_"><![CDATA[
+									function (evt) {
+										var keyCode = event.keyCode;
+										if( keyCode == 8 // back space
+											|| keyCode == 13 // enter
+											|| keyCode == 16 // enter
+											|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
+											|| keyCode == 46) { // Delete
+											this.$doKeyDown_(evt);
+										} else if ( !evt.shiftKey &&  // only do without shift key
+											(keyCode >= 48 && keyCode <= 57)
+											|| (keyCode >= 96 && keyCode <= 105)) {// number range
+											this.$doKeyDown_(evt);
+										} else {
+											evt.stop();
+											return;
+										}
+									}
+								]]></attribute>
+							</textbox>
+						</cell>
+					</row>
+					<row>
+						<cell class="label-form">Correo:</cell>
+						<cell>
+							<textbox
+								class="form-control form-control-sm" id="txtCorreo" hflex="1" value="@bind(vm.usuario.persona.correo)"/>
+						</cell>
+					</row>
+				</rows>
+			</grid>
+			<!-- Los iconos listados con iconSclass son de: http://fontawesome.io/icons/ -->
+			<vbox hflex="1" align="center" sclass="modal-title" height="35px" pack="center">
+				<div hflex="1" align="center">
+					<button id="grabar" label="Grabar"
+						iconSclass="z-icon-save" zclass="btn btn-primary btn-sm"
+						onClick="@command('grabar')" />
+					<button id="salir" label="Salir"
+						iconSclass="z-icon-sign-out" zclass="btn btn-danger btn-sm"
+						onClick="@command('salir')" />
+				</div>
+			</vbox>
+		</vlayout>
+	</window>
+</zk>

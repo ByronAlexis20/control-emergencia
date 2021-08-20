@@ -40,6 +40,14 @@ public class TipoEmergenciaEditar {
 		if (tipoEmergencia == null) {
 			tipoEmergencia = new TipoEmergencia();
 			tipoEmergencia.setEstado("A");
+		}else {
+			if(tipoEmergencia.getGrupo().equals(Globales.codigoPrehospitalaria)) {
+				cboGrupo.setText("Prehospitalario");
+			}else if(tipoEmergencia.getGrupo().equals(Globales.codigoControlIncendio)) {
+				cboGrupo.setText("Control de incencio");
+			}else if(tipoEmergencia.getGrupo().equals(Globales.codigoLaborSocial)) {
+				cboGrupo.setText("Labor Social");
+			}
 		}
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -88,7 +96,7 @@ public class TipoEmergenciaEditar {
 			}
 			if(cboGrupo.getSelectedIndex() == -1) {
 				Clients.showNotification("Debe seleccionar grupo","info",cboGrupo,"end_center",2000);
-				return false;
+				return retorna;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

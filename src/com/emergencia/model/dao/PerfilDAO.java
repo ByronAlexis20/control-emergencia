@@ -7,6 +7,16 @@ import javax.persistence.Query;
 import com.emergencia.model.entity.Perfil;
 
 public class PerfilDAO extends ClaseDAO {
+	
+	public Perfil getPerfilPorId(Integer id) {
+		Perfil perfil; 
+		Query consulta;
+		consulta = getEntityManager().createNamedQuery("Perfil.buscarPerfilPorId");
+		consulta.setParameter("idPerfil", id);
+		perfil = (Perfil) consulta.getSingleResult();
+		return perfil;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Perfil> getPerfilesPorDescripcion(String value) {
 		List<Perfil> resultado; 

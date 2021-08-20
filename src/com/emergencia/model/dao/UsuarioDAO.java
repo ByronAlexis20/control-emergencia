@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import com.emergencia.model.entity.Usuario;
 
 public class UsuarioDAO extends ClaseDAO{
+	
 	public Usuario getUsuario(String nombreUsuario) {
 		Usuario usuario; 
 		Query consulta;
@@ -36,6 +37,7 @@ public class UsuarioDAO extends ClaseDAO{
 		resultado = (List<Usuario>) query.getResultList();
 		return resultado;
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Usuario> getValidarUsuarioExistenteDiferente(String cedulaUsuario,Integer idUsuario) {
 		List<Usuario> resultado; 
@@ -64,6 +66,26 @@ public class UsuarioDAO extends ClaseDAO{
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setParameter("cedula", cedula);
 		resultado = (Usuario) query.getSingleResult();
+		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Usuario> getListaBomberosBuscar(String value) {
+		List<Usuario> resultado = new ArrayList<Usuario>(); 
+		Query query = getEntityManager().createNamedQuery("Usuario.buscarBomberoPorPatron");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("patron","%" + value.toLowerCase() + "%");
+		resultado = (List<Usuario>) query.getResultList();
+		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Usuario> getListaChoferBuscar(String value) {
+		List<Usuario> resultado = new ArrayList<Usuario>(); 
+		Query query = getEntityManager().createNamedQuery("Usuario.buscarChoferPorPatron");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("patron","%" + value.toLowerCase() + "%");
+		resultado = (List<Usuario>) query.getResultList();
 		return resultado;
 	}
 }

@@ -25,14 +25,14 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
-import com.emergencia.model.dao.UsuarioDAO;
-import com.emergencia.model.entity.Usuario;
+import com.emergencia.model.dao.VehiculoDAO;
+import com.emergencia.model.entity.Vehiculo;
 
-public class BomberoLista {
+public class VehiculoLista {
 	public String textoBuscar;
-	List<Usuario> listaBombero;
-	@Wire private Listbox lstBomberos;
-	UsuarioDAO usuarioDAO = new UsuarioDAO();
+	List<Vehiculo> listaVehiculos;
+	@Wire private Listbox lstVehiculos;
+	VehiculoDAO vehiculoDAO = new VehiculoDAO();
 	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
@@ -40,41 +40,40 @@ public class BomberoLista {
 		textoBuscar="";
 		buscar();
 	}
-	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@GlobalCommand("Usuario.buscarBomberoPorPatron")
+	@GlobalCommand("Vehiculo.buscarPorPatron")
 	@Command
-	@NotifyChange({"listaBombero"})
+	@NotifyChange({"listaVehiculos"})
 	public void buscar(){
-		if (listaBombero != null) {
-			listaBombero = null; 
+		if (listaVehiculos != null) {
+			listaVehiculos = null; 
 		}
-		listaBombero = usuarioDAO.getListaBomberosBuscar(textoBuscar);
-		lstBomberos.setModel(new ListModelList(listaBombero));
-		if(listaBombero.size() == 0) {
+		listaVehiculos = vehiculoDAO.getVehiculoPorDescripcion(textoBuscar);
+		lstVehiculos.setModel(new ListModelList(listaVehiculos));
+		if(listaVehiculos.size() == 0) {
 			Clients.showNotification("No hay datos para mostrar.!!");
 		}
 	}
 	@Command
 	public void nuevo(){
-		Window ventanaCargar = (Window) Executions.createComponents("/forms/registros/bomberoEditar.zul", null, null);
+		Window ventanaCargar = (Window) Executions.createComponents("/forms/registros/vehiculoEditar.zul", null, null);
 		ventanaCargar.doModal();
 	}
 	@Command
-	public void editar(@BindingParam("bombero") Usuario us){
-		if(us == null) {
+	public void editar(@BindingParam("vehiculo") Vehiculo ve){
+		if(ve == null) {
 			Clients.showNotification("Seleccione una opción de la lista.");
 			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("Bombero", us);
-		Window ventanaCargar = (Window) Executions.createComponents("/forms/registros/bomberoEditar.zul", null, params);
+		params.put("Vehiculo", ve);
+		Window ventanaCargar = (Window) Executions.createComponents("/forms/registros/vehiculoEditar.zul", null, params);
 		ventanaCargar.doModal();
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
-	public void eliminar(@BindingParam("bombero") Usuario us){
-		if (us == null) {
+	public void eliminar(@BindingParam("vehiculo") Vehiculo ve){
+		if (ve == null) {
 			Clients.showNotification("Seleccione una opción de la lista.");
 			return; 
 		}
@@ -83,30 +82,32 @@ public class BomberoLista {
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {
 					try {
-						usuarioDAO.getEntityManager().getTransaction().begin();
-						us.setEstado("I");
-						usuarioDAO.getEntityManager().merge(us);
-						usuarioDAO.getEntityManager().getTransaction().commit();
-						BindUtils.postGlobalCommand(null, null, "Usuario.buscarBomberoPorPatron", null);
+						vehiculoDAO.getEntityManager().getTransaction().begin();
+						ve.setEstado("I");
+						vehiculoDAO.getEntityManager().merge(ve);
+						vehiculoDAO.getEntityManager().getTransaction().commit();
+						BindUtils.postGlobalCommand(null, null, "Vehiculo.buscarPorPatron", null);
 						Clients.showNotification("Transaccion ejecutada con exito.");
 					} catch (Exception e) {
 						e.printStackTrace();
-						usuarioDAO.getEntityManager().getTransaction().rollback();
+						vehiculoDAO.getEntityManager().getTransaction().rollback();
 					}
 				}
 			}
 		});		
 	}
-	public List<Usuario> getListaBombero() {
-		return listaBombero;
-	}
-	public void setListaBombero(List<Usuario> listaBombero) {
-		this.listaBombero = listaBombero;
-	}
 	public String getTextoBuscar() {
 		return textoBuscar;
 	}
+
 	public void setTextoBuscar(String textoBuscar) {
 		this.textoBuscar = textoBuscar;
 	}
+	public List<Vehiculo> getListaVehiculos() {
+		return listaVehiculos;
+	}
+	public void setListaVehiculos(List<Vehiculo> listaVehiculos) {
+		this.listaVehiculos = listaVehiculos;
+	}
+
 }

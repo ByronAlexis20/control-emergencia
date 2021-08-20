@@ -16,7 +16,7 @@
 				</hlayout>
 			</div>
 			<hlayout vflex="1" hflex="1">
-				<listbox id="lstPrehospitalario" model="@load(vm.listaPrehospitalaria)" autopaging="true"
+				<listbox id="lstPrehospitalario" model="@load(vm.listaPrehospitalaria)"
 					mold="paging" hflex="1" vflex="1">
 					<listhead>
 						<listheader label="Cédula"/>

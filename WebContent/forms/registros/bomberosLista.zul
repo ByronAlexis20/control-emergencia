@@ -23,7 +23,7 @@
 				</hlayout>
 			</div>
 			<hlayout vflex="1" hflex="1">
-				<listbox id="lstBomberos" model="@load(vm.listaBombero)" autopaging="true"
+				<listbox id="lstBomberos" model="@load(vm.listaBombero)"
 					mold="paging" hflex="1" vflex="1">
 					<listhead>
 						<listheader label="Cdula" align="center" width="15%"/>
