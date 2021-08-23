@@ -34,12 +34,15 @@ import com.emergencia.model.dao.LocalizacionLesionDAO;
 import com.emergencia.model.dao.PrehospitalariaDAO;
 import com.emergencia.model.dao.ProcedimientoDAO;
 import com.emergencia.model.dao.SignoVitalDAO;
+import com.emergencia.model.dao.TipoEmergenciaDAO;
 import com.emergencia.model.entity.CondicionLlegada;
 import com.emergencia.model.entity.Genero;
 import com.emergencia.model.entity.LocalizacionLesion;
 import com.emergencia.model.entity.Prehospitalaria;
 import com.emergencia.model.entity.Procedimiento;
 import com.emergencia.model.entity.SignoVital;
+import com.emergencia.model.entity.TipoEmergencia;
+import com.emergencia.util.Globales;
 
 public class RegistroPrehospitalario {
 	@Wire Window winRegistroPrehospitalaria;
@@ -58,10 +61,12 @@ public class RegistroPrehospitalario {
 	@Wire Textbox txtDireccion;
 	@Wire Textbox txtLugar;
 	@Wire Textbox txtInterrogatorio;
+	@Wire Combobox cboTipoEmergencia;
 	
 	List<SignoVital> listaSignoVital;
 	List<Procedimiento> listaProcedimiento;
 	List<LocalizacionLesion> listaLocalizacionLesion;
+	List<TipoEmergencia> listaTipoEmergencia;
 	Prehospitalaria prehospitalario;
 	GeneroDAO generoDAO = new GeneroDAO();
 	CondicionLlegadaDAO condicionLlegadaDAO = new CondicionLlegadaDAO();
@@ -69,8 +74,10 @@ public class RegistroPrehospitalario {
 	ProcedimientoDAO procedimientoDAO = new ProcedimientoDAO();
 	LocalizacionLesionDAO localizacionLesionDAO = new LocalizacionLesionDAO();
 	PrehospitalariaDAO prehospitalarioDAO = new PrehospitalariaDAO();
+	TipoEmergenciaDAO tipoEmergenciaDAO = new TipoEmergenciaDAO();
 	Genero generoSeleccionado;
 	CondicionLlegada condicionLlegadaSeleccionado;
+	TipoEmergencia tipoEmergenciaSeleccionado;
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
@@ -96,6 +103,10 @@ public class RegistroPrehospitalario {
 		txtDireccion.setText(prehospitalario.getDireccionEvento());
 		txtLugar.setText(prehospitalario.getLugarEvento());
 		txtInterrogatorio.setText(prehospitalario.getInterrogatorio());
+		if(prehospitalario.getTipoEmergencia() != null) {
+			cboTipoEmergencia.setText(prehospitalario.getTipoEmergencia().getTipoEmergencia());
+			tipoEmergenciaSeleccionado = prehospitalario.getTipoEmergencia();
+		}
 		cargarSignosVitales();
 		cargarProcedimiento();
 		cargarLocalizacion();
@@ -168,6 +179,7 @@ public class RegistroPrehospitalario {
 		prehospitalario.setCedulaInformante(txtCedulaInformante.getText());
 		prehospitalario.setNombreInformante(txtNombreInformante.getText());
 		prehospitalario.setCondicionLlegada((CondicionLlegada)cboCondicionLLegada.getSelectedItem().getValue());
+		prehospitalario.setTipoEmergencia((TipoEmergencia)cboTipoEmergencia.getSelectedItem().getValue());
 		prehospitalario.setDireccionEvento(txtDireccion.getText());
 		prehospitalario.setLugarEvento(txtLugar.getText());
 		prehospitalario.setInterrogatorio(txtInterrogatorio.getText());
@@ -215,6 +227,10 @@ public class RegistroPrehospitalario {
 			}
 			if(cboCondicionLLegada.getSelectedIndex() == -1) {
 				Clients.showNotification("Debe seleccionar el condición de llegada","info",cboCondicionLLegada,"end_center",2000);
+				return false;
+			}
+			if(cboTipoEmergencia.getSelectedIndex() == -1) {
+				Clients.showNotification("Debe seleccionar el tipo de emergencia","info",cboTipoEmergencia,"end_center",2000);
 				return false;
 			}
 			return band;
@@ -452,4 +468,20 @@ public class RegistroPrehospitalario {
 		this.condicionLlegadaSeleccionado = condicionLlegadaSeleccionado;
 	}
 	
+	public TipoEmergencia getTipoEmergenciaSeleccionado() {
+		return tipoEmergenciaSeleccionado;
+	}
+	public void setTipoEmergenciaSeleccionado(TipoEmergencia tipoEmergenciaSeleccionado) {
+		this.tipoEmergenciaSeleccionado = tipoEmergenciaSeleccionado;
+	}
+	public List<TipoEmergencia> getListaTipoEmergencia() {
+		List<TipoEmergencia> listaTodos = tipoEmergenciaDAO.obtenerTodos();
+		List<TipoEmergencia> lista = new ArrayList<>();
+		for(TipoEmergencia t : listaTodos) {
+			if(t.getGrupo().equals(Globales.codigoPrehospitalaria)) {
+				lista.add(t);
+			}
+		}
+		return lista;
+	}
 }

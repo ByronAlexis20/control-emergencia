@@ -126,7 +126,7 @@ public class NuevaEmergencia {
 		}
 		cboParroquia.setText(emergencia.getParroquia().getParroquia());
 		parroquiaSeleccionado = emergencia.getParroquia();
-		cboTipoEmergencia.setText(emergencia.getTipoEmergencia().getDescripcion());
+		cboTipoEmergencia.setText(emergencia.getTipoEmergencia().getTipoEmergencia());
 		tipoEmergenciaSeleccionado = emergencia.getTipoEmergencia();
 		txtDia.setText(String.valueOf(emergencia.getDia()));
 		cboMes.setText(emergencia.getMe().getMes());
@@ -371,7 +371,7 @@ public class NuevaEmergencia {
 		List<TipoEmergencia> listaTodos = tipoEmergenciaDAO.obtenerTodos();
 		List<TipoEmergencia> lista = new ArrayList<>();
 		for(TipoEmergencia t : listaTodos) {
-			if(t.getGrupo().equals(Globales.codigoControlIncendio) && t.getGrupo().equals(Globales.codigoLaborSocial)) {
+			if(t.getGrupo().equals(Globales.codigoControlIncendio) || t.getGrupo().equals(Globales.codigoLaborSocial)) {
 				lista.add(t);
 			}
 		}

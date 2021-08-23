@@ -13,6 +13,10 @@
 				</columns>
 				<rows>
 					<row>
+						<label value="Hora " class="label-form"/>
+						<timebox id="tmHora"/>
+					</row>
+					<row>
 						<label value="Presión arterial " class="label-form"/>
 						<textbox id="txtPresionArterial" class="form-control form-control-sm" hflex="1"/>
 					</row>

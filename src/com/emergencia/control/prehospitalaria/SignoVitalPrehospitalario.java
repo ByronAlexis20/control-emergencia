@@ -1,6 +1,7 @@
 package com.emergencia.control.prehospitalaria;
 
 import java.io.IOException;
+import java.sql.Time;
 
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
@@ -14,6 +15,7 @@ import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Timebox;
 import org.zkoss.zul.Window;
 
 import com.emergencia.model.entity.Prehospitalaria;
@@ -27,7 +29,7 @@ public class SignoVitalPrehospitalario {
 	@Wire Textbox txtFrecuenciaRespiratoria;
 	@Wire Textbox txtLlenadoCapilar;
 	@Wire Textbox txtSaturacionOxigeno;
-
+	@Wire Timebox tmHora;
 	SignoVital signoVital;
 	Prehospitalaria prehospitalario;
 	RegistroPrehospitalario registroPrehospitalario;
@@ -49,6 +51,7 @@ public class SignoVitalPrehospitalario {
 		txtFrecuenciaRespiratoria.setText(String.valueOf(signoVital.getFrecuenciaRespiratoria()));
 		txtLlenadoCapilar.setText(String.valueOf(signoVital.getLlenadoCapilar()));
 		txtSaturacionOxigeno.setText(String.valueOf(signoVital.getSaturacionOxigeno()));
+		tmHora.setValue(signoVital.getHora());
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
@@ -67,6 +70,7 @@ public class SignoVitalPrehospitalario {
 						signos.setPulsoMin(Integer.parseInt(txtPulsoMin.getText()));
 						signos.setSaturacionOxigeno(Integer.parseInt(txtSaturacionOxigeno.getText()));
 						signos.setTemperatura(Integer.parseInt(txtTemperaturaCorporal.getText()));
+						signos.setHora(new Time(tmHora.getValue().getTime()));
 						registroPrehospitalario.agregarSignoVital(signos);
 						salir();						
 					} catch (Exception e) {

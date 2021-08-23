@@ -149,6 +149,18 @@
 											</cell>
 										</row>
 										<row>
+											<cell sclass="row-title">Tipo de emergencia (*):</cell>
+											<cell>
+												<combobox id="cboTipoEmergencia" hflex="1"
+													model="@load(vm.listaTipoEmergencia)" readonly="true" placeholder="Tipo de emergencia"
+													selectedItem="@bind(vm.tipoEmergenciaSeleccionado)">
+													<template name="model">
+														<comboitem label="${each.tipoEmergencia}" />
+													</template>
+												</combobox>
+											</cell>
+										</row>
+										<row>
 											<cell>Dirección del evento:</cell>
 											<cell colspan="5">
 												<textbox id="txtDireccion" hflex="1"/>
