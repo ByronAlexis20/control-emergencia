@@ -5,226 +5,6 @@
 		<caption label="Ingrese datos" height="25px" class="modal-title-letters"/>
 		<vlayout>
 			<vlayout hflex="1">
-				<groupbox hflex="1">
-					<caption>
-						<label value="(Los campos marcados con (*) son obligatorios)" style="font-size:10px;color:#FF0000"/>
-					</caption>
-					<grid hflex="1">
-						<columns>
-							<column align="right" hflex="min" />
-							<column/>
-							<column align="right" hflex="min" />
-							<column/>
-							<column align="right" hflex="min" />
-							<column/>
-						</columns>
-						<rows>
-							<row>
-								<cell>Día (*):</cell>
-								<cell>
-									<textbox id="txtDia" class="form-control form-control-sm" maxlength="2" placeholder="Día"
-										hflex="1" xmlns:w="client">
-										<attribute w:name="doKeyDown_"><![CDATA[
-											function (evt) {
-												var keyCode = event.keyCode;
-												if( keyCode == 8 // back space
-													|| keyCode == 13 // enter
-													|| keyCode == 16 // enter
-													|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
-													|| keyCode == 46) { // Delete
-													this.$doKeyDown_(evt);
-												} else if ( !evt.shiftKey &&  // only do without shift key
-													(keyCode >= 48 && keyCode <= 57)
-													|| (keyCode >= 96 && keyCode <= 105)) {// number range
-													this.$doKeyDown_(evt);
-												} else {
-													evt.stop();
-													return;
-												}
-											}
-										]]></attribute>
-									</textbox>
-								</cell>
-								<cell sclass="row-title">Mes:</cell>
-								<cell>
-									<combobox id="cboMes" hflex="1"
-										model="@load(vm.listaMeses)" readonly="true" placeholder="Mes"
-										selectedItem="@bind(vm.mesSeleccionado)">
-										<template name="model">
-											<comboitem label="${each.mes}" />
-										</template>
-									</combobox>
-								</cell>
-								<cell sclass="row-title">Año:</cell>
-								<cell>
-									<textbox id="txtAnio" xmlns:w="client"
-										class="form-control form-control-sm"
-										placeholder="Año" hflex="1" maxlength="4">
-										<attribute w:name="doKeyDown_"><![CDATA[
-											function (evt) {
-												var keyCode = event.keyCode;
-												if( keyCode == 8 // back space
-													|| keyCode == 13 // enter
-													|| keyCode == 16 // enter
-													|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
-													|| keyCode == 46) { // Delete
-													this.$doKeyDown_(evt);
-												} else if ( !evt.shiftKey &&  // only do without shift key
-													(keyCode >= 48 && keyCode <= 57)
-													|| (keyCode >= 96 && keyCode <= 105)) {// number range
-													this.$doKeyDown_(evt);
-												} else {
-													evt.stop();
-													return;
-												}
-											}
-										]]></attribute>
-									</textbox>
-								</cell>
-							</row>	
-							<row>
-								<cell sclass="row-title">Provincia (*):</cell>
-								<cell>
-									<combobox id="cboProvincia" hflex="1" placeholder="Provincia"
-										model="@load(vm.listaProvincia)" readonly="true"
-										selectedItem="@bind(vm.provinciaSeleccionado)" onChange="@command('seleccionarProvincia')">
-										<template name="model">
-											<comboitem label="${each.provincia}" />
-										</template>
-									</combobox>
-								</cell>
-								<cell sclass="row-title">Cantón (*):</cell>
-								<cell>
-									<combobox id="cboCanton" hflex="1" placeholder="Cantón"
-										model="@load(vm.listaCanton)" readonly="true" onChange="@command('seleccionarCanton')"
-										selectedItem="@bind(vm.cantonSeleccionado)">
-										<template name="model">
-											<comboitem label="${each.canton}" />
-										</template>
-									</combobox>
-								</cell>
-								<cell sclass="row-title">Parroquia (*):</cell>
-								<cell>
-									<combobox id="cboParroquia" hflex="1" placeholder="Parroquia"
-										model="@load(vm.listaParroquia)" readonly="true"
-										selectedItem="@bind(vm.parroquiaSeleccionado)">
-										<template name="model">
-											<comboitem label="${each.parroquia}" />
-										</template>
-									</combobox>
-								</cell>
-							</row>
-							<row>
-								<cell sclass="row-title">Tipo de emergencia (*):</cell>
-								<cell>
-									<combobox id="cboTipoEmergencia" hflex="1"
-										model="@load(vm.listaTipoEmergencia)" readonly="true" placeholder="Tipo de emergencia"
-										selectedItem="@bind(vm.tipoEmergenciaSeleccionado)">
-										<template name="model">
-											<comboitem label="${each.tipoEmergencia}" />
-										</template>
-									</combobox>
-								</cell>
-								<cell sclass="row-title">Reportado por (*):</cell>
-								<cell>
-									<combobox id="cboReportadoPor" hflex="1" placeholder="Provincia"
-										model="@load(vm.listaFormaAviso)" readonly="true"
-										selectedItem="@bind(vm.formaAvisoSeleccionado)">
-										<template name="model">
-											<comboitem label="${each.formaAviso}" />
-										</template>
-									</combobox>
-								</cell>
-								<cell sclass="row-title">Confirmación llamada (*):</cell>
-								<cell>
-									<combobox id="cboConfirmacionLlamada" hflex="1">
-										<comboitem label="SI"/>
-										<comboitem label="NO"/>
-									</combobox>
-								</cell>
-							</row>
-							<row>
-								<cell colspan="6" align="left">DATOS GENERALES DE ATENCIÓN</cell>
-							</row>
-							<row>
-								<cell sclass="row-title">Nombre del informante (*):</cell>
-								<cell colspan="5">
-									<textbox id="txtNombreInformate" hflex="1"/>
-								</cell>
-							</row>
-							<row>
-								<cell sclass="row-title">Teléfono:</cell>
-								<cell>
-									<textbox id="txtTelefono" hflex="1"/>
-								</cell>
-								<cell sclass="row-title">Dirección:</cell>
-								<cell colspan="3">
-									<textbox id="txtDireccion" hflex="1"/>
-								</cell>
-							</row>
-							<row>
-								<cell sclass="row-title">Referencia:</cell>
-								<cell colspan="2">
-									<textbox id="txtReferencia" hflex="1"/>
-								</cell>
-								<cell sclass="row-title">Avenida:</cell>
-								<cell colspan="2">
-									<textbox id="txtAvenida" hflex="1"/>
-								</cell>
-							</row>
-							<row>
-								<cell sclass="row-title" colspan="6" align="left">Descripcion de Operaciones:</cell>
-							</row>
-							<row>
-								<cell colspan="6">
-									<textbox multiline="true" hflex="1" id="txtDescripcionOperaciones"/>
-								</cell>
-							</row>
-							<row>
-								<cell sclass="row-title" colspan="6" align="left">Novedades:</cell>
-							</row>
-							<row>
-								<cell colspan="6">
-									<textbox multiline="true" hflex="1" id="txtNovedades"/>
-								</cell>
-							</row>
-						</rows>
-					</grid>	
-				</groupbox>
-				<groupbox hflex="1">
-					<caption>
-						<label value="Signos vitales" />
-					</caption>
-					<vlayout hflex="1" vflex="1">
-						<hlayout hflex="1">
-							<button zclass="btn btn-primary btn-sm" label="Nuevo"
-								iconSclass="z-icon-plus" onClick="@command('nuevoSignoVital')" />
-							<button zclass="btn btn-danger btn-sm" label="Eliminar"
-								iconSclass="z-icon-trash-o" onClick="@command('eliminarDocumento')" />
-						</hlayout>
-						<listbox id="lstSignosVitales"  autopaging="true" model="@load(vm.listaSignosVitales)"
-							mold="paging" hflex="1" vflex="1" height="50px">
-							<listhead>
-								<listheader label="Presión arterial"/>
-								<listheader label="Pulso mínimo"/>
-								<listheader label="Temperatura corporal"/>
-								<listheader label="Frecuencia respiratoria"/>
-								<listheader label="Saturación oxigeno"/>
-							</listhead>
-							<template name="model">
-								<listitem>
-									<listcell label="${each.presionArterial}"/>
-									<listcell label="${each.pulsoMinimo}"/>
-									<listcell label="${each.temperaturaCorporal}"/>
-									<listcell label="${each.frecuenciaRespiratoria}"/>
-									<listcell label="${each.saturacionOxigeno}"/>
-								</listitem>
-							</template>
-						</listbox>
-					</vlayout>
-				</groupbox>
-				
-				
 				
 				<tabbox hflex="1" vflex="1">
 					<tabs hflex="1">
@@ -234,14 +14,229 @@
 					<tabpanels>
 						<tabpanel>
 							<vlayout hflex="1" vflex="1">
+								<grid hflex="1">
+									<columns>
+										<column align="right" hflex="min" />
+										<column/>
+										<column align="right" hflex="min" />
+										<column/>
+										<column align="right" hflex="min" />
+										<column/>
+									</columns>
+									<rows>
+										<row>
+											<cell>Día (*):</cell>
+											<cell>
+												<textbox id="txtDia" class="form-control form-control-sm" maxlength="2" placeholder="Día"
+													hflex="1" xmlns:w="client">
+													<attribute w:name="doKeyDown_"><![CDATA[
+														function (evt) {
+															var keyCode = event.keyCode;
+															if( keyCode == 8 // back space
+																|| keyCode == 13 // enter
+																|| keyCode == 16 // enter
+																|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
+																|| keyCode == 46) { // Delete
+																this.$doKeyDown_(evt);
+															} else if ( !evt.shiftKey &&  // only do without shift key
+																(keyCode >= 48 && keyCode <= 57)
+																|| (keyCode >= 96 && keyCode <= 105)) {// number range
+																this.$doKeyDown_(evt);
+															} else {
+																evt.stop();
+																return;
+															}
+														}
+													]]></attribute>
+												</textbox>
+											</cell>
+											<cell sclass="row-title">Mes:</cell>
+											<cell>
+												<combobox id="cboMes" hflex="1"
+													model="@load(vm.listaMeses)" readonly="true" placeholder="Mes"
+													selectedItem="@bind(vm.mesSeleccionado)">
+													<template name="model">
+														<comboitem label="${each.mes}" />
+													</template>
+												</combobox>
+											</cell>
+											<cell sclass="row-title">Año:</cell>
+											<cell>
+												<textbox id="txtAnio" xmlns:w="client"
+													class="form-control form-control-sm"
+													placeholder="Año" hflex="1" maxlength="4">
+													<attribute w:name="doKeyDown_"><![CDATA[
+														function (evt) {
+															var keyCode = event.keyCode;
+															if( keyCode == 8 // back space
+																|| keyCode == 13 // enter
+																|| keyCode == 16 // enter
+																|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
+																|| keyCode == 46) { // Delete
+																this.$doKeyDown_(evt);
+															} else if ( !evt.shiftKey &&  // only do without shift key
+																(keyCode >= 48 && keyCode <= 57)
+																|| (keyCode >= 96 && keyCode <= 105)) {// number range
+																this.$doKeyDown_(evt);
+															} else {
+																evt.stop();
+																return;
+															}
+														}
+													]]></attribute>
+												</textbox>
+											</cell>
+										</row>	
+										<row>
+											<cell sclass="row-title">Provincia (*):</cell>
+											<cell>
+												<combobox id="cboProvincia" hflex="1" placeholder="Provincia"
+													model="@load(vm.listaProvincia)" readonly="true"
+													selectedItem="@bind(vm.provinciaSeleccionado)" onChange="@command('seleccionarProvincia')">
+													<template name="model">
+														<comboitem label="${each.provincia}" />
+													</template>
+												</combobox>
+											</cell>
+											<cell sclass="row-title">Cantón (*):</cell>
+											<cell>
+												<combobox id="cboCanton" hflex="1" placeholder="Cantón"
+													model="@load(vm.listaCanton)" readonly="true" onChange="@command('seleccionarCanton')"
+													selectedItem="@bind(vm.cantonSeleccionado)">
+													<template name="model">
+														<comboitem label="${each.canton}" />
+													</template>
+												</combobox>
+											</cell>
+											<cell sclass="row-title">Parroquia (*):</cell>
+											<cell>
+												<combobox id="cboParroquia" hflex="1" placeholder="Parroquia"
+													model="@load(vm.listaParroquia)" readonly="true"
+													selectedItem="@bind(vm.parroquiaSeleccionado)">
+													<template name="model">
+														<comboitem label="${each.parroquia}" />
+													</template>
+												</combobox>
+											</cell>
+										</row>
+										<row>
+											<cell sclass="row-title">Tipo de emergencia (*):</cell>
+											<cell>
+												<combobox id="cboTipoEmergencia" hflex="1"
+													model="@load(vm.listaTipoEmergencia)" readonly="true" placeholder="Tipo de emergencia"
+													selectedItem="@bind(vm.tipoEmergenciaSeleccionado)">
+													<template name="model">
+														<comboitem label="${each.tipoEmergencia}" />
+													</template>
+												</combobox>
+											</cell>
+											<cell sclass="row-title">Reportado por (*):</cell>
+											<cell>
+												<combobox id="cboReportadoPor" hflex="1" placeholder="Reportado por"
+													model="@load(vm.listaFormaAviso)" readonly="true"
+													selectedItem="@bind(vm.formaAvisoSeleccionado)">
+													<template name="model">
+														<comboitem label="${each.formaAviso}" />
+													</template>
+												</combobox>
+											</cell>
+											<cell sclass="row-title">Confirmación llamada (*):</cell>
+											<cell>
+												<combobox id="cboConfirmacionLlamada" hflex="1">
+													<comboitem label="SI"/>
+													<comboitem label="NO"/>
+												</combobox>
+											</cell>
+										</row>
+										<row>
+											<cell colspan="6" align="left">DATOS GENERALES DE ATENCIÓN</cell>
+										</row>
+										<row>
+											<cell sclass="row-title">Nombre del informante (*):</cell>
+											<cell colspan="5">
+												<combobox id="cboInformante" hflex="1"
+													model="@load(vm.usuariosBomberos)" readonly="true" placeholder="Bombero"
+													selectedItem="@bind(vm.usuarioSeleccionado)">
+													<template name="model">
+														<comboitem label="${each.persona.nombres}"/>
+													</template>
+												</combobox>
+											</cell>
+										</row>
+										<row>
+											<cell sclass="row-title">Teléfono:</cell>
+											<cell>
+												<textbox id="txtTelefono" hflex="1"/>
+											</cell>
+											<cell sclass="row-title">Dirección:</cell>
+											<cell colspan="3">
+												<textbox id="txtDireccion" hflex="1"/>
+											</cell>
+										</row>
+										<row>
+											<cell sclass="row-title">Referencia:</cell>
+											<cell colspan="2">
+												<textbox id="txtReferencia" hflex="1"/>
+											</cell>
+											<cell sclass="row-title">Avenida:</cell>
+											<cell colspan="2">
+												<textbox id="txtAvenida" hflex="1"/>
+											</cell>
+										</row>
+										<row>
+											<cell sclass="row-title">Barrio:</cell>
+											<cell>
+												<combobox id="cboBarrio" hflex="1"
+													model="@load(vm.listaBarrios)" readonly="true" placeholder="Barrio"
+													selectedItem="@bind(vm.barrioSeleccionado)">
+													<template name="model">
+														<comboitem label="${each.barrio}" />
+													</template>
+												</combobox>
+											</cell>
+										</row>
+									</rows>
+								</grid>
+							</vlayout>
+						</tabpanel>
+						<tabpanel>
+							<vlayout hflex="1" vflex="1">
+								<grid hflex="1">
+									<columns>
+										<column align="right" hflex="min" />
+										<column/>
+										<column align="right" hflex="min" />
+										<column/>
+										<column align="right" hflex="min" />
+										<column/>
+									</columns>
+									<rows>
+										<row>
+											<cell sclass="row-title" colspan="6" align="left">Descripcion de Operaciones:</cell>
+										</row>
+										<row>
+											<cell colspan="6">
+												<textbox multiline="true" hflex="1" id="txtDescripcionOperaciones"/>
+											</cell>
+										</row>
+										<row>
+											<cell sclass="row-title" colspan="6" align="left">Novedades:</cell>
+										</row>
+										<row>
+											<cell colspan="6">
+												<textbox multiline="true" hflex="1" id="txtNovedades"/>
+											</cell>
+										</row>
+									</rows>
+								</grid>	
 								<hlayout hflex="1">
 									<button zclass="btn btn-primary btn-sm" label="Nuevo"
 										iconSclass="z-icon-plus" onClick="@command('nuevoSignoVital')" />
 									<button zclass="btn btn-danger btn-sm" label="Eliminar"
-										iconSclass="z-icon-trash-o" onClick="@command('eliminarSignoVital')" />
+										iconSclass="z-icon-trash-o" onClick="@command('eliminarDocumento')" />
 								</hlayout>
-								<listbox id="lstSignosVitales" model="@load(vm.listaSignoVital)"
-									mold="paging" hflex="1" vflex="1">
+								<listbox id="lstSignosVitales"  autopaging="true" model="@load(vm.listaSignosVitales)"
+									mold="paging" hflex="1" vflex="1" height="50px">
 									<listhead>
 										<listheader label="Presión arterial"/>
 										<listheader label="Pulso mínimo"/>
@@ -252,44 +247,14 @@
 									<template name="model">
 										<listitem>
 											<listcell label="${each.presionArterial}"/>
-											<listcell label="${each.pulsoMin}"/>
-											<listcell label="${each.temperatura}"/>
+											<listcell label="${each.pulsoMinimo}"/>
+											<listcell label="${each.temperaturaCorporal}"/>
 											<listcell label="${each.frecuenciaRespiratoria}"/>
 											<listcell label="${each.saturacionOxigeno}"/>
 										</listitem>
 									</template>
 								</listbox>
 							</vlayout>
-						</tabpanel>
-						<tabpanel>
-							<hlayout hflex="1" vflex="1">
-								<groupbox hflex="1" vflex="1">
-									<caption>
-										<label value="Procedimiento"/>
-									</caption>
-									<vlayout hflex="1" vflex="1">
-										<hlayout hflex="1">
-											<button zclass="btn btn-primary btn-sm" label="Nuevo"
-												iconSclass="z-icon-plus" onClick="@command('nuevoProcedimiento')" />
-											<button zclass="btn btn-danger btn-sm" label="Eliminar"
-												iconSclass="z-icon-trash-o" onClick="@command('eliminarProcedimiento')" />
-										</hlayout>
-										<listbox id="lstProcedimiento"  autopaging="true" model="@load(vm.listaProcedimiento)"
-											mold="paging" hflex="1" vflex="1">
-											<listhead>
-												<listheader label="Código" width="14%"/>
-												<listheader label="Procedimiento"/>
-											</listhead>
-											<template name="model">
-												<listitem>
-													<listcell label="${each.idProcedimiento}"/>
-													<listcell label="${each.tipoProcedimiento.tipoProcedimiento}"/>
-												</listitem>
-											</template>
-										</listbox>
-									</vlayout>
-								</groupbox>
-							</hlayout>
 						</tabpanel>
 					</tabpanels>
 				</tabbox>

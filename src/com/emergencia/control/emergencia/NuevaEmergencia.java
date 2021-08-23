@@ -27,6 +27,7 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+import com.emergencia.model.dao.BarrioDAO;
 import com.emergencia.model.dao.CantonDAO;
 import com.emergencia.model.dao.EmergenciaDAO;
 import com.emergencia.model.dao.FormaAvisoDAO;
@@ -35,6 +36,8 @@ import com.emergencia.model.dao.ParroquiaDAO;
 import com.emergencia.model.dao.ProvinciaDAO;
 import com.emergencia.model.dao.SignoVitalEmergenciaDAO;
 import com.emergencia.model.dao.TipoEmergenciaDAO;
+import com.emergencia.model.dao.UsuarioDAO;
+import com.emergencia.model.entity.Barrio;
 import com.emergencia.model.entity.Canton;
 import com.emergencia.model.entity.Emergencia;
 import com.emergencia.model.entity.FormaAviso;
@@ -43,10 +46,14 @@ import com.emergencia.model.entity.Parroquia;
 import com.emergencia.model.entity.Provincia;
 import com.emergencia.model.entity.SignoVitalEmergencia;
 import com.emergencia.model.entity.TipoEmergencia;
+import com.emergencia.model.entity.Usuario;
+import com.emergencia.util.Globales;
 
 public class NuevaEmergencia {
 	
 	@Wire Listbox lstSignosVitales;
+	@Wire Combobox cboBarrio;
+	@Wire Combobox cboInformante;
 	@Wire Window winNuevaEmergencia;
 	@Wire Combobox cboCanton;
 	@Wire Combobox cboParroquia;
@@ -80,6 +87,8 @@ public class NuevaEmergencia {
 	TipoEmergencia tipoEmergenciaSeleccionado;
 	FormaAviso formaAvisoSeleccionado;
 	SignoVitalEmergencia signoVitalSeleccionado;
+	Barrio barrioSeleccionado;
+	Usuario usuarioSeleccionado;
 	
 	MesDAO mesDAO = new MesDAO();
 	ProvinciaDAO provinciaDAO = new ProvinciaDAO();
@@ -88,8 +97,11 @@ public class NuevaEmergencia {
 	TipoEmergenciaDAO tipoEmergenciaDAO = new TipoEmergenciaDAO();
 	FormaAvisoDAO formaAvisoDAO = new FormaAvisoDAO();
 	SignoVitalEmergenciaDAO signoDAO = new SignoVitalEmergenciaDAO();
+	UsuarioDAO usuarioDAO = new UsuarioDAO();
 	
 	EmergenciaDAO emergenciaDAO = new EmergenciaDAO();
+	BarrioDAO barrioDAO = new BarrioDAO();
+	
 	Emergencia emergencia;
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
@@ -108,6 +120,10 @@ public class NuevaEmergencia {
 		cboCanton.setText(emergencia.getParroquia().getCanton().getCanton());
 		cantonSeleccionado = emergencia.getParroquia().getCanton();
 		seleccionarCanton();
+		if(emergencia.getBarrio() != null) {
+			cboBarrio.setText(emergencia.getBarrio().getBarrio());
+			barrioSeleccionado = emergencia.getBarrio();
+		}
 		cboParroquia.setText(emergencia.getParroquia().getParroquia());
 		parroquiaSeleccionado = emergencia.getParroquia();
 		cboTipoEmergencia.setText(emergencia.getTipoEmergencia().getDescripcion());
@@ -125,6 +141,10 @@ public class NuevaEmergencia {
 		txtAvenida.setText(emergencia.getAvenida());
 		txtDescripcionOperaciones.setText(emergencia.getDescripcionOperaciones());
 		txtNovedades.setText(emergencia.getNovedades());
+		if(emergencia.getUsuario() != null) {
+			cboInformante.setText(emergencia.getUsuario().getPersona().getNombres());
+			usuarioSeleccionado = emergencia.getUsuario();	
+		}
 		cargarSignosVitales();
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -191,12 +211,14 @@ public class NuevaEmergencia {
 		emergencia.setDireccionEvento(txtDireccion.getText());
 		emergencia.setEstado("A");
 		emergencia.setFormaAviso((FormaAviso)cboReportadoPor.getSelectedItem().getValue());
+		emergencia.setBarrio((Barrio)cboBarrio.getSelectedItem().getValue());
 		emergencia.setMe((Me)cboMes.getSelectedItem().getValue());
 		emergencia.setNovedades(txtNovedades.getText());
 		emergencia.setParroquia((Parroquia) cboParroquia.getSelectedItem().getValue());
 		emergencia.setReferencias(txtReferencia.getText());
 		emergencia.setTelefono(txtTelefono.getText());
 		emergencia.setTipoEmergencia((TipoEmergencia)cboTipoEmergencia.getSelectedItem().getValue());
+		emergencia.setUsuario((Usuario)cboInformante.getSelectedItem().getValue());
 	}
 	private boolean validarDatos() {
 		try {
@@ -239,10 +261,17 @@ public class NuevaEmergencia {
 				Clients.showNotification("Debe seleccionar Confirmacion de llamada","info",cboConfirmacionLlamada,"end_center",2000);
 				return false;
 			}
+			if(cboBarrio.getSelectedIndex() == -1) {
+				Clients.showNotification("Debe seleccionar barrio","info",cboBarrio,"end_center",2000);
+				return false;
+			}
 			if(txtNombreInformate.getText().isEmpty()) {
 				return false;
 			}
-			
+			if(cboInformante.getSelectedIndex() == -1) {
+				Clients.showNotification("Debe seleccionar Informante","info",cboInformante,"end_center",2000);
+				return false;
+			}
 			return band;
 		}catch(Exception ex) {
 			return false;
@@ -339,7 +368,14 @@ public class NuevaEmergencia {
 		this.parroquiaSeleccionado = parroquiaSeleccionado;
 	}
 	public List<TipoEmergencia> getListaTipoEmergencia() {
-		return tipoEmergenciaDAO.obtenerTodos();
+		List<TipoEmergencia> listaTodos = tipoEmergenciaDAO.obtenerTodos();
+		List<TipoEmergencia> lista = new ArrayList<>();
+		for(TipoEmergencia t : listaTodos) {
+			if(t.getGrupo().equals(Globales.codigoControlIncendio) && t.getGrupo().equals(Globales.codigoLaborSocial)) {
+				lista.add(t);
+			}
+		}
+		return lista;
 	}
 	public void setListaTipoEmergencia(List<TipoEmergencia> listaTipoEmergencia) {
 		this.listaTipoEmergencia = listaTipoEmergencia;
@@ -362,7 +398,9 @@ public class NuevaEmergencia {
 	public void setFormaAvisoSeleccionado(FormaAviso formaAvisoSeleccionado) {
 		this.formaAvisoSeleccionado = formaAvisoSeleccionado;
 	}
-
+	public List<Barrio> getListaBarrios(){
+		return barrioDAO.getBarrioPorDescripcion("");
+	}
 	public List<SignoVitalEmergencia> getListaSignosVitales() {
 		return listaSignosVitales;
 	}
@@ -378,5 +416,19 @@ public class NuevaEmergencia {
 	public void setSignoVitalSeleccionado(SignoVitalEmergencia signoVitalSeleccionado) {
 		this.signoVitalSeleccionado = signoVitalSeleccionado;
 	}
-	
+	public Barrio getBarrioSeleccionado() {
+		return barrioSeleccionado;
+	}
+	public void setBarrioSeleccionado(Barrio barrioSeleccionado) {
+		this.barrioSeleccionado = barrioSeleccionado;
+	}
+	public List<Usuario> getUsuariosBomberos(){
+		return usuarioDAO.getListaBomberosBuscar("");
+	}
+	public Usuario getUsuarioSeleccionado() {
+		return usuarioSeleccionado;
+	}
+	public void setUsuarioSeleccionado(Usuario usuarioSeleccionado) {
+		this.usuarioSeleccionado = usuarioSeleccionado;
+	}
 }
