@@ -25,16 +25,18 @@
 			</div>
 			<hlayout vflex="1" hflex="1">
 				<listbox id="lstVehiculos" model="@load(vm.listaVehiculos)"
-					mold="paging" hflex="1" vflex="1">
+					hflex="1" vflex="1">
 					<listhead>
 						<listheader label="Código" align="center" width="20%"/>
+						<listheader label="Tipo de vehículo" align="center"/>
 						<listheader label="Descripcion" align="center"/>
 						<listheader label="Estado" width="7%" align="center"/>
-						<listheader label="Acción" align="center"/>
+						<listheader label="Acción" width="min" align="center"/>
 					</listhead>
 					<template name="model">
 						<listitem>
 							<listcell label="@load(each.codigo)"/>
+							<listcell label="@load(each.tipoVehiculo.tipoVehiculo)"/>
 							<listcell label="@load(each.descripcion)"/>
 							<listcell label="@load(each.estado)"/>
 							<listcell>
