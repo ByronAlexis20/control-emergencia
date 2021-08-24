@@ -64,7 +64,6 @@ public class NuevaEmergencia {
 	@Wire Textbox txtAnio;
 	@Wire Combobox cboReportadoPor;
 	@Wire Combobox cboConfirmacionLlamada;
-	@Wire Textbox txtNombreInformate;
 	@Wire Textbox txtTelefono;
 	@Wire Textbox txtDireccion;
 	@Wire Textbox txtReferencia;
@@ -265,9 +264,6 @@ public class NuevaEmergencia {
 				Clients.showNotification("Debe seleccionar barrio","info",cboBarrio,"end_center",2000);
 				return false;
 			}
-			if(txtNombreInformate.getText().isEmpty()) {
-				return false;
-			}
 			if(cboInformante.getSelectedIndex() == -1) {
 				Clients.showNotification("Debe seleccionar Informante","info",cboInformante,"end_center",2000);
 				return false;
@@ -296,6 +292,38 @@ public class NuevaEmergencia {
 		}
 		listaSignosVitales.add(sig);
 		lstSignosVitales.setModel(new ListModelList(listaSignosVitales));
+	}
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Command
+	public void eliminarSignoVital() {
+		if(lstSignosVitales.getSelectedItem() == null) {
+			Clients.showNotification("Seleccione una opción de la lista.");
+			return;
+		}
+		SignoVitalEmergencia sig = (SignoVitalEmergencia)lstSignosVitales.getSelectedItem().getValue();
+		Messagebox.show("Desea dar de baja el registro seleccionado?", "Confirmación de Eliminación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
+			@Override
+			public void onEvent(Event event) throws Exception {
+				if (event.getName().equals("onYes")) {
+					try {
+						if(sig.getIdSignoVital() == null) {
+							listaSignosVitales.remove(sig);
+							lstSignosVitales.setModel(new ListModelList(listaSignosVitales));
+						}else {
+							signoDAO.getEntityManager().getTransaction().begin();
+							sig.setEstado("I");
+							signoDAO.getEntityManager().merge(sig);
+							signoDAO.getEntityManager().getTransaction().commit();
+							listaSignosVitales.remove(sig);
+							lstSignosVitales.setModel(new ListModelList(listaSignosVitales));
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						signoDAO.getEntityManager().getTransaction().rollback();
+					}
+				}
+			}
+		});	
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@NotifyChange({"listaCanton"})

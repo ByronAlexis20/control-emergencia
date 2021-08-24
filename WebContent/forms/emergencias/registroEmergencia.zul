@@ -1,4 +1,4 @@
-<?page title="Lista de Usuarios" contentType="text/html;charset=UTF-8"?>
+<?page title="Lista de emergencias" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<window apply="org.zkoss.bind.BindComposer" border="none"
 		viewModel="@id('vm') @init('com.emergencia.control.emergencia.RegistroEmergencia')"
@@ -29,7 +29,7 @@
 						<listheader label="Tipo Emergencia"/>
 						<listheader label="Parroquia" />
 						<listheader label="Teléfono" />
-						<listheader label="Dirección evento"/>
+						<listheader label="Barrio"/>
 						<listheader label="Acción" width="min" align="center"/>
 					</listhead>
 					<template name="model">
@@ -37,7 +37,7 @@
 							<listcell label="@load(each.tipoEmergencia.tipoEmergencia)" />
 							<listcell label="@load(each.parroquia.parroquia)"/>
 							<listcell label="@load(each.telefono)"/>
-							<listcell label="@load(each.direccionEvento)" />
+							<listcell label="@load(each.barrio.barrio)" />
 							<listcell>
 								<div align="center">
 									<button label="Editar" iconSclass="z-icon-pencil" zclass="btn btn-success btn-sm"

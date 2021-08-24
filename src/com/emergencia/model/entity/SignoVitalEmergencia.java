@@ -11,7 +11,7 @@ import java.sql.Time;
  */
 @Entity
 @Table(name="signo_vital_emergencia")
-@NamedQuery(name="SignoVitalEmergencia.buscarPorEmergencia", query="SELECT s FROM SignoVitalEmergencia s where s.emergencia.idEmergencia = :idEmergencia")
+@NamedQuery(name="SignoVitalEmergencia.buscarPorEmergencia", query="SELECT s FROM SignoVitalEmergencia s where s.emergencia.idEmergencia = :idEmergencia and s.estado = 'A'")
 public class SignoVitalEmergencia implements Serializable {
 	private static final long serialVersionUID = 1L;
 

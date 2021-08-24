@@ -195,6 +195,7 @@
 							<listbox id="lstSignosVitales" model="@load(vm.listaSignoVital)"
 								mold="paging" hflex="1" vflex="1">
 								<listhead>
+									<listheader label="Hora"/>
 									<listheader label="Presión arterial"/>
 									<listheader label="Pulso mínimo"/>
 									<listheader label="Temperatura corporal"/>
@@ -203,6 +204,7 @@
 								</listhead>
 								<template name="model">
 									<listitem>
+										<listcell label="${each.hora}"/>
 										<listcell label="${each.presionArterial}"/>
 										<listcell label="${each.pulsoMin}"/>
 										<listcell label="${each.temperatura}"/>

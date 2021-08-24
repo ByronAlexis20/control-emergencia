@@ -1,6 +1,7 @@
 package com.emergencia.control.emergencia;
 
 import java.io.IOException;
+import java.sql.Time;
 
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
@@ -14,6 +15,7 @@ import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Timebox;
 import org.zkoss.zul.Window;
 
 import com.emergencia.model.entity.Emergencia;
@@ -28,6 +30,7 @@ public class SignosVitales {
 	@Wire Textbox txtLlenadoCapilar;
 	@Wire Textbox txtSaturacionOxigeno;
 	@Wire Textbox txtEscalaGlasgow;
+	@Wire Timebox tmHora;
 
 	SignoVitalEmergencia signoVital;
 	Emergencia emergencia;
@@ -51,6 +54,7 @@ public class SignosVitales {
 		txtLlenadoCapilar.setText(String.valueOf(signoVital.getLlenadoCapilar()));
 		txtSaturacionOxigeno.setText(String.valueOf(signoVital.getSaturacionOxigeno()));
 		txtEscalaGlasgow.setText(String.valueOf(signoVital.getEscalaGlasgow()));
+		tmHora.setValue(signoVital.getHora());
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
@@ -70,6 +74,7 @@ public class SignosVitales {
 						signos.setPulsoMinimo(Integer.parseInt(txtPulsoMin.getText()));
 						signos.setSaturacionOxigeno(Integer.parseInt(txtSaturacionOxigeno.getText()));
 						signos.setTemperaturaCorporal(Integer.parseInt(txtTemperaturaCorporal.getText()));
+						signos.setHora(new Time(tmHora.getValue().getTime()));
 						nuevaEmergencia.agregarSignoVital(signos);
 						salir();						
 					} catch (Exception e) {
