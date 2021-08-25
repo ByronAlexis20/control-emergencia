@@ -44,10 +44,15 @@ public class Usuario implements Serializable {
 	@OneToMany(mappedBy="usuario")
 	private List<Emergencia> emergencias;
 
-	//bi-directional many-to-one association to ResponsableVehiculo
-	@OneToMany(mappedBy="usuario")
-	private List<ResponsableVehiculo> responsableVehiculos;
+	@OneToMany(mappedBy="chofer")
+	private List<ControlVehiculo> controlvehiculoChofer;
 
+	@OneToMany(mappedBy="cuartelero")
+	private List<ControlVehiculo> controlvehiculoCuartelero;
+	
+	@OneToMany(mappedBy="bomberoRecibe")
+	private List<ControlVehiculo> controlvehiculoBomberoRecibe;
+	
 	//bi-directional many-to-one association to Perfil
 	@ManyToOne
 	@JoinColumn(name="id_perfil")
@@ -131,28 +136,72 @@ public class Usuario implements Serializable {
 		return emergencia;
 	}
 
-	public List<ResponsableVehiculo> getResponsableVehiculos() {
-		return this.responsableVehiculos;
+	public List<ControlVehiculo> getControlvehiculoChofer() {
+		return controlvehiculoChofer;
 	}
 
-	public void setResponsableVehiculos(List<ResponsableVehiculo> responsableVehiculos) {
-		this.responsableVehiculos = responsableVehiculos;
+	public void setControlvehiculoChofer(List<ControlVehiculo> controlvehiculoChofer) {
+		this.controlvehiculoChofer = controlvehiculoChofer;
 	}
 
-	public ResponsableVehiculo addResponsableVehiculo(ResponsableVehiculo responsableVehiculo) {
-		getResponsableVehiculos().add(responsableVehiculo);
-		responsableVehiculo.setUsuario(this);
+	public ControlVehiculo addControlVehiculoChofer(ControlVehiculo controlVehiculo) {
+		getControlvehiculoChofer().add(controlVehiculo);
+		controlVehiculo.setChofer(this);
 
-		return responsableVehiculo;
+		return controlVehiculo;
 	}
 
-	public ResponsableVehiculo removeResponsableVehiculo(ResponsableVehiculo responsableVehiculo) {
-		getResponsableVehiculos().remove(responsableVehiculo);
-		responsableVehiculo.setUsuario(null);
+	public ControlVehiculo removeControlVehiculoChofer(ControlVehiculo controlVehiculo) {
+		getControlvehiculoChofer().remove(controlVehiculo);
+		controlVehiculo.setChofer(null);
 
-		return responsableVehiculo;
+		return controlVehiculo;
 	}
 
+	public List<ControlVehiculo> getControlvehiculoCuartelero() {
+		return controlvehiculoCuartelero;
+	}
+
+	public void setControlvehiculoCuartelero(List<ControlVehiculo> controlvehiculoCuartelero) {
+		this.controlvehiculoCuartelero = controlvehiculoCuartelero;
+	}
+
+	public ControlVehiculo addControlVehiculoCuartelero(ControlVehiculo controlVehiculo) {
+		getControlvehiculoCuartelero().add(controlVehiculo);
+		controlVehiculo.setCuartelero(this);
+
+		return controlVehiculo;
+	}
+
+	public ControlVehiculo removeControlVehiculoCuartelero(ControlVehiculo controlVehiculo) {
+		getControlvehiculoCuartelero().remove(controlVehiculo);
+		controlVehiculo.setCuartelero(null);
+
+		return controlVehiculo;
+	}
+	
+	public List<ControlVehiculo> getControlvehiculoBomberoRecibe() {
+		return controlvehiculoBomberoRecibe;
+	}
+
+	public void setControlvehiculoBomberoRecibe(List<ControlVehiculo> controlvehiculoBomberoRecibe) {
+		this.controlvehiculoBomberoRecibe = controlvehiculoBomberoRecibe;
+	}
+
+	public ControlVehiculo addControlVehiculoBomberoRecibe(ControlVehiculo controlVehiculo) {
+		getControlvehiculoBomberoRecibe().add(controlVehiculo);
+		controlVehiculo.setBomberoRecibe(this);
+
+		return controlVehiculo;
+	}
+
+	public ControlVehiculo removeControlVehiculoBomberoRecibe(ControlVehiculo controlVehiculo) {
+		getControlvehiculoBomberoRecibe().remove(controlVehiculo);
+		controlVehiculo.setBomberoRecibe(null);
+
+		return controlVehiculo;
+	}
+	
 	public Perfil getPerfil() {
 		return this.perfil;
 	}

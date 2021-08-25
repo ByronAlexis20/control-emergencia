@@ -21,7 +21,6 @@
 		<class>com.emergencia.model.entity.Prehospitalaria</class>
 		<class>com.emergencia.model.entity.Procedimiento</class>
 		<class>com.emergencia.model.entity.Provincia</class>
-		<class>com.emergencia.model.entity.ResponsableVehiculo</class>
 		<class>com.emergencia.model.entity.SignoVital</class>
 		<class>com.emergencia.model.entity.SignoVitalEmergencia</class>
 		<class>com.emergencia.model.entity.TipoEmergencia</class>
@@ -30,6 +29,7 @@
 		<class>com.emergencia.model.entity.TipoVehiculo</class>
 		<class>com.emergencia.model.entity.Usuario</class>
 		<class>com.emergencia.model.entity.Vehiculo</class>
+		<class>com.emergencia.model.entity.ControlVehiculo</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/control_emergencia"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>

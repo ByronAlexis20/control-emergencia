@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
-
-/**
- * The persistent class for the condicion_llegada database table.
- * 
- */
 @Entity
 @Table(name="condicion_llegada")
 @NamedQueries({

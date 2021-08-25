@@ -16,4 +16,13 @@ public class EmergenciaDAO extends ClaseDAO {
 		resultado = (List<Emergencia>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Emergencia> buscarSinControlVehiculo() {
+		List<Emergencia> resultado = new ArrayList<Emergencia>(); 
+		Query query = getEntityManager().createNamedQuery("Emergencia.buscarSinControlVehiculo");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		resultado = (List<Emergencia>) query.getResultList();
+		return resultado;
+	}
 }

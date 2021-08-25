@@ -1,13 +1,28 @@
 package com.emergencia.model.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="emergencia")
-@NamedQuery(name="Emergencia.findAll", query="SELECT e FROM Emergencia e where e.estado = 'A'")
+@NamedQueries({
+	@NamedQuery(name="Emergencia.findAll", query="SELECT e FROM Emergencia e where e.estado = 'A'"),
+	@NamedQuery(name="Emergencia.buscarSinControlVehiculo", query="SELECT e FROM Emergencia e "
+			+ "left join ControlVehiculo c on e.idEmergencia = c.emergencia.idEmergencia and c.emergencia.estado = 'A' where c.idControl is null and  e.estado = 'A'")
+})
 public class Emergencia implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -34,12 +49,6 @@ public class Emergencia implements Serializable {
 	private String direccionEvento;
 
 	private String estado;
-
-	@Column(name="fecha_hora_llegada")
-	private Timestamp fechaHoraLlegada;
-
-	@Column(name="fecha_hora_salida")
-	private Timestamp fechaHoraSalida;
 
 	@Column(name="id_jefe_guardia")
 	private int idJefeGuardia;
@@ -83,15 +92,13 @@ public class Emergencia implements Serializable {
 	@JoinColumn(name="id_bombero")
 	private Usuario usuario;
 
-	//bi-directional many-to-one association to Vehiculo
-	@ManyToOne
-	@JoinColumn(name="id_vehiculo")
-	private Vehiculo vehiculo;
-
 	//bi-directional many-to-one association to SignoVitalEmergencia
 	@OneToMany(mappedBy="emergencia", cascade = CascadeType.ALL)
 	private List<SignoVitalEmergencia> signoVitalEmergencias;
 
+	@OneToMany(mappedBy="emergencia", cascade = CascadeType.ALL)
+	private List<ControlVehiculo> controlVehiculos;
+	
 	public Emergencia() {
 	}
 
@@ -165,22 +172,6 @@ public class Emergencia implements Serializable {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
-	}
-
-	public Timestamp getFechaHoraLlegada() {
-		return this.fechaHoraLlegada;
-	}
-
-	public void setFechaHoraLlegada(Timestamp fechaHoraLlegada) {
-		this.fechaHoraLlegada = fechaHoraLlegada;
-	}
-
-	public Timestamp getFechaHoraSalida() {
-		return this.fechaHoraSalida;
-	}
-
-	public void setFechaHoraSalida(Timestamp fechaHoraSalida) {
-		this.fechaHoraSalida = fechaHoraSalida;
 	}
 
 	public int getIdJefeGuardia() {
@@ -271,14 +262,6 @@ public class Emergencia implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public Vehiculo getVehiculo() {
-		return this.vehiculo;
-	}
-
-	public void setVehiculo(Vehiculo vehiculo) {
-		this.vehiculo = vehiculo;
-	}
-
 	public List<SignoVitalEmergencia> getSignoVitalEmergencias() {
 		return this.signoVitalEmergencias;
 	}
@@ -301,4 +284,25 @@ public class Emergencia implements Serializable {
 		return signoVitalEmergencia;
 	}
 
+	public List<ControlVehiculo> getControlVehiculos() {
+		return controlVehiculos;
+	}
+
+	public void setControlVehiculos(List<ControlVehiculo> controlVehiculos) {
+		this.controlVehiculos = controlVehiculos;
+	}
+
+	public ControlVehiculo addControlVehiculo(ControlVehiculo controlVehiculo) {
+		getControlVehiculos().add(controlVehiculo);
+		controlVehiculo.setEmergencia(this);
+
+		return controlVehiculo;
+	}
+
+	public ControlVehiculo removeControlVehiculo(ControlVehiculo controlVehiculo) {
+		getControlVehiculos().remove(controlVehiculo);
+		controlVehiculo.setEmergencia(null);
+
+		return controlVehiculo;
+	}
 }

@@ -90,6 +90,9 @@ public class Prehospitalaria implements Serializable {
 	@OneToMany(mappedBy = "prehospitalaria", cascade = CascadeType.ALL)
 	private List<SignoVital> signoVitals;
 
+	@OneToMany(mappedBy = "prehospitalaria", cascade = CascadeType.ALL)
+	private List<ControlVehiculo> controlVehiculos;
+	
 	public Prehospitalaria() {
 	}
 
@@ -303,4 +306,25 @@ public class Prehospitalaria implements Serializable {
 		return signoVital;
 	}
 
+	public List<ControlVehiculo> getControlVehiculos() {
+		return controlVehiculos;
+	}
+
+	public void setControlVehiculos(List<ControlVehiculo> controlVehiculos) {
+		this.controlVehiculos = controlVehiculos;
+	}
+	
+	public ControlVehiculo addControlvehiculo(ControlVehiculo controlVehiculo) {
+		getControlVehiculos().add(controlVehiculo);
+		controlVehiculo.setPrehospitalaria(this);
+
+		return controlVehiculo;
+	}
+
+	public ControlVehiculo removeControlVehiculo(ControlVehiculo controlVehiculo) {
+		getControlVehiculos().remove(controlVehiculo);
+		controlVehiculo.setPrehospitalaria(null);
+
+		return controlVehiculo;
+	}
 }

@@ -32,11 +32,7 @@ public class Vehiculo implements Serializable {
 
 	//bi-directional many-to-one association to Emergencia
 	@OneToMany(mappedBy="vehiculo")
-	private List<Emergencia> emergencias;
-
-	//bi-directional many-to-one association to ResponsableVehiculo
-	@OneToMany(mappedBy="vehiculo")
-	private List<ResponsableVehiculo> responsableVehiculos;
+	private List<ControlVehiculo> controlVehiculos;
 
 	//bi-directional many-to-one association to TipoVehiculo
 	@ManyToOne
@@ -78,48 +74,26 @@ public class Vehiculo implements Serializable {
 		this.estado = estado;
 	}
 
-	public List<Emergencia> getEmergencias() {
-		return this.emergencias;
+	public List<ControlVehiculo> getControlVehiculos() {
+		return controlVehiculos;
 	}
 
-	public void setEmergencias(List<Emergencia> emergencias) {
-		this.emergencias = emergencias;
+	public void setControlVehiculos(List<ControlVehiculo> controlVehiculos) {
+		this.controlVehiculos = controlVehiculos;
 	}
 
-	public Emergencia addEmergencia(Emergencia emergencia) {
-		getEmergencias().add(emergencia);
-		emergencia.setVehiculo(this);
+	public ControlVehiculo addControlVehiculo(ControlVehiculo controlVehiculo) {
+		getControlVehiculos().add(controlVehiculo);
+		controlVehiculo.setVehiculo(this);
 
-		return emergencia;
+		return controlVehiculo;
 	}
 
-	public Emergencia removeEmergencia(Emergencia emergencia) {
-		getEmergencias().remove(emergencia);
-		emergencia.setVehiculo(null);
+	public ControlVehiculo removeEmergencia(ControlVehiculo controlVehiculo) {
+		getControlVehiculos().remove(controlVehiculo);
+		controlVehiculo.setVehiculo(null);
 
-		return emergencia;
-	}
-
-	public List<ResponsableVehiculo> getResponsableVehiculos() {
-		return this.responsableVehiculos;
-	}
-
-	public void setResponsableVehiculos(List<ResponsableVehiculo> responsableVehiculos) {
-		this.responsableVehiculos = responsableVehiculos;
-	}
-
-	public ResponsableVehiculo addResponsableVehiculo(ResponsableVehiculo responsableVehiculo) {
-		getResponsableVehiculos().add(responsableVehiculo);
-		responsableVehiculo.setVehiculo(this);
-
-		return responsableVehiculo;
-	}
-
-	public ResponsableVehiculo removeResponsableVehiculo(ResponsableVehiculo responsableVehiculo) {
-		getResponsableVehiculos().remove(responsableVehiculo);
-		responsableVehiculo.setVehiculo(null);
-
-		return responsableVehiculo;
+		return controlVehiculo;
 	}
 
 	public TipoVehiculo getTipoVehiculo() {
