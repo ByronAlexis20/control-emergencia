@@ -1,0 +1,128 @@
+<?page title="Perfiles" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window id="winRegistroEmergencia" width="655px" vflex="1"
+		apply="org.zkoss.bind.BindComposer" border="none" position="center"
+		mode="overlapped" class="modal-title"
+		viewModel="@id('vm') @init('com.emergencia.control.controlVehiculo.RegistroEmergencia')">
+		<caption label="Ingrese datos" height="25px"/>
+		<vlayout>
+			<grid>
+				<columns>
+					<column align="right" hflex="min" />
+					<column align="left" hflex="1" />
+					<column align="right" hflex="min" />
+					<column align="left" hflex="1" />
+					<column align="right" hflex="min" />
+					<column align="left" hflex="1" />
+				</columns>
+				<rows>
+					<row>
+						<cell><label value="Fecha: "/> </cell>
+						<cell><textbox id="txtFecha" readonly="true"/></cell>
+						<cell><label value="Forma aviso: "/> </cell>
+						<cell><textbox id="txtFormaAviso" readonly="true"/></cell>
+						<cell><label value="Tipo Emergencia "/> </cell>
+						<cell><textbox id="txtTipoEmergencia" readonly="true"/></cell>
+					</row>
+					<row>
+						<cell><label value="Provincia: "/> </cell>
+						<cell><textbox id="txtProvincia" readonly="true"/></cell>
+						<cell><label value="Cantón: "/> </cell>
+						<cell><textbox id="txtCanton" readonly="true"/></cell>
+						<cell><label value="Parroquia: "/> </cell>
+						<cell><textbox id="txtParroquia" readonly="true"/></cell>
+					</row>
+					<row>
+						<cell><label value="Reportado por: "/> </cell>
+						<cell><textbox id="txtReportadoPor" readonly="true"/></cell>
+						<cell><label value="Barrio: "/> </cell>
+						<cell><textbox id="txtBarrio" readonly="true"/></cell>
+						<cell><label value="Confirmación llamada: "/> </cell>
+						<cell><textbox id="txtConfirmacion" readonly="true"/></cell>
+					</row>
+					<row>
+						<cell><label value="Informante: "/> </cell>
+						<cell colspan="3"><textbox id="txtInformante" readonly="true" hflex="1"/></cell>
+						<cell><label value="Teléfono: "/> </cell>
+						<cell><textbox id="txtTelefono" readonly="true"/></cell>
+					</row>
+					<row>
+						<cell><label value="Descripción de operaciones: "/> </cell>
+						<cell colspan="5"><textbox id="txtDescripcionOperaciones" readonly="true" hflex="1"/></cell>
+					</row>
+				</rows>
+			</grid>
+			<grid>
+				<columns>
+					<column align="right" hflex="min" />
+					<column align="left" hflex="1" />
+					<column align="right" hflex="min" />
+					<column align="left" hflex="1" />
+					<column align="right" hflex="min" />
+					<column align="left" hflex="1" />
+				</columns>
+				<rows>
+					<row>
+						<cell><label value="Vehículo: "/> </cell>
+						<cell>
+							<combobox id="cboVehiculo" hflex="1" placeholder="Vehículor"
+								model="@load(vm.listaFormaAviso)" readonly="true"
+								selectedItem="@bind(vm.formaAvisoSeleccionado)">
+								<template name="model">
+									<comboitem label="${each.formaAviso}" />
+								</template>
+							</combobox>
+						</cell>
+						<cell><label value="Chofer: "/> </cell>
+						<cell>
+							<combobox id="cboChofer" hflex="1" placeholder="Vehículor"
+								model="@load(vm.listaFormaAviso)" readonly="true"
+								selectedItem="@bind(vm.formaAvisoSeleccionado)">
+								<template name="model">
+									<comboitem label="${each.formaAviso}" />
+								</template>
+							</combobox>
+						</cell>
+						<cell><label value="Cuartelero: "/> </cell>
+						<cell>
+							<combobox id="cboCuartelero" hflex="1" placeholder="Vehículor"
+								model="@load(vm.listaFormaAviso)" readonly="true"
+								selectedItem="@bind(vm.formaAvisoSeleccionado)">
+								<template name="model">
+									<comboitem label="${each.formaAviso}" />
+								</template>
+							</combobox>
+						</cell>
+					</row>
+					<row>
+						<cell><label value="No Reporte: "/> </cell>
+						<cell><textbox id="txtNoReporte"/></cell>
+						<cell><label value="Hora salida de la base: " class="label-form"/></cell>
+						<cell><timebox id="tmHorasalida"/></cell>
+						<cell><label value="Hora llegada a sitio: " class="label-form"/></cell>
+						<cell><timebox id="tmHoraLlegada"/></cell>
+					</row>
+					<row>
+						<cell><label value="Hora llegada a base: "/> </cell>
+						<cell><timebox id="tmHoraLlegadaBase"/></cell>
+					</row>
+					<row>
+						<cell><label value="Novedades: "/> </cell>
+						<cell colspan="5"><textbox id="txtNovedades" hflex="1"/></cell>
+					</row>
+				</rows>
+			</grid>
+			<!-- Los iconos listados con iconSclass son de: http://fontawesome.io/icons/ -->
+			<vbox hflex="1" align="center" sclass="modal-title" height="35px" pack="center">
+				<div hflex="1" align="center">
+					<button id="grabar" label="Agregar"
+						iconSclass="z-icon-save" zclass="btn btn-primary btn-sm"
+						onClick="@command('agregar')" />
+					<button id="salir" label="Salir"
+						iconSclass="z-icon-sign-out" zclass="btn btn-danger btn-sm"
+						onClick="@command('salir')" />
+				</div>
+			</vbox>
+		</vlayout>
+	</window>
+</zk>

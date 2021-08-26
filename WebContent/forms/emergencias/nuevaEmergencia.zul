@@ -5,7 +5,6 @@
 		<caption label="Ingrese datos" height="25px" class="modal-title-letters"/>
 		<vlayout>
 			<vlayout hflex="1">
-				
 				<tabbox hflex="1" vflex="1">
 					<tabs hflex="1">
 						<tab label="Datos generales de atención" id="tabDocumentos"/>

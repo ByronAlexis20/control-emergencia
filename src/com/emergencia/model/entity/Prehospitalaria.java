@@ -6,12 +6,12 @@ import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
-/**
- * The persistent class for the prehospitalaria database table.
- * 
- */
 @Entity
-@NamedQuery(name = "Prehospitalaria.findAll", query = "SELECT p FROM Prehospitalaria p where p.estado = 'A'")
+@NamedQueries({
+	@NamedQuery(name = "Prehospitalaria.findAll", query = "SELECT p FROM Prehospitalaria p where p.estado = 'A'"),
+	@NamedQuery(name = "Prehospitalaria.buscarSinControlVehiculo", query = "SELECT p FROM Prehospitalaria p "
+			+ "left join p.controlVehiculos c on p.idPrehospitalaria = c.prehospitalaria.idPrehospitalaria and c.estado = 'A' where c.idControl is null and p.estado = 'A'"),
+})
 public class Prehospitalaria implements Serializable {
 	private static final long serialVersionUID = 1L;
 

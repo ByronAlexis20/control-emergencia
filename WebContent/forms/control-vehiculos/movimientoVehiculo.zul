@@ -112,33 +112,25 @@
 				</hlayout>
 				<vlayout hflex="1">
 					<hlayout vflex="1" hflex="1">
-						<listbox id="lstEmergencias" model="@load(vm.listaEmergencias)" autopaging="true"
+						<listbox id="lstEmergencias" model="@load(vm.listaPrehospitalaria)" autopaging="true"
 							mold="paging" hflex="1" vflex="1">
 							<listhead>
-								<listheader label="Tipo emergencia"/>
-								<listheader label="Fecha" />
-								<listheader label="Parroquia" />
-								<listheader label="Barrio" />
-								<listheader label="Referencia" />
+								<listheader label="Cédula"/>
+								<listheader label="Nombre" />
+								<listheader label="Informante" />
+								<listheader label="Fecha del evento"/>
 								<listheader label="Acción"/>
 							</listhead>
 							<template name="model">
 								<listitem>
-									<listcell label="@load(each.tipoEmergencia.tipoEmergencia)" />
-									<listcell>
-										<label value="@load(each.dia)"/>
-										<label value="/"/>
-										<label value="@load(each.me.mes)"/>
-										<label value="/"/>
-										<label value="@load(each.anio)"/>
-									</listcell>
-									<listcell label="@load(each.parroquia.parroquia)"/>
-									<listcell label="@load(each.barrio.barrio)"/>
-									<listcell label="@load(each.referencias)"/>
+									<listcell label="@load(each.cedulaUsuario)" />
+									<listcell label="@load(each.nombreUsuario)"/>
+									<listcell label="@load(each.nombreInformante)"/>
+									<listcell label="@load(each.fechaEvento)" />
 									<listcell>
 										<div align="center">
 											<button label="Registrar" iconSclass="z-icon-pencil" zclass="btn btn-success btn-sm"
-												onClick="@command('registrarVehiculoEmergencia',emergencia=each)" />
+												onClick="@command('registrarVehiculoPrehospitalaria',prehospitalaria=each)" />
 										</div>
 									</listcell>
 								</listitem>

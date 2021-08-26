@@ -18,6 +18,7 @@ import javax.persistence.Table;
 @Table(name="control_vehiculo")
 @NamedQueries({
 	@NamedQuery(name="ControlVehiculo.findAll", query="SELECT c FROM ControlVehiculo c"),
+	@NamedQuery(name="ControlVehiculo.buscarPorEmergencia", query="SELECT c FROM ControlVehiculo c where c.emergencia.idEmergencia = :idEmergencia"),
 })
 public class ControlVehiculo implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -88,6 +89,8 @@ public class ControlVehiculo implements Serializable {
 	private Time horaLlegadaCentral;
 	
 	private String estado;
+	
+	private String novedades;
 	
 	public Integer getIdControl() {
 		return idControl;
@@ -247,6 +250,14 @@ public class ControlVehiculo implements Serializable {
 
 	public void setEstado(String estado) {
 		this.estado = estado;
+	}
+
+	public String getNovedades() {
+		return novedades;
+	}
+
+	public void setNovedades(String novedades) {
+		this.novedades = novedades;
 	}
 	
 }

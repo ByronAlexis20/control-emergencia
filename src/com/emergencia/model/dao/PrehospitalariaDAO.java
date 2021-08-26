@@ -16,4 +16,13 @@ public class PrehospitalariaDAO extends ClaseDAO {
 		resultado = (List<Prehospitalaria>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Prehospitalaria> buscarSinControlVehiculo() {
+		List<Prehospitalaria> resultado = new ArrayList<Prehospitalaria>(); 
+		Query query = getEntityManager().createNamedQuery("Prehospitalaria.buscarSinControlVehiculo");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		resultado = (List<Prehospitalaria>) query.getResultList();
+		return resultado;
+	}
 }

@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @NamedQueries({
 	@NamedQuery(name="Emergencia.findAll", query="SELECT e FROM Emergencia e where e.estado = 'A'"),
 	@NamedQuery(name="Emergencia.buscarSinControlVehiculo", query="SELECT e FROM Emergencia e "
-			+ "left join ControlVehiculo c on e.idEmergencia = c.emergencia.idEmergencia and c.emergencia.estado = 'A' where c.idControl is null and  e.estado = 'A'")
+			+ "left join e.controlVehiculos c on e.idEmergencia = c.emergencia.idEmergencia and c.emergencia.estado = 'A' where c.idControl is null and  e.estado = 'A'")
 })
 public class Emergencia implements Serializable {
 	private static final long serialVersionUID = 1L;
