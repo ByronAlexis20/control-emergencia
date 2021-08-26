@@ -25,4 +25,14 @@ public class ControlVehiculoDAO extends ClaseDAO {
 		resultado = (List<ControlVehiculo>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<ControlVehiculo> buscarPorPrehospitalaria(Integer idPrehospitalaria) {
+		List<ControlVehiculo> resultado; 
+		Query query = getEntityManager().createNamedQuery("ControlVehiculo.buscarPorPrehospitalaria");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idPrehospitalaria", idPrehospitalaria);
+		resultado = (List<ControlVehiculo>) query.getResultList();
+		return resultado;
+	}
 }

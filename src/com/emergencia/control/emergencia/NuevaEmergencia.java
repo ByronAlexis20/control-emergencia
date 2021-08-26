@@ -141,7 +141,7 @@ public class NuevaEmergencia {
 		txtDescripcionOperaciones.setText(emergencia.getDescripcionOperaciones());
 		txtNovedades.setText(emergencia.getNovedades());
 		if(emergencia.getUsuario() != null) {
-			cboInformante.setText(emergencia.getUsuario().getPersona().getNombres());
+			cboInformante.setText(emergencia.getUsuario().getPersona().getNombres() + " " + emergencia.getUsuario().getPersona().getApellidos());
 			usuarioSeleccionado = emergencia.getUsuario();	
 		}
 		cargarSignosVitales();

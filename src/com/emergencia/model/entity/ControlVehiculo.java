@@ -19,6 +19,8 @@ import javax.persistence.Table;
 @NamedQueries({
 	@NamedQuery(name="ControlVehiculo.findAll", query="SELECT c FROM ControlVehiculo c"),
 	@NamedQuery(name="ControlVehiculo.buscarPorEmergencia", query="SELECT c FROM ControlVehiculo c where c.emergencia.idEmergencia = :idEmergencia"),
+	@NamedQuery(name="ControlVehiculo.buscarPorPrehospitalaria", query="SELECT c FROM ControlVehiculo c where c.prehospitalaria.idPrehospitalaria = :idPrehospitalaria"),
+	
 })
 public class ControlVehiculo implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -157,7 +157,7 @@
 													model="@load(vm.usuariosBomberos)" readonly="true" placeholder="Bombero"
 													selectedItem="@bind(vm.usuarioSeleccionado)">
 													<template name="model">
-														<comboitem label="${each.persona.nombres}"/>
+														<comboitem label="${each.persona.nombres} ${each.persona.apellidos}"/>
 													</template>
 												</combobox>
 											</cell>

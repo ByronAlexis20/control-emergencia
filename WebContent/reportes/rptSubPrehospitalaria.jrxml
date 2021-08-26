@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptSubPrehospitalaria" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="97df4c22-7979-438d-95f7-d97bdde18df6">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="control_emergencia"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<parameter name="ID_MES" class="java.lang.Integer"/>
+	<parameter name="ANIO" class="java.lang.Integer"/>
+	<parameter name="MES" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select 
+			t.id_tipo_emergencia, 
+			t.tipo_emergencia, 
+			t.grupo,
+			(select count(*) from prehospitalaria	p where p.estado = 'A' and p.id_tipo_emergencia = t.id_tipo_emergencia
+			and EXTRACT(MONTH FROM p.fecha_atencion) = $P{ID_MES}  and EXTRACT(Year FROM p.fecha_atencion) = $P{ANIO}  ) as cont
+from tipo_emergencia t
+where t.grupo in ('APH')
+and t.estado = 'A'
+order by t.grupo]]>
+	</queryString>
+	<field name="id_tipo_emergencia" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_tipo_emergencia"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_tipo_emergencia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tipo_emergencia"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipo_emergencia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipo_emergencia"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipo_emergencia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tipo_emergencia"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="grupo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="grupo"/>
+		<property name="com.jaspersoft.studio.field.label" value="grupo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tipo_emergencia"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cont" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="cont"/>
+		<property name="com.jaspersoft.studio.field.label" value="cont"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="277" y="6" width="150" height="14" uuid="5848878e-b06a-48ff-8793-9800fd16d06b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{MES}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="49" y="4" width="411" height="1" uuid="ab59c2f4-149e-43c2-8dfe-2d69bf05433f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="77" y="0" width="190" height="14" uuid="6fc54bf8-297c-4e64-a2ba-9c160fba55ae">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3296bd5b-77e5-4f3b-b07b-4b8dfdcd081e"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_emergencia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="277" y="0" width="150" height="14" uuid="6acbc4a7-c915-4f99-91b0-db1d86dc41b4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="97462fc0-a2a3-4bc3-83ce-840b21b5cd27"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{cont}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="49" y="0" width="411" height="1" uuid="0e657559-875a-4a22-8f23-8e1569a93f2f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="10" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<line>
+				<reportElement x="49" y="0" width="411" height="1" uuid="40e910ac-57a0-4524-9150-034725112ceb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

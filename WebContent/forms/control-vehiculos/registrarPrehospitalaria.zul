@@ -1,6 +1,148 @@
-<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<?page title="Vehiculo prehospitalaria" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="new page title" border="normal">
-New Content Here!
-</window>
+	<window id="winRegistroPrehospitalario" width="755px" vflex="1"
+		apply="org.zkoss.bind.BindComposer" border="none" position="center"
+		mode="overlapped" class="modal-title"
+		viewModel="@id('vm') @init('com.emergencia.control.controlVehiculo.RegistroPrehospitalaria')">
+		<caption label="Ingrese datos" height="25px"/>
+		<vlayout>
+			<grid>
+				<columns>
+					<column align="right" hflex="min" />
+					<column align="left" hflex="1" />
+					<column align="right" hflex="min" />
+					<column align="left" hflex="1" />
+					<column align="right" hflex="min" />
+					<column align="left" hflex="1" />
+				</columns>
+				<rows>
+					<row>
+						<cell><label value="Fecha de atención: "/> </cell>
+						<cell><textbox id="txtFechaAtencion" readonly="true"/></cell>
+						<cell><label value="Fecha de evento: "/> </cell>
+						<cell><textbox id="txtFechaEvento" readonly="true"/></cell>
+						<cell><label value="Tipo Emergencia "/> </cell>
+						<cell><textbox id="txtTipoEmergencia" readonly="true"/></cell>
+					</row>
+					<row>
+						<cell><label value="Cédula Usuario: "/> </cell>
+						<cell><textbox id="txtCedulaUsuario" readonly="true"/></cell>
+						<cell><label value="Nombre Usuario: "/> </cell>
+						<cell><textbox id="txtNombreUsuario" readonly="true"/></cell>
+						<cell><label value="Edad: "/> </cell>
+						<cell><textbox id="txtEdad" readonly="true"/></cell>
+					</row>
+					<row>
+						<cell><label value="Cédula informante: "/> </cell>
+						<cell><textbox id="txtCedulaInformante" readonly="true"/></cell>
+						<cell><label value="Nombre informante: "/> </cell>
+						<cell><textbox id="txtNombreInformante" readonly="true"/></cell>
+						<cell><label value="Condición llegada: "/> </cell>
+						<cell><textbox id="txtCondicionLlegada" readonly="true"/></cell>
+					</row>
+					<row>
+						<cell><label value="Direccion evento: "/> </cell>
+						<cell colspan="5"><textbox id="txtDireccionEvento" readonly="true" hflex="1"/></cell>
+					</row>
+					<row>
+						<cell><label value="Lugar evento: "/> </cell>
+						<cell colspan="5"><textbox id="txtLugarEvento" readonly="true" hflex="1"/></cell>
+					</row>
+					<row>
+						<cell><label value="Interrogatorio: "/> </cell>
+						<cell colspan="5"><textbox id="txtInterrogatorio" readonly="true" hflex="1"/></cell>
+					</row>
+				</rows>
+			</grid>
+			<grid>
+				<columns>
+					<column align="right" hflex="min" />
+					<column align="left" hflex="1" />
+					<column align="right" hflex="min" />
+					<column align="left" hflex="1" />
+					<column align="right" hflex="min" />
+					<column align="left" hflex="1" />
+				</columns>
+				<rows>
+					<row>
+						<cell><label value="Vehículo: "/> </cell>
+						<cell>
+							<combobox id="cboVehiculo" hflex="1" placeholder="Vehículos"
+								model="@load(vm.listaVehiculos)" readonly="true"
+								selectedItem="@bind(vm.vehiculoSeleccionado)">
+								<template name="model">
+									<comboitem label="${each.tipoVehiculo.tipoVehiculo} - ${each.codigo}" />
+								</template>
+							</combobox>
+						</cell>
+						<cell><label value="Chofer: "/> </cell>
+						<cell>
+							<combobox id="cboChofer" hflex="1" placeholder="Chofer"
+								model="@load(vm.choferes)" readonly="true"
+								selectedItem="@bind(vm.choferSeleccionado)">
+								<template name="model">
+									<comboitem label="${each.persona.nombres} ${each.persona.apellidos}" />
+								</template>
+							</combobox>
+						</cell>
+						<cell><label value="Cuartelero: "/> </cell>
+						<cell>
+							<combobox id="cboCuartelero" hflex="1" placeholder="Cuartelero"
+								model="@load(vm.listaCuarteleros)" readonly="true"
+								selectedItem="@bind(vm.cuarteleroSeleccionado)">
+								<template name="model">
+									<comboitem label="${each.persona.nombres} ${each.persona.apellidos}" />
+								</template>
+							</combobox>
+						</cell>
+					</row>
+					<row>
+						<cell><label value="No Reporte: "/> </cell>
+						<cell><textbox id="txtNoReporte"/></cell>
+						<cell><label value="Hora salida de la base: " class="label-form"/></cell>
+						<cell><timebox id="tmHorasalida"/></cell>
+						<cell><label value="Hora llegada a sitio: " class="label-form"/></cell>
+						<cell><timebox id="tmHoraLlegada"/></cell>
+					</row>
+					<row>
+						<cell><label value="Hora salida de la emergencia: "/> </cell>
+						<cell><timebox id="tmHoraSalidaDeEmergencia"/></cell>
+						<cell><label value="Hora llegada al hospital: " class="label-form"/></cell>
+						<cell><timebox id="tmHoraLlegadaHospital"/></cell>
+						<cell><label value="Hora Salida a rayos X: " class="label-form"/></cell>
+						<cell><timebox id="tmHoraSalidaRayosX"/></cell>
+					</row>
+					<row>
+						<cell><label value="Hora llegada a rayos X: "/> </cell>
+						<cell><timebox id="tmHoraLlegadaRayosX"/></cell>
+						<cell><label value="Hora retorno de rayos X: " class="label-form"/></cell>
+						<cell><timebox id="tmHoraRetornoRayosX"/></cell>
+						<cell><label value="Hora llegada de rayos X: " class="label-form"/></cell>
+						<cell><timebox id="tmHoraLlegadaDeRayosX"/></cell>
+					</row>
+					<row>
+						<cell><label value="Hora Salida del hospital: "/> </cell>
+						<cell><timebox id="tmHoraSalidaHospital"/></cell>
+						<cell><label value="Hora llegada a central: " class="label-form"/></cell>
+						<cell><timebox id="tmHoraLlegadaCentral"/></cell>
+					</row>
+					<row>
+						<cell><label value="Novedades: "/> </cell>
+						<cell colspan="5"><textbox id="txtNovedades" hflex="1"/></cell>
+					</row>
+				</rows>
+			</grid>
+			<!-- Los iconos listados con iconSclass son de: http://fontawesome.io/icons/ -->
+			<vbox hflex="1" align="center" sclass="modal-title" height="35px" pack="center">
+				<div hflex="1" align="center">
+					<button id="grabar" label="Grabar"
+						iconSclass="z-icon-save" zclass="btn btn-primary btn-sm"
+						onClick="@command('grabar')" />
+					<button id="salir" label="Salir"
+						iconSclass="z-icon-sign-out" zclass="btn btn-danger btn-sm"
+						onClick="@command('salir')" />
+				</div>
+			</vbox>
+		</vlayout>
+	</window>
 </zk>

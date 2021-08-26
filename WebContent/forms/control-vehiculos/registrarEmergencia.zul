@@ -1,4 +1,4 @@
-<?page title="Perfiles" contentType="text/html;charset=UTF-8"?>
+<?page title="Vehiculo emergencia" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<window id="winRegistroEmergencia" width="655px" vflex="1"
 		apply="org.zkoss.bind.BindComposer" border="none" position="center"
@@ -65,31 +65,31 @@
 					<row>
 						<cell><label value="Vehículo: "/> </cell>
 						<cell>
-							<combobox id="cboVehiculo" hflex="1" placeholder="Vehículor"
-								model="@load(vm.listaFormaAviso)" readonly="true"
-								selectedItem="@bind(vm.formaAvisoSeleccionado)">
+							<combobox id="cboVehiculo" hflex="1" placeholder="Vehículos"
+								model="@load(vm.listaVehiculos)" readonly="true"
+								selectedItem="@bind(vm.vehiculoSeleccionado)">
 								<template name="model">
-									<comboitem label="${each.formaAviso}" />
+									<comboitem label="${each.tipoVehiculo.tipoVehiculo} - ${each.codigo}" />
 								</template>
 							</combobox>
 						</cell>
 						<cell><label value="Chofer: "/> </cell>
 						<cell>
-							<combobox id="cboChofer" hflex="1" placeholder="Vehículor"
-								model="@load(vm.listaFormaAviso)" readonly="true"
-								selectedItem="@bind(vm.formaAvisoSeleccionado)">
+							<combobox id="cboChofer" hflex="1" placeholder="Chofer"
+								model="@load(vm.choferes)" readonly="true"
+								selectedItem="@bind(vm.choferSeleccionado)">
 								<template name="model">
-									<comboitem label="${each.formaAviso}" />
+									<comboitem label="${each.persona.nombres} ${each.persona.apellidos}" />
 								</template>
 							</combobox>
 						</cell>
 						<cell><label value="Cuartelero: "/> </cell>
 						<cell>
-							<combobox id="cboCuartelero" hflex="1" placeholder="Vehículor"
-								model="@load(vm.listaFormaAviso)" readonly="true"
-								selectedItem="@bind(vm.formaAvisoSeleccionado)">
+							<combobox id="cboCuartelero" hflex="1" placeholder="Cuartelero"
+								model="@load(vm.listaCuarteleros)" readonly="true"
+								selectedItem="@bind(vm.cuarteleroSeleccionado)">
 								<template name="model">
-									<comboitem label="${each.formaAviso}" />
+									<comboitem label="${each.persona.nombres} ${each.persona.apellidos}" />
 								</template>
 							</combobox>
 						</cell>
@@ -115,9 +115,9 @@
 			<!-- Los iconos listados con iconSclass son de: http://fontawesome.io/icons/ -->
 			<vbox hflex="1" align="center" sclass="modal-title" height="35px" pack="center">
 				<div hflex="1" align="center">
-					<button id="grabar" label="Agregar"
+					<button id="grabar" label="Grabar"
 						iconSclass="z-icon-save" zclass="btn btn-primary btn-sm"
-						onClick="@command('agregar')" />
+						onClick="@command('grabar')" />
 					<button id="salir" label="Salir"
 						iconSclass="z-icon-sign-out" zclass="btn btn-danger btn-sm"
 						onClick="@command('salir')" />

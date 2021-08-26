@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptEmergencias" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6d2d70a-1397-4a22-abc6-a45bb9cb7985">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="control_emergencia"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="ID_MES_P" class="java.lang.Integer"/>
+	<parameter name="ANIO_P" class="java.lang.Integer"/>
+	<parameter name="MES_P" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select count(*) from emergencia]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="19" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="63" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="234" splitType="Stretch">
+			<subreport>
+				<reportElement x="11" y="0" width="534" height="26" uuid="31995b76-5671-406f-96f2-233a0a5a1f3c"/>
+				<subreportParameter name="ID_MES">
+					<subreportParameterExpression><![CDATA[$P{ID_MES_P}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="ANIO">
+					<subreportParameterExpression><![CDATA[$P{ANIO_P}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="MES">
+					<subreportParameterExpression><![CDATA[$P{MES_P}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["rptSubResumenEmergencias.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

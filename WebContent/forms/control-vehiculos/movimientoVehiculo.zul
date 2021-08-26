@@ -126,7 +126,7 @@
 									<listcell label="@load(each.cedulaUsuario)" />
 									<listcell label="@load(each.nombreUsuario)"/>
 									<listcell label="@load(each.nombreInformante)"/>
-									<listcell label="@load(each.fechaEvento)" />
+									<listcell label="@load(each.fechaEvento) @converter('formatedDate',format='dd/MM/yyyy')" />
 									<listcell>
 										<div align="center">
 											<button label="Registrar" iconSclass="z-icon-pencil" zclass="btn btn-success btn-sm"
