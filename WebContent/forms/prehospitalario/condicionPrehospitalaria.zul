@@ -29,7 +29,11 @@
 						<listitem>
 							<listcell label="@load(each.cedulaUsuario)" />
 							<listcell label="@load(each.nombreUsuario)"/>
-							<listcell label="@load(each.nombreInformante)"/>
+							<listcell>
+								<label value="@load(each.informante.persona.nombres)"/>
+								<label value=" "/>
+								<label value="@load(each.informante.persona.apellidos)"/>
+							</listcell>
 							<listcell label="@load(each.fechaEvento)" />
 							<listcell>
 								<div align="center">

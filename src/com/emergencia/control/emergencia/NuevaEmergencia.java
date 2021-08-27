@@ -451,7 +451,7 @@ public class NuevaEmergencia {
 		this.barrioSeleccionado = barrioSeleccionado;
 	}
 	public List<Usuario> getUsuariosBomberos(){
-		return usuarioDAO.getListaBomberosBuscar("");
+		return usuarioDAO.buscarBomberoEmergencias();
 	}
 	public Usuario getUsuarioSeleccionado() {
 		return usuarioSeleccionado;

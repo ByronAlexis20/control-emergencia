@@ -108,34 +108,15 @@
 											</cell>
 										</row>
 										<row>
-											<cell>Cédula del Informante (*):</cell>
-											<cell>
-												<textbox id="txtCedulaInformante" class="form-control form-control-sm" maxlength="10" placeholder="Cédula"
-													hflex="1" xmlns:w="client">
-													<attribute w:name="doKeyDown_"><![CDATA[
-														function (evt) {
-															var keyCode = event.keyCode;
-															if( keyCode == 8 // back space
-																|| keyCode == 13 // enter
-																|| keyCode == 16 // enter
-																|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
-																|| keyCode == 46) { // Delete
-																this.$doKeyDown_(evt);
-															} else if ( !evt.shiftKey &&  // only do without shift key
-																(keyCode >= 48 && keyCode <= 57)
-																|| (keyCode >= 96 && keyCode <= 105)) {// number range
-																this.$doKeyDown_(evt);
-															} else {
-																evt.stop();
-																return;
-															}
-														}
-													]]></attribute>
-												</textbox>
-											</cell>
-											<cell sclass="row-title">Nombre del informante (*):</cell>
-											<cell>
-												<textbox id="txtNombreInformante" class="form-control form-control-sm" placeholder="Nombre" hflex="1"/>
+											<cell>Informante (*):</cell>
+											<cell colspan="3">
+												<combobox id="cboInformante" hflex="1"
+													model="@load(vm.usuariosBomberos)" readonly="true" placeholder="Bombero"
+													selectedItem="@bind(vm.usuarioSeleccionado)">
+													<template name="model">
+														<comboitem label="${each.persona.nombres} ${each.persona.apellidos}"/>
+													</template>
+												</combobox>
 											</cell>
 											<cell sclass="row-title">Condicion de llegada:</cell>
 											<cell>

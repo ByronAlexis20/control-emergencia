@@ -19,6 +19,7 @@ import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Timebox;
@@ -46,6 +47,7 @@ public class RegistroPrehospitalaria {
 	@Wire Textbox txtDireccionEvento;
 	@Wire Textbox txtLugarEvento;
 	@Wire Textbox txtInterrogatorio;
+	@Wire Datebox dtpFecha;
 	
 	//datos de los vehiculos
 	@Wire Combobox cboVehiculo;
@@ -90,8 +92,8 @@ public class RegistroPrehospitalaria {
 		txtCedulaUsuario.setText(prehospitalaria.getCedulaUsuario());
 		txtNombreUsuario.setText(prehospitalaria.getNombreUsuario());
 		txtEdad.setText(String.valueOf(prehospitalaria.getEdad()));
-		txtCedulaInformante.setText(prehospitalaria.getCedulaInformante());
-		txtNombreInformante.setText(prehospitalaria.getNombreInformante());
+		txtCedulaInformante.setText(prehospitalaria.getInformante().getPersona().getCedula());
+		txtNombreInformante.setText(prehospitalaria.getInformante().getPersona().getNombres() + " " + prehospitalaria.getInformante().getPersona().getApellidos());
 		txtCondicionLlegada.setText(prehospitalaria.getCondicionLlegada().getCondicionLlegada());
 		txtDireccionEvento.setText(prehospitalaria.getDireccionEvento());
 		txtLugarEvento.setText(prehospitalaria.getLugarEvento());
@@ -155,6 +157,7 @@ public class RegistroPrehospitalaria {
 		control.setCuartelero(cuarteleroSeleccionado);
 		control.setVehiculo(vehiculoSeleccionado);
 		control.setEstado("A");
+		control.setFecha(dtpFecha.getValue());
 		control.setHoraLlegadaCentral(new Time(tmHoraLlegadaCentral.getValue().getTime()));
 		control.setHoraLlegadaEmergencia(new Time(tmHoraLlegada.getValue().getTime()));
 		Date horaActual = new Date();
@@ -190,6 +193,10 @@ public class RegistroPrehospitalaria {
 			}
 			if(cboCuartelero.getSelectedIndex() == -1) {
 				Clients.showNotification("Debe seleccionar Cuartelero","info",cboCuartelero,"end_center",2000);
+				return false;
+			}
+			if(dtpFecha.getValue() == null) {
+				Clients.showNotification("Seleccione fecha","info",dtpFecha,"end_center",2000);
 				return false;
 			}
 			if(txtNoReporte.getText().isEmpty()) {

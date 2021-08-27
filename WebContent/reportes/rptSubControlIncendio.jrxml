@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptSubPrehospitalaria" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="97df4c22-7979-438d-95f7-d97bdde18df6">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptSubControlIncendio" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="0" bottomMargin="0" uuid="a6447d45-1a80-4655-bf6f-c77c3303b016">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="control_emergencia"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
-	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
@@ -22,10 +20,10 @@
 			t.id_tipo_emergencia, 
 			t.tipo_emergencia, 
 			t.grupo,
-			(select count(*) from prehospitalaria	p where p.estado = 'A' and p.id_tipo_emergencia = t.id_tipo_emergencia
-			and EXTRACT(MONTH FROM p.fecha_atencion) = $P{ID_MES}  and EXTRACT(Year FROM p.fecha_atencion) = $P{ANIO}  ) as cont
+			(select count(*) from emergencia e where e.estado = 'A' and e.id_tipo_emergencia = t.id_tipo_emergencia
+			and e.id_mes = $P{ID_MES}  and e.anio = $P{ANIO}  ) as cont
 from tipo_emergencia t
-where t.grupo in ('APH')
+where t.grupo in ('CI')
 and t.estado = 'A'
 order by t.grupo]]>
 	</queryString>
@@ -55,23 +53,17 @@ order by t.grupo]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-		</band>
+		<band splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-		</band>
+		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
 		<band height="24" splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
-				<reportElement x="277" y="6" width="150" height="14" uuid="5848878e-b06a-48ff-8793-9800fd16d06b">
+				<reportElement x="277" y="6" width="150" height="14" uuid="805c4b6d-12e4-4a52-a196-6d053a2e49dd">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -80,7 +72,7 @@ order by t.grupo]]>
 				<textFieldExpression><![CDATA[$P{MES}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="49" y="4" width="411" height="1" uuid="ab59c2f4-149e-43c2-8dfe-2d69bf05433f">
+				<reportElement x="49" y="4" width="411" height="1" uuid="b4566da9-02b5-4686-a4e3-b29932587804">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
@@ -91,8 +83,8 @@ order by t.grupo]]>
 		<band height="15" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
-				<reportElement x="77" y="0" width="190" height="14" uuid="6fc54bf8-297c-4e64-a2ba-9c160fba55ae">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3296bd5b-77e5-4f3b-b07b-4b8dfdcd081e"/>
+				<reportElement x="77" y="0" width="190" height="14" uuid="156aee90-6314-4499-bb08-484800ea4397">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="09cbb4da-bd91-4f8c-a3a1-d3d8f48b7d9b"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -104,8 +96,8 @@ order by t.grupo]]>
 				<textFieldExpression><![CDATA[$F{tipo_emergencia}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="277" y="0" width="150" height="14" uuid="6acbc4a7-c915-4f99-91b0-db1d86dc41b4">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="97462fc0-a2a3-4bc3-83ce-840b21b5cd27"/>
+				<reportElement x="277" y="0" width="150" height="14" uuid="dbbdc97d-9ceb-42b2-a176-378c825b9317">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ff4d9f21-6032-4fc1-8ccc-92c95c8e88c1"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -115,7 +107,7 @@ order by t.grupo]]>
 				<textFieldExpression><![CDATA[$F{cont}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="49" y="0" width="411" height="1" uuid="0e657559-875a-4a22-8f23-8e1569a93f2f">
+				<reportElement x="49" y="0" width="411" height="1" uuid="b4467f2c-5228-48bb-93ec-b79e103e797b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
@@ -123,20 +115,16 @@ order by t.grupo]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-		</band>
+		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-		</band>
+		<band splitType="Stretch"/>
 	</pageFooter>
 	<summary>
 		<band height="10" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<line>
-				<reportElement x="49" y="0" width="411" height="1" uuid="40e910ac-57a0-4524-9150-034725112ceb">
+				<reportElement x="49" y="0" width="411" height="1" uuid="89acc4ab-8743-4873-8ef7-153669f46c2c">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>

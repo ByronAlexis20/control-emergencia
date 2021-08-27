@@ -21,6 +21,7 @@ import java.util.List;
 			+ "like(:patron) or lower(u.persona.apellidos) like(:patron)) and u.estado = 'A' and u.perfil.idPerfil IN (4,6)"),
 	@NamedQuery(name="Usuario.buscarChoferPorPatron", query="SELECT u FROM Usuario u where (lower(u.persona.nombres) "
 			+ "like(:patron) or lower(u.persona.apellidos) like(:patron)) and u.estado = 'A' and u.perfil.idPerfil = 5"),
+	@NamedQuery(name="Usuario.buscarBomberoEmergencias", query="SELECT u FROM Usuario u where u.estado = 'A' and u.perfil.idPerfil IN (3,4,6)"),
 })
 public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -44,6 +45,9 @@ public class Usuario implements Serializable {
 	@OneToMany(mappedBy="usuario")
 	private List<Emergencia> emergencias;
 
+	@OneToMany(mappedBy="informante")
+	private List<Prehospitalaria> prehospitalaria;
+	
 	@OneToMany(mappedBy="chofer")
 	private List<ControlVehiculo> controlvehiculoChofer;
 
@@ -202,6 +206,28 @@ public class Usuario implements Serializable {
 		return controlVehiculo;
 	}
 	
+	public List<Prehospitalaria> getPrehospitalaria() {
+		return prehospitalaria;
+	}
+
+	public void setPrehospitalaria(List<Prehospitalaria> prehospitalaria) {
+		this.prehospitalaria = prehospitalaria;
+	}
+	
+	public Prehospitalaria addPrehospitalaria(Prehospitalaria prehospitalaria) {
+		getPrehospitalaria().add(prehospitalaria);
+		prehospitalaria.setInformante(this);
+
+		return prehospitalaria;
+	}
+
+	public Prehospitalaria removePrehospitalaria(Prehospitalaria prehospitalaria) {
+		getPrehospitalaria().remove(prehospitalaria);
+		prehospitalaria.setInformante(null);
+
+		return prehospitalaria;
+	}
+
 	public Perfil getPerfil() {
 		return this.perfil;
 	}

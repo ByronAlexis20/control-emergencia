@@ -1,6 +1,48 @@
-<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<?page title="Lista de barrios" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="new page title" border="normal">
-New Content Here!
-</window>
+	<window apply="org.zkoss.bind.BindComposer" border="none"
+		viewModel="@id('vm') @init('com.emergencia.control.reportes.Emergencias')"
+		hflex="1" vflex="1">
+		<vlayout vflex="1">
+			<div style="margin-top:10px">
+				<label value="Reporte resumen de emergencias" style="font-size:25px;font-weight: bold;" />
+			</div>
+			<div hflex="1">
+				<hlayout hflex="1">
+					<combobox id="cboMes" hflex="1"
+						model="@load(vm.listaMeses)" readonly="true" placeholder="Mes"
+						selectedItem="@bind(vm.mesSeleccionado)">
+						<template name="model">
+							<comboitem label="${each.mes}" />
+						</template>
+					</combobox>
+					<textbox id="txtAnio"  maxlength="4" xmlns:w="client">
+						<attribute w:name="doKeyDown_"><![CDATA[
+							function (evt) {
+								var keyCode = event.keyCode;
+								if( keyCode == 8 // back space
+									|| keyCode == 13 // enter
+									|| keyCode == 16 // enter
+									|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
+									|| keyCode == 46) { // Delete
+									this.$doKeyDown_(evt);
+								} else if ( !evt.shiftKey &&  // only do without shift key
+									(keyCode >= 48 && keyCode <= 57)
+									|| (keyCode >= 96 && keyCode <= 105)) {// number range
+									this.$doKeyDown_(evt);
+								} else {
+									evt.stop();
+									return;
+								}
+							}
+						]]></attribute>
+					</textbox>
+					<div hflex="1">
+						<button label="Ver" zclass="btn btn-primary btn-sm"
+							iconSclass="z-icon-print" onClick="@command('imprimir')" />
+					</div>
+				</hlayout>
+			</div>
+		</vlayout>
+	</window>
 </zk>

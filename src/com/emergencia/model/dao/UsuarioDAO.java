@@ -88,4 +88,13 @@ public class UsuarioDAO extends ClaseDAO{
 		resultado = (List<Usuario>) query.getResultList();
 		return resultado;
 	}
+	@SuppressWarnings("unchecked")
+	public List<Usuario> buscarBomberoEmergencias() {
+		List<Usuario> resultado = new ArrayList<Usuario>(); 
+		Query query = getEntityManager().createNamedQuery("Usuario.buscarBomberoEmergencias");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		resultado = (List<Usuario>) query.getResultList();
+		return resultado;
+	}
+	
 }

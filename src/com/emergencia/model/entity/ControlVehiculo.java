@@ -2,6 +2,7 @@ package com.emergencia.model.entity;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="control_vehiculo")
@@ -37,6 +40,9 @@ public class ControlVehiculo implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="id_chofer")
 	private Usuario chofer;
+	
+	@Temporal(TemporalType.DATE)
+	private Date fecha;
 	
 	@ManyToOne
 	@JoinColumn(name="id_emergencia")
@@ -260,6 +266,14 @@ public class ControlVehiculo implements Serializable {
 
 	public void setNovedades(String novedades) {
 		this.novedades = novedades;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
 	}
 	
 }

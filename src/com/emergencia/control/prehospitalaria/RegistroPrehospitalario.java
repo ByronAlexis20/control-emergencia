@@ -35,6 +35,7 @@ import com.emergencia.model.dao.PrehospitalariaDAO;
 import com.emergencia.model.dao.ProcedimientoDAO;
 import com.emergencia.model.dao.SignoVitalDAO;
 import com.emergencia.model.dao.TipoEmergenciaDAO;
+import com.emergencia.model.dao.UsuarioDAO;
 import com.emergencia.model.entity.CondicionLlegada;
 import com.emergencia.model.entity.Genero;
 import com.emergencia.model.entity.LocalizacionLesion;
@@ -42,6 +43,7 @@ import com.emergencia.model.entity.Prehospitalaria;
 import com.emergencia.model.entity.Procedimiento;
 import com.emergencia.model.entity.SignoVital;
 import com.emergencia.model.entity.TipoEmergencia;
+import com.emergencia.model.entity.Usuario;
 import com.emergencia.util.Globales;
 
 public class RegistroPrehospitalario {
@@ -53,10 +55,9 @@ public class RegistroPrehospitalario {
 	@Wire Textbox txtNombreUsuario;
 	@Wire Textbox txtEdad;
 	@Wire Combobox cboGenero;
+	@Wire Combobox cboInformante;
 	@Wire Datebox dtpFechaAtencion;
 	@Wire Datebox dtpFechaEvento;
-	@Wire Textbox txtCedulaInformante;
-	@Wire Textbox txtNombreInformante;
 	@Wire Combobox cboCondicionLLegada;
 	@Wire Textbox txtDireccion;
 	@Wire Textbox txtLugar;
@@ -78,6 +79,9 @@ public class RegistroPrehospitalario {
 	Genero generoSeleccionado;
 	CondicionLlegada condicionLlegadaSeleccionado;
 	TipoEmergencia tipoEmergenciaSeleccionado;
+	UsuarioDAO usuarioDAO = new UsuarioDAO();
+	Usuario usuarioSeleccionado;
+	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
@@ -96,8 +100,7 @@ public class RegistroPrehospitalario {
 		generoSeleccionado = prehospitalario.getGenero();
 		dtpFechaAtencion.setValue(prehospitalario.getFechaAtencion());
 		dtpFechaEvento.setValue(prehospitalario.getFechaEvento());
-		txtCedulaInformante.setText(prehospitalario.getCedulaInformante());
-		txtNombreInformante.setText(prehospitalario.getNombreInformante());
+		cboInformante.setText(prehospitalario.getInformante().getPersona().getNombres() + " " + prehospitalario.getInformante().getPersona().getApellidos());
 		cboCondicionLLegada.setText(prehospitalario.getCondicionLlegada().getCondicionLlegada());
 		condicionLlegadaSeleccionado = prehospitalario.getCondicionLlegada();
 		txtDireccion.setText(prehospitalario.getDireccionEvento());
@@ -176,8 +179,7 @@ public class RegistroPrehospitalario {
 		prehospitalario.setGenero((Genero)cboGenero.getSelectedItem().getValue());
 		prehospitalario.setFechaAtencion(dtpFechaAtencion.getValue());
 		prehospitalario.setFechaEvento(dtpFechaEvento.getValue());
-		prehospitalario.setCedulaInformante(txtCedulaInformante.getText());
-		prehospitalario.setNombreInformante(txtNombreInformante.getText());
+		prehospitalario.setInformante((Usuario)cboInformante.getSelectedItem().getValue());
 		prehospitalario.setCondicionLlegada((CondicionLlegada)cboCondicionLLegada.getSelectedItem().getValue());
 		prehospitalario.setTipoEmergencia((TipoEmergencia)cboTipoEmergencia.getSelectedItem().getValue());
 		prehospitalario.setDireccionEvento(txtDireccion.getText());
@@ -215,14 +217,8 @@ public class RegistroPrehospitalario {
 				Clients.showNotification("Debe registrar fecha de evento","info",dtpFechaEvento,"end_center",2000);
 				return false;
 			}
-			if(txtCedulaInformante.getText().isEmpty()) {
-				Clients.showNotification("Debe registrar cedula del informante","info",txtCedulaInformante,"end_center",2000);
-				txtCedulaInformante.focus();
-				return false;
-			}
-			if(txtNombreInformante.getText().isEmpty()) {
-				Clients.showNotification("Debe registrar nombre del informante","info",txtNombreInformante,"end_center",2000);
-				txtNombreInformante.focus();
+			if(cboInformante.getSelectedIndex() == -1) {
+				Clients.showNotification("Debe seleccionar Informante","info",cboInformante,"end_center",2000);
 				return false;
 			}
 			if(cboCondicionLLegada.getSelectedIndex() == -1) {
@@ -473,6 +469,16 @@ public class RegistroPrehospitalario {
 	}
 	public void setTipoEmergenciaSeleccionado(TipoEmergencia tipoEmergenciaSeleccionado) {
 		this.tipoEmergenciaSeleccionado = tipoEmergenciaSeleccionado;
+	}
+	public List<Usuario> getUsuariosBomberos(){
+		return usuarioDAO.buscarBomberoEmergencias();
+	}
+	
+	public Usuario getUsuarioSeleccionado() {
+		return usuarioSeleccionado;
+	}
+	public void setUsuarioSeleccionado(Usuario usuarioSeleccionado) {
+		this.usuarioSeleccionado = usuarioSeleccionado;
 	}
 	public List<TipoEmergencia> getListaTipoEmergencia() {
 		List<TipoEmergencia> listaTodos = tipoEmergenciaDAO.obtenerTodos();

@@ -99,28 +99,30 @@
 					<row>
 						<cell><label value="No Reporte: "/> </cell>
 						<cell><textbox id="txtNoReporte"/></cell>
+						<cell><label value="Fecha: "/> </cell>
+						<cell><datebox id="dtpFecha"/></cell>
 						<cell><label value="Hora salida de la base: " class="label-form"/></cell>
 						<cell><timebox id="tmHorasalida"/></cell>
-						<cell><label value="Hora llegada a sitio: " class="label-form"/></cell>
-						<cell><timebox id="tmHoraLlegada"/></cell>
 					</row>
 					<row>
+						<cell><label value="Hora llegada a sitio: " class="label-form"/></cell>
+						<cell><timebox id="tmHoraLlegada"/></cell>
 						<cell><label value="Hora salida de la emergencia: "/> </cell>
 						<cell><timebox id="tmHoraSalidaDeEmergencia"/></cell>
 						<cell><label value="Hora llegada al hospital: " class="label-form"/></cell>
 						<cell><timebox id="tmHoraLlegadaHospital"/></cell>
-						<cell><label value="Hora Salida a rayos X: " class="label-form"/></cell>
-						<cell><timebox id="tmHoraSalidaRayosX"/></cell>
 					</row>
 					<row>
+						<cell><label value="Hora Salida a rayos X: " class="label-form"/></cell>
+						<cell><timebox id="tmHoraSalidaRayosX"/></cell>
 						<cell><label value="Hora llegada a rayos X: "/> </cell>
 						<cell><timebox id="tmHoraLlegadaRayosX"/></cell>
 						<cell><label value="Hora retorno de rayos X: " class="label-form"/></cell>
 						<cell><timebox id="tmHoraRetornoRayosX"/></cell>
-						<cell><label value="Hora llegada de rayos X: " class="label-form"/></cell>
-						<cell><timebox id="tmHoraLlegadaDeRayosX"/></cell>
 					</row>
 					<row>
+						<cell><label value="Hora llegada de rayos X: " class="label-form"/></cell>
+						<cell><timebox id="tmHoraLlegadaDeRayosX"/></cell>
 						<cell><label value="Hora Salida del hospital: "/> </cell>
 						<cell><timebox id="tmHoraSalidaHospital"/></cell>
 						<cell><label value="Hora llegada a central: " class="label-form"/></cell>

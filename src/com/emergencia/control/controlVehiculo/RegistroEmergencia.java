@@ -18,6 +18,7 @@ import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Timebox;
@@ -45,6 +46,7 @@ public class RegistroEmergencia {
 	@Wire Textbox txtInformante;
 	@Wire Textbox txtTelefono;
 	@Wire Textbox txtDescripcionOperaciones;
+	@Wire Datebox dtpFecha;
 	
 	//datos de los vehiculos
 	@Wire Combobox cboVehiculo;
@@ -137,6 +139,7 @@ public class RegistroEmergencia {
 		control.setCuartelero(cuarteleroSeleccionado);
 		control.setVehiculo(vehiculoSeleccionado);
 		control.setEstado("A");
+		control.setFecha(dtpFecha.getValue());
 		control.setHoraLlegadaCentral(new Time(tmHoraLlegadaBase.getValue().getTime()));
 		control.setHoraLlegadaEmergencia(new Time(tmHoraLlegada.getValue().getTime()));
 		Date horaActual = new Date();
@@ -158,6 +161,10 @@ public class RegistroEmergencia {
 			}
 			if(cboCuartelero.getSelectedIndex() == -1) {
 				Clients.showNotification("Debe seleccionar Cuartelero","info",cboCuartelero,"end_center",2000);
+				return false;
+			}
+			if(dtpFecha.getValue() == null) {
+				Clients.showNotification("Seleccione fecha","info",dtpFecha,"end_center",2000);
 				return false;
 			}
 			if(txtNoReporte.getText().isEmpty()) {

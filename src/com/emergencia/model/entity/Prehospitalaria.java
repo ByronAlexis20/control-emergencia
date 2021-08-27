@@ -20,9 +20,6 @@ public class Prehospitalaria implements Serializable {
 	@Column(name = "id_prehospitalaria")
 	private Integer idPrehospitalaria;
 
-	@Column(name = "cedula_informante")
-	private String cedulaInformante;
-
 	@Column(name = "cedula_usuario")
 	private String cedulaUsuario;
 
@@ -52,11 +49,12 @@ public class Prehospitalaria implements Serializable {
 	@Column(name = "lugar_evento")
 	private String lugarEvento;
 
-	@Column(name = "nombre_informante")
-	private String nombreInformante;
-
 	@Column(name = "nombre_usuario")
 	private String nombreUsuario;
+	
+	@ManyToOne
+	@JoinColumn(name="id_informante")
+	private Usuario informante;
 
 	// bi-directional many-to-one association to LocalizacionLesion
 	@OneToMany(mappedBy = "prehospitalaria", cascade = CascadeType.ALL)
@@ -102,14 +100,6 @@ public class Prehospitalaria implements Serializable {
 
 	public void setIdPrehospitalaria(Integer idPrehospitalaria) {
 		this.idPrehospitalaria = idPrehospitalaria;
-	}
-
-	public String getCedulaInformante() {
-		return this.cedulaInformante;
-	}
-
-	public void setCedulaInformante(String cedulaInformante) {
-		this.cedulaInformante = cedulaInformante;
 	}
 
 	public String getCedulaUsuario() {
@@ -192,12 +182,12 @@ public class Prehospitalaria implements Serializable {
 		this.lugarEvento = lugarEvento;
 	}
 
-	public String getNombreInformante() {
-		return this.nombreInformante;
+	public Usuario getInformante() {
+		return informante;
 	}
 
-	public void setNombreInformante(String nombreInformante) {
-		this.nombreInformante = nombreInformante;
+	public void setInformante(Usuario informante) {
+		this.informante = informante;
 	}
 
 	public String getNombreUsuario() {

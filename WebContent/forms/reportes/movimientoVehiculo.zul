@@ -1,6 +1,24 @@
-<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<?page title="Lista de barrios" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window title="new page title" border="normal">
-New Content Here!
-</window>
+	<window apply="org.zkoss.bind.BindComposer" border="none"
+		viewModel="@id('vm') @init('com.emergencia.control.reportes.MovimientoVehiculo')"
+		hflex="1" vflex="1">
+		<vlayout vflex="1">
+			<div style="margin-top:10px">
+				<label value="Reporte resumen de emergencias" style="font-size:25px;font-weight: bold;" />
+			</div>
+			<div hflex="1">
+				<hlayout hflex="1">
+					<label value="Fecha de Inicio: "/>
+					<datebox id="dtpFechaInicio"/>
+					<label value="Fecha Fin: "/>
+					<datebox id="dtpFechaFin"/>
+					<div hflex="1">
+						<button label="Ver" zclass="btn btn-primary btn-sm"
+							iconSclass="z-icon-print" onClick="@command('imprimir')" />
+					</div>
+				</hlayout>
+			</div>
+		</vlayout>
+	</window>
 </zk>

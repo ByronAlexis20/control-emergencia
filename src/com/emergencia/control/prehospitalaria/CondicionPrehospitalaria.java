@@ -39,7 +39,7 @@ public class CondicionPrehospitalaria {
 	}
 	@GlobalCommand("Prehospitalaria.findAll")
 	@Command
-	@NotifyChange({"listaEmergencia"})
+	@NotifyChange({"listaPrehospitalaria"})
 	public void buscar(){
 		if (listaPrehospitalaria != null) {
 			listaPrehospitalaria = null; 
