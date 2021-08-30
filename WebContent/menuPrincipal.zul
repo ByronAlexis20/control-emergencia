@@ -18,12 +18,12 @@
 		<north height="43px" border="none" style="background-color: #000000" hflex="1">
 			<hbox vflex="1" hflex="1" style="background-color: transparent;" pack="start">
 				<separator orient="horizontal" width="10px" />
-				<vbox pack="center" vflex="1">
-					<image src="/imagenes/logo.png" height="30px" />
+				<vbox pack="center" vflex="1" style="cursor:pointer; cursor: hand ">
+					<image src="/imagenes/logo.png" height="30px" onClick="@command('dashboard')"/>
 				</vbox>
 				<hbox pack="start" align="start" hflex="1" vflex="1">
-					<vbox pack="center" vflex="1" sclass="hotel-letter">
-						<label style="font: 120% sans-serif; font-weight: bold; color: white; " value="Control de emergencias"/>
+					<vbox pack="center" vflex="1">
+						<label style="font: 120% sans-serif; font-weight: bold; color: white;cursor:pointer; cursor: hand " value="Control de emergencias" onClick="@command('dashboard')"/>
 					</vbox>
 				</hbox>
 				<hbox vflex="1" hflex="1" pack="end">

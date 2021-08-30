@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
@@ -53,6 +54,7 @@ public class MenuPrincipalControl {
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
 		loadTree();
+		areaContenido.setSrc("/forms/dashboard/dashboard.zul");
 	}
 
 	public void loadTree() throws IOException{
@@ -173,6 +175,10 @@ public class MenuPrincipalControl {
 			Sessions.getCurrent().setAttribute("FormularioActual", opcion);	
 			areaContenido.setSrc(opcion.getUrl());
 		}	
+	}
+	@Command
+	public void dashboard() {
+		areaContenido.setSrc("/forms/dashboard/dashboard.zul");
 	}
 	public String getNombreUsuario() {
 		return SecurityUtil.getUser().getUsername();

@@ -125,7 +125,11 @@
 								<listitem>
 									<listcell label="@load(each.cedulaUsuario)" />
 									<listcell label="@load(each.nombreUsuario)"/>
-									<listcell label="@load(each.nombreInformante)"/>
+									<listcell>
+										<label value="@load(each.informante.persona.nombres)"></label>
+										<label value=" "></label>
+										<label value="@load(each.informante.persona.apellidos)"></label>
+									</listcell>
 									<listcell label="@load(each.fechaEvento) @converter('formatedDate',format='dd/MM/yyyy')" />
 									<listcell>
 										<div align="center">
