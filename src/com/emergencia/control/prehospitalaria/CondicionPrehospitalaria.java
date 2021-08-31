@@ -19,6 +19,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
@@ -27,7 +28,8 @@ import com.emergencia.model.dao.PrehospitalariaDAO;
 import com.emergencia.model.entity.Prehospitalaria;
 
 public class CondicionPrehospitalaria {
-	@Wire private Listbox lstPrehospitalario;
+	@Wire Listbox lstPrehospitalario;
+	@Wire Datebox dtpFecha;
 	List<Prehospitalaria> listaPrehospitalaria;
 	Prehospitalaria prehospitalariaSeleccionado;
 	PrehospitalariaDAO prehospitalariaDAO = new PrehospitalariaDAO(); 
@@ -35,16 +37,31 @@ public class CondicionPrehospitalaria {
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
-		buscar();
+		cargarEmergencias();
+	}
+	@GlobalCommand("Prehospitalaria.findAll")
+	@NotifyChange({"listaPrehospitalaria"})
+	public void cargarEmergencias(){
+		if (listaPrehospitalaria != null) {
+			listaPrehospitalaria = null; 
+		}
+		listaPrehospitalaria = prehospitalariaDAO.obtenerPrehospitalarias();
+		if(listaPrehospitalaria.size() == 0) {
+			Clients.showNotification("No hay datos para mostrar.!!");
+		}
 	}
 	@GlobalCommand("Prehospitalaria.findAll")
 	@Command
 	@NotifyChange({"listaPrehospitalaria"})
 	public void buscar(){
+		if(dtpFecha.getValue() == null) {
+			Clients.showNotification("Debe seleccionar fecha para realizar la busqueda");
+			return;
+		}
 		if (listaPrehospitalaria != null) {
 			listaPrehospitalaria = null; 
 		}
-		listaPrehospitalaria = prehospitalariaDAO.obtenerPrehospitalarias();
+		listaPrehospitalaria = prehospitalariaDAO.buscarPorFechaAtencion(dtpFecha.getValue());
 		if(listaPrehospitalaria.size() == 0) {
 			Clients.showNotification("No hay datos para mostrar.!!");
 		}

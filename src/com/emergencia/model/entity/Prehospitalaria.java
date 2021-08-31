@@ -11,6 +11,7 @@ import java.util.List;
 	@NamedQuery(name = "Prehospitalaria.findAll", query = "SELECT p FROM Prehospitalaria p where p.estado = 'A'"),
 	@NamedQuery(name = "Prehospitalaria.buscarSinControlVehiculo", query = "SELECT p FROM Prehospitalaria p "
 			+ "left join p.controlVehiculos c on p.idPrehospitalaria = c.prehospitalaria.idPrehospitalaria and c.estado = 'A' where c.idControl is null and p.estado = 'A'"),
+	@NamedQuery(name = "Prehospitalaria.buscarPorFecha", query = "SELECT p FROM Prehospitalaria p where p.estado = 'A' and p.fechaAtencion = :fecha"),
 })
 public class Prehospitalaria implements Serializable {
 	private static final long serialVersionUID = 1L;

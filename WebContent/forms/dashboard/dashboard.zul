@@ -120,7 +120,6 @@
 		<hlayout hflex="1" vflex="1">
 			<vlayout hflex="1" vflex="1">
 				<label value="Reservas del Día" style="font-size:20px;font-weight: bold;" />
-				<chart></chart>
 			</vlayout>
 			<vlayout hflex="1" vflex="1">
 				<label value="Recaudaciones" style="font-size:20px;font-weight: bold;" />

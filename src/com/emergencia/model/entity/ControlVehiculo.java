@@ -20,9 +20,9 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="control_vehiculo")
 @NamedQueries({
-	@NamedQuery(name="ControlVehiculo.findAll", query="SELECT c FROM ControlVehiculo c"),
-	@NamedQuery(name="ControlVehiculo.buscarPorEmergencia", query="SELECT c FROM ControlVehiculo c where c.emergencia.idEmergencia = :idEmergencia"),
-	@NamedQuery(name="ControlVehiculo.buscarPorPrehospitalaria", query="SELECT c FROM ControlVehiculo c where c.prehospitalaria.idPrehospitalaria = :idPrehospitalaria"),
+	@NamedQuery(name="ControlVehiculo.findAll", query="SELECT c FROM ControlVehiculo c where c.estado = 'A'"),
+	@NamedQuery(name="ControlVehiculo.buscarPorEmergencia", query="SELECT c FROM ControlVehiculo c where c.emergencia.idEmergencia = :idEmergencia and c.estado = 'A'"),
+	@NamedQuery(name="ControlVehiculo.buscarPorPrehospitalaria", query="SELECT c FROM ControlVehiculo c where c.prehospitalaria.idPrehospitalaria = :idPrehospitalaria and c.estado = 'A'"),
 	@NamedQuery(name="ControlVehiculo.buscarPorFecha", query="SELECT c FROM ControlVehiculo c where c.fecha = :fecha and c.estado = 'A'"),
 	
 })

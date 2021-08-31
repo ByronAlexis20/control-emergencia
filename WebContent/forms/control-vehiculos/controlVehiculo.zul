@@ -1,7 +1,7 @@
 <?page title="Lista de barrios" contentType="text/html;charset=UTF-8"?>
 <zk>
 	<window apply="org.zkoss.bind.BindComposer" border="none"
-		viewModel="@id('vm') @init('com.emergencia.control.controlVehiculo.ControlVehiculo')"
+		viewModel="@id('vm') @init('com.emergencia.control.controlVehiculo.ControlesVehiculos')"
 		hflex="1" vflex="1">
 		<vlayout vflex="1">
 			<div style="margin-top:10px">
@@ -9,42 +9,38 @@
 			</div>
 			<div hflex="1">
 				<hlayout hflex="1">
-					<div hflex="1">
-						<button label="Nuevo Bombero" zclass="btn btn-primary btn-sm"
-							iconSclass="z-icon-plus" onClick="@command('nuevo')" />
-					</div>
 					<hbox align="center">
 						<datebox id="dtpFecha" width="300px" format="dd/MM/yyyy"/>
-						<button iconSclass="z-icon-search" class="but btn-form btn-sm" onClick="@command('buscar')" />
+						<button iconSclass="z-icon-search" zclass="btn btn-primary btn-sm" onClick="@command('buscar')" />
 					</hbox>
 				</hlayout>
 			</div>
 			<hlayout vflex="1" hflex="1">
-				<listbox id="lstControlVehiculo" model="@load(vm.listaBombero)"
+				<listbox id="lstControlVehiculo" model="@load(vm.listaControlVehiculo)"
 					mold="paging" hflex="1" vflex="1">
 					<listhead>
-						<listheader label="Cdula" align="center" width="15%"/>
-						<listheader label="Nombres" align="center"/>
-						<listheader label="Apellidos" align="center"/>
-						<listheader label="Tipo Sangre" align="center"/>
-						<listheader label="Cargo" align="center"/>
+						<listheader label="Fecha Registro" align="center"/>
+						<listheader label="Vehículo" align="center" width="15%"/>
+						<listheader label="Tipo Vehiculo" align="center"/>
+						<listheader label="Emergencia" align="center"/>
+						<listheader label="No Reporte" align="center"/>
 						<listheader label="Estado" width="7%" align="center"/>
 						<listheader label="Acción" align="center"/>
 					</listhead>
 					<template name="model">
 						<listitem>
-							<listcell label="@load(each.persona.cedula)"/>
-							<listcell label="@load(each.persona.nombres)"/>
-							<listcell label="@load(each.persona.apellidos)"/>
-							<listcell label="@load(each.persona.tipoSangre.tipoSangre)"/>
-							<listcell label="@load(each.persona.cargo)"/>
+							<listcell label="@load(each.fecha) @converter('formatedDate',format='dd/MM/yyyy')"/>
+							<listcell label="@load(each.vehiculo.codigo)"/>
+							<listcell label="@load(each.vehiculo.tipoVehiculo.tipoVehiculo)"/>
+							<listcell label="@load(each.emergencia eq null ? 'Prehospitalaria': each.emergencia.tipoEmergencia.grupo eq 'CI' ? 'Control de Incendio' : 'Labor Social')"/>
+							<listcell label="@load(each.nReporte)"/>
 							<listcell label="@load(each.estado)"/>
 							<listcell>
 								<div align="center">
 									<button iconSclass="z-icon-pencil" zclass="btn btn-success btn-sm"
-										onClick="@command('editar',bombero=each)" />
+										onClick="@command('editar',control=each)" />
 									<button iconSclass="z-icon-trash-o" zclass="btn btn-danger btn-sm"
-										onClick="@command('eliminar',bombero=each)" />
+										onClick="@command('eliminar',control=each)" />
 								</div>
 							</listcell>
 						</listitem>

@@ -12,6 +12,8 @@
 					<div hflex="1">
 						<button label="Nuevo registro" zclass="btn btn-primary btn-sm"
 							iconSclass="z-icon-plus" onClick="@command('nuevo')" />
+						<datebox id="dtpFecha" width="300px" format="dd/MM/yyyy"/>
+						<button iconSclass="z-icon-search" zclass="btn btn-primary btn-sm" onClick="@command('buscar')" />
 					</div>
 				</hlayout>
 			</div>
@@ -40,7 +42,7 @@
 									<button label="Editar" iconSclass="z-icon-pencil" zclass="btn btn-success btn-sm"
 										onClick="@command('editar',prehospitalarioo=each)" />
 									<button label="Eliminar" iconSclass="z-icon-trash-o" zclass="btn btn-danger btn-sm"
-										onClick="@command('eliminar',emergencia=each)" />
+										onClick="@command('eliminar',prehospitalarioo=each)" />
 								</div>
 							</listcell>
 						</listitem>

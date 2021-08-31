@@ -101,7 +101,6 @@ public class RegistroPrehospitalaria {
 		List<ControlVehiculo> lista = controlDAO.buscarPorPrehospitalaria(prehospitalaria.getIdPrehospitalaria());
 		if(lista.size() > 0) {//tiene datos y solo se modifica
 			control = lista.get(0);
-			
 			txtNoReporte.setText(control.getnReporte());
 			tmHorasalida.setValue(control.getHoraSalidaBase());
 			tmHoraLlegada.setValue(control.getHoraLlegadaEmergencia());
@@ -114,6 +113,9 @@ public class RegistroPrehospitalaria {
 			tmHoraSalidaHospital.setValue(control.getHoraSalidaDelHospital());
 			tmHoraLlegadaCentral.setValue(control.getHoraLlegadaCentral());
 			txtNovedades.setText(control.getNovedades());
+			cboVehiculo.setText(control.getVehiculo().getTipoVehiculo().getTipoVehiculo() + " " + control.getVehiculo().getCodigo());
+			cboChofer.setText(control.getChofer().getPersona().getNombres() + " " + control.getChofer().getPersona().getApellidos());
+			cboCuartelero.setText(control.getCuartelero().getPersona().getNombres() + " " + control.getCuartelero().getPersona().getApellidos());
 		}else {
 			control = new ControlVehiculo();
 		}
