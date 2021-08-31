@@ -92,14 +92,6 @@
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.zkoss.chart/zkcharts -->
-<!-- https://mvnrepository.com/artifact/org.zkoss.chart/zkcharts -->
-<dependency>
-    <groupId>org.zkoss.chart</groupId>
-    <artifactId>zkcharts</artifactId>
-    <version>1.0.0-BETA</version>
-</dependency>
-
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>

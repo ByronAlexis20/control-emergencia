@@ -1,5 +1,6 @@
 package com.emergencia.model.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -32,6 +33,16 @@ public class ControlVehiculoDAO extends ClaseDAO {
 		Query query = getEntityManager().createNamedQuery("ControlVehiculo.buscarPorPrehospitalaria");
 		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
 		query.setParameter("idPrehospitalaria", idPrehospitalaria);
+		resultado = (List<ControlVehiculo>) query.getResultList();
+		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<ControlVehiculo> buscarPorFecha(Date fecha) {
+		List<ControlVehiculo> resultado; 
+		Query query = getEntityManager().createNamedQuery("ControlVehiculo.buscarPorFecha");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("fecha", fecha);
 		resultado = (List<ControlVehiculo>) query.getResultList();
 		return resultado;
 	}
