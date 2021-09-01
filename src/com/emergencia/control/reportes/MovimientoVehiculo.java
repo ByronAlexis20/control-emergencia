@@ -1,6 +1,7 @@
 package com.emergencia.control.reportes;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +44,8 @@ public class MovimientoVehiculo {
 				Clients.showNotification("Debe seleccionar fecha fin");
 				return;
 			}
+			SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+			
 			Messagebox.show("Descargar reporte?", "Confirmación de Guardar", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
 				@Override
 				public void onEvent(Event event) throws Exception {
@@ -50,7 +53,7 @@ public class MovimientoVehiculo {
 						try {						
 							Map<String, Object> params = new HashMap<String, Object>();
 							params.put("NOMBRE_INSTITUCION", "CUERPO DE BOMBEROS DEL CANTÓN LA LIBERTAD");
-							params.put("NOMBRE_REPORTE", "EMERGENCIAS POR VEHÍCULOS");
+							params.put("NOMBRE_REPORTE", "EMERGENCIAS POR VEHÍCULOS\nDel " + formatoFecha.format(dtpFechaInicio.getValue()) + " al " + formatoFecha.format(dtpFechaFin.getValue()));
 							params.put("FECHA_INICIO", dtpFechaInicio.getValue());
 							params.put("FECHA_FIN", dtpFechaFin.getValue());
 							PrintReport report = new PrintReport();

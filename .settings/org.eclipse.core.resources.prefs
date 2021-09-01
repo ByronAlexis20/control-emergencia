@@ -1,6 +1,8 @@
 eclipse.preferences.version=1
+encoding//WebContent/reportes/rptDetalleVehiculo.jrxml=UTF-8
 encoding//WebContent/reportes/rptEmergencias.jrxml=UTF-8
 encoding//WebContent/reportes/rptEmergenciasPorBomberos.jrxml=UTF-8
+encoding//WebContent/reportes/rptGraficoResumenEmergencia.jrxml=UTF-8
 encoding//WebContent/reportes/rptSubControlIncendio.jrxml=UTF-8
 encoding//WebContent/reportes/rptSubLaborSocial.jrxml=UTF-8
 encoding//WebContent/reportes/rptSubPrehospitalaria.jrxml=UTF-8

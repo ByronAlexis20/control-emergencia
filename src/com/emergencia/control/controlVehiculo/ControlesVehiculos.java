@@ -31,7 +31,7 @@ import com.emergencia.model.entity.ControlVehiculo;
 
 public class ControlesVehiculos {
 	@Wire Listbox lstControlVehiculo;
-	@Wire Datebox dtpFecha; 
+	@Wire Datebox dtpFecha;
 	List<ControlVehiculo> listaControlVehiculo;
 	ControlVehiculoDAO controlDAO = new ControlVehiculoDAO();
 	

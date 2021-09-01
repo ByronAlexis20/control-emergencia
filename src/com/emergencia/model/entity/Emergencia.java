@@ -23,6 +23,7 @@ import javax.persistence.Table;
 	@NamedQuery(name="Emergencia.buscarSinControlVehiculo", query="SELECT e FROM Emergencia e "
 			+ "left join e.controlVehiculos c on e.idEmergencia = c.emergencia.idEmergencia and c.emergencia.estado = 'A' where c.idControl is null and  e.estado = 'A'"),
 	@NamedQuery(name="Emergencia.buscarPorFecha", query="SELECT e FROM Emergencia e where e.estado = 'A' and e.dia = :dia and e.me.idMes = :mes and e.anio = :anio"),
+	@NamedQuery(name="Emergencia.buscarPorFechaYTipo", query="SELECT e FROM Emergencia e where e.estado = 'A' and e.dia = :dia and e.me.idMes = :mes and e.anio = :anio and e.tipoEmergencia.grupo = :tipo"),
 })
 public class Emergencia implements Serializable {
 	private static final long serialVersionUID = 1L;

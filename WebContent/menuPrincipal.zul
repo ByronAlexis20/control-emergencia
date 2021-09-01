@@ -53,7 +53,7 @@
 	    	</div>
 	    </west>
 	    
-		<center id="mainContent" autoscroll="true" style="background-color: #DEDEDE;">
+		<center id="mainContent" autoscroll="true">
 			<include id="areaContenido" hflex="1" vflex="1"/>
 		</center>
 		

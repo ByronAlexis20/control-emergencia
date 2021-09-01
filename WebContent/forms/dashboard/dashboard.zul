@@ -11,7 +11,7 @@
 		.card { 
 			color: white; 
 			float: left; 
-			width: calc(20% - 20px); 
+			width: calc(25% - 20px); 
 			border: #000000 0px outset; 
 			margin: 10px; 
 			height: 90px; 
@@ -33,30 +33,35 @@
 		@media screen and (max-width: 300px) {
 			.card { width: 100%; } }
 		
-		.listheader-reserva *{
-			background:#659DC8;
-			color: white !important;
-		}
-		
-		.listheader-recaudacion *{
+		.listheader-vehiculo *{
 			background:#128700;
 			color: white !important;
 		}
 		
+		.listheader-bombero *{
+			background:#192AFF;
+			color: white !important;
+		}
+		
 	</style>
-	<vlayout hflex="1" vflex="1" apply="org.zkoss.bind.BindComposer" >
+	<vlayout hflex="1" vflex="1" apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('com.emergencia.control.Dashboard')" style="overflow: scroll">
+		<div class="cardContainer">
+			<label value="Fecha: " style="font-weight: bold;"/>
+			<datebox id="dtpFecha" format="dd/MM/yyyy" />
+			<button iconSclass="z-icon-refresh" onClick="@command('actualizar')"/>
+		</div>
 		<div class="cardContainer" >
 			<div class="card" style="background-color:#FB2D2D;">
 				<hlayout hflex="1" vflex="1">
 					<vlayout style="background-color:#FD1313;text-align:center; width: 60px;" vflex="1">
 						<vbox hflex="1" vflex="1" align="center" pack="center">
-							<image src="imagenes/ic_habitacion_blanco.png" width="42px"/>
+							<image src="imagenes/ic_emergencia_blanco.png" width="42px"/>
 						</vbox>
 					</vlayout>
 					<vlayout vflex="1" hflex="1" style="padding: 10px;">
-						<label sclass="p">Total de</label>
-						<label sclass="p">Habitaciones</label>
-						<label sclass="p1"/>
+						<label sclass="p">Total de </label>
+						<label sclass="p">Emergencias</label>
+						<label sclass="p1" id="lblTotalEmergencias"/>
 					</vlayout>
 				</hlayout>
 			</div>
@@ -64,13 +69,13 @@
 				<hlayout hflex="1" vflex="1">
 					<vlayout style="background-color:#2BCC04;text-align:center; width: 60px;" vflex="1">
 						<vbox hflex="1" vflex="1" align="center" pack="center">
-							<image src="imagenes/ic_habitacion_blanco.png" width="42px"/>
+							<image src="imagenes/ic_labor_social_blanco.png" width="42px"/>
 						</vbox>
 					</vlayout>
 					<vlayout vflex="1" hflex="1" style="padding: 10px;">
-						<label sclass="p">Habitaciones</label>
-						<label sclass="p">Libres</label>
-						<label sclass="p1"/>
+						<label sclass="p"># Emergencia</label>
+						<label sclass="p">Labor Social</label>
+						<label sclass="p1" id="lblEmergenciaLaborSocial"/>
 					</vlayout>
 				</hlayout>
 			</div>
@@ -78,13 +83,13 @@
 				<hlayout hflex="1" vflex="1">
 					<vlayout style="background-color:#07CFD5;text-align:center; width: 60px;" vflex="1">
 						<vbox hflex="1" vflex="1" align="center" pack="center">
-							<image src="imagenes/ic_habitacion_blanco.png" width="42px"/>
+							<image src="imagenes/ic_prehospitalaria_blanco.png" width="42px"/>
 						</vbox>
 					</vlayout>
 					<vlayout vflex="1" hflex="1" style="padding: 10px;">
-						<label sclass="p">Habitaciones</label>
-						<label sclass="p">Ocupadas</label>
-						<label sclass="p1"/>
+						<label sclass="p"># Emergencia</label>
+						<label sclass="p">Prehospitalaria</label>
+						<label sclass="p1" id="lblEmergenciaPrehospitalaria"/>
 					</vlayout>
 				</hlayout>
 			</div>
@@ -92,60 +97,69 @@
 				<hlayout hflex="1" vflex="1">
 					<vlayout style="background-color:#F1A828;text-align:center; width: 60px;" vflex="1">
 						<vbox hflex="1" vflex="1" align="center" pack="center">
-							<image src="imagenes/ic_habitacion_blanco.png" width="42px"/>
+							<image src="imagenes/ic_contra_incendio_blanco.png" width="42px"/>
 						</vbox>
 					</vlayout>
 					<vlayout vflex="1" hflex="1" style="padding: 10px;">
-						<label sclass="p">Habitaciones</label>
-						<label sclass="p">Reservadas para Hoy</label>
-						<label sclass="p1"/>
-					</vlayout>
-				</hlayout>
-			</div>
-			<div class="card" style="background-color:#585858;">
-				<hlayout hflex="1" vflex="1">
-					<vlayout style="background-color:#1C1C1C;text-align:center; width: 60px;" vflex="1">
-						<vbox hflex="1" vflex="1" align="center" pack="center">
-							<image src="imagenes/ic_dolar.png" width="42px"/>
-						</vbox>
-					</vlayout>
-					<vlayout vflex="1" hflex="1" style="padding: 10px;">
-						<label sclass="p">Recaudación</label>
-						<label sclass="p">Del Día</label>
-						<label sclass="p1"/>
+						<label sclass="p"># Emergencia</label>
+						<label sclass="p">C. de incendio</label>
+						<label sclass="p1" id="lblEmergenciaControlIncendio"/>
 					</vlayout>
 				</hlayout>
 			</div>
 		</div>
-		<hlayout hflex="1" vflex="1">
+		<hlayout hflex="1">
 			<vlayout hflex="1" vflex="1">
-				<label value="Reservas del Día" style="font-size:20px;font-weight: bold;" />
+				<label value="Resumen emergencias" style="font-size:15px;font-weight: bold;" />
+				<image id="imGraficoResumenEmergencia" height="200px" hflex="1"></image>
 			</vlayout>
 			<vlayout hflex="1" vflex="1">
-				<label value="Recaudaciones" style="font-size:20px;font-weight: bold;" />
-				<listbox id="lstRes" autopaging="true"
-					mold="paging" hflex="1" height="200px">
+				<label value="Emergencias atendidas por vehículos" style="font-size:15px;font-weight: bold;" />
+				<listbox id="lstEmergenciaVehiculo"
+					hflex="1" height="200px">
 					<listhead>
-						<listheader label="No." width="10%" class="listheader-recaudacion"/>
-						<listheader label="Fecha" width="14%" class="listheader-recaudacion"/>
-						<listheader label="Detalle" class="listheader-recaudacion"/>
-						<listheader label="Valor" width="10%" class="listheader-recaudacion"/>
+						<listheader label="Código" width="15%" class="listheader-vehiculo"/>
+						<listheader label="Tipo" class="listheader-vehiculo"/>
+						<listheader label="Cant." width="13%" class="listheader-vehiculo"/>
 					</listhead>
 					<template name="model">
 						<listitem>
-							<listcell class="lb-listcell"/>
-							<listcell class="lb-listcell"/>
-							<listcell class="lb-listcell"/>
-							<listcell class="lb-listcell"/>
+							<listcell label="${each.vehiculo.codigo}" />
+							<listcell label="${each.vehiculo.tipoVehiculo.tipoVehiculo}"/>
+							<listcell label="${each.cantidad}"/>
 						</listitem>
 					</template>
 				</listbox>
-				<hbox  align="end" pack="end" hflex="1">
-					<div style="box-shadow: 2px 2px 10px #592A08;">
-						<label sclass="p">Total Recaudado: $ </label>
-						<label sclass="p" />
-					</div>
-				</hbox>
+			</vlayout>
+		</hlayout>
+		<hlayout hflex="1" >
+			<vlayout width="300px" vflex="1">
+				<label value="Emergencias por bomberos" style="font-size:15px;font-weight: bold;" />
+				<listbox id="lstEmergenciaBomberos"
+					hflex="1" height="200px">
+					<listhead>
+						<listheader label="Bombero" class="listheader-bombero"/>
+						<listheader label="APH" width="12%" class="listheader-bombero"/>
+						<listheader label="CI" width="12%" class="listheader-bombero"/>
+						<listheader label="LS" width="12%" class="listheader-bombero"/>
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell>
+								<label value="${each.bombero.persona.nombres}"/>
+								<label value=" "/>
+								<label value="${each.bombero.persona.apellidos}"/>
+							</listcell>
+							<listcell label="${each.contAPH}" />
+							<listcell label="${each.contCI}"/>
+							<listcell label="${each.contLS}"/>
+						</listitem>
+					</template>
+				</listbox>
+			</vlayout>
+			<vlayout hflex="1" vflex="1">
+				<label value="Emergencias en los ultimos 3 meses" style="font-size:15px;font-weight: bold;" />
+				<image id="imGraficoTiempoEmergencia" height="200px" hflex="1"></image>
 			</vlayout>
 		</hlayout>
 	</vlayout>
