@@ -114,8 +114,11 @@ public class RegistroPrehospitalaria {
 			tmHoraLlegadaCentral.setValue(control.getHoraLlegadaCentral());
 			txtNovedades.setText(control.getNovedades());
 			cboVehiculo.setText(control.getVehiculo().getTipoVehiculo().getTipoVehiculo() + " " + control.getVehiculo().getCodigo());
+			vehiculoSeleccionado = control.getVehiculo();
 			cboChofer.setText(control.getChofer().getPersona().getNombres() + " " + control.getChofer().getPersona().getApellidos());
+			choferSeleccionado = control.getChofer();
 			cboCuartelero.setText(control.getCuartelero().getPersona().getNombres() + " " + control.getCuartelero().getPersona().getApellidos());
+			cuarteleroSeleccionado = control.getCuartelero();
 		}else {
 			control = new ControlVehiculo();
 		}

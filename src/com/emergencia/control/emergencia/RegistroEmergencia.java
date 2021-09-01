@@ -19,23 +19,31 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
 import com.emergencia.model.dao.EmergenciaDAO;
+import com.emergencia.model.dao.MesDAO;
 import com.emergencia.model.entity.Emergencia;
+import com.emergencia.model.entity.Me;
 
 public class RegistroEmergencia {
-	@Wire private Listbox lstEmergencias;
+	@Wire Listbox lstEmergencias;
+	@Wire Textbox txtDia;
+	@Wire Textbox txtAnio;
+	@Wire Combobox cboMes;
 	List<Emergencia> listaEmergencia;
-	String textoBuscar;
+	MesDAO mesDAO = new MesDAO();
+	Me mesSeleccionado;
 	
 	EmergenciaDAO emergenciaDAO = new EmergenciaDAO();
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
-		buscar();
+		cargarTodasEmergencias();
 	}
 	
 	@Command
@@ -47,11 +55,37 @@ public class RegistroEmergencia {
 	@GlobalCommand("Emergencia.findAll")
 	@Command
 	@NotifyChange({"listaEmergencia"})
-	public void buscar(){
+	public void cargarTodasEmergencias(){
 		if (listaEmergencia != null) {
 			listaEmergencia = null; 
 		}
 		listaEmergencia = emergenciaDAO.obtenerEmergencias();
+		if(listaEmergencia.size() == 0) {
+			Clients.showNotification("No hay datos para mostrar.!!");
+		}
+	}
+	@GlobalCommand("Emergencia.buscarPorFecha")
+	@Command
+	@NotifyChange({"listaEmergencia"})
+	public void buscar(){
+		if(txtDia.getText().isEmpty()) {
+			Clients.showNotification("Escriba día","info",txtDia,"end_center",2000);
+			txtDia.focus();
+			return;
+		}
+		if(cboMes.getSelectedIndex() == -1) {
+			Clients.showNotification("Debe seleccionar Mes","info",cboMes,"end_center",2000);
+			return;
+		}
+		if(txtAnio.getText().isEmpty()) {
+			Clients.showNotification("Escriba el año","info",txtAnio,"end_center",2000);
+			txtAnio.focus();
+			return;
+		}
+		if (listaEmergencia != null) {
+			listaEmergencia = null; 
+		}
+		listaEmergencia = emergenciaDAO.buscarPorFecha(Integer.parseInt(txtDia.getText()), mesSeleccionado.getIdMes(), Integer.parseInt(txtAnio.getText()));
 		if(listaEmergencia.size() == 0) {
 			Clients.showNotification("No hay datos para mostrar.!!");
 		}
@@ -93,17 +127,19 @@ public class RegistroEmergencia {
 			}
 		});		
 	}
+	public List<Me> getListaMeses(){
+		return mesDAO.obtenerMeses();
+	}
 	public List<Emergencia> getListaEmergencia() {
 		return listaEmergencia;
 	}
 	public void setListaEmergencia(List<Emergencia> listaEmergencia) {
 		this.listaEmergencia = listaEmergencia;
 	}
-	public String getTextoBuscar() {
-		return textoBuscar;
+	public Me getMesSeleccionado() {
+		return mesSeleccionado;
 	}
-	public void setTextoBuscar(String textoBuscar) {
-		this.textoBuscar = textoBuscar;
-	}
-	
+	public void setMesSeleccionado(Me mesSeleccionado) {
+		this.mesSeleccionado = mesSeleccionado;
+	}	
 }

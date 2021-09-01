@@ -102,6 +102,7 @@ public class RegistroEmergencia {
 			choferSeleccionado = control.getChofer();
 			cboCuartelero.setText(control.getCuartelero().getPersona().getNombres() + " " + control.getCuartelero().getPersona().getApellidos());
 			cuarteleroSeleccionado = control.getCuartelero();
+			dtpFecha.setValue(control.getFecha());
 		}else {
 			control = new ControlVehiculo();
 		}
@@ -129,6 +130,7 @@ public class RegistroEmergencia {
 							controlDAO.getEntityManager().getTransaction().commit();
 							Clients.showNotification("Proceso Ejecutado con exito.");
 							BindUtils.postGlobalCommand(null, null, "Emergencia.buscarSinControlVehiculo", null);
+							BindUtils.postGlobalCommand(null, null, "ControlVehiculo.findAll", null);
 							salir();						
 						} catch (Exception e) {
 							e.printStackTrace();

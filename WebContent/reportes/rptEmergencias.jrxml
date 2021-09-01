@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptEmergencias" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6d2d70a-1397-4a22-abc6-a45bb9cb7985">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="control_emergencia"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="ID_MES_P" class="java.lang.Integer"/>
 	<parameter name="ANIO_P" class="java.lang.Integer"/>
 	<parameter name="MES_P" class="java.lang.String"/>
@@ -20,7 +22,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="70" splitType="Stretch">
+		<band height="86" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
 				<reportElement x="110" y="10" width="390" height="20" uuid="615727da-efd5-4d8b-87a4-70f2053af8d8"/>
@@ -30,7 +32,7 @@
 				<textFieldExpression><![CDATA[$P{NOMBRE_INSTITUCION}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="110" y="33" width="390" height="17" uuid="d3cd0be3-84eb-4e6d-9da4-96566a05c862"/>
+				<reportElement x="110" y="33" width="390" height="53" uuid="d3cd0be3-84eb-4e6d-9da4-96566a05c862"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12" isBold="true"/>
 				</textElement>

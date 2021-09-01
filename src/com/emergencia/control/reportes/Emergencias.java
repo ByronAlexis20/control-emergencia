@@ -58,7 +58,7 @@ public class Emergencias {
 						try {						
 							Map<String, Object> params = new HashMap<String, Object>();
 							params.put("NOMBRE_INSTITUCION", "CUERPO DE BOMBEROS DEL CANTÓN LA LIBERTAD");
-							params.put("NOMBRE_REPORTE", "EMERGENCIAS " + txtAnio.getText());
+							params.put("NOMBRE_REPORTE", "EMERGENCIAS " + txtAnio.getText() + "\nMES: " + mesSeleccionado.getMes());
 							params.put("TITULO1", "CLASIFICACIÓN DE EMERGENCIAS " + txtAnio.getText());
 							params.put("TITULO2", "TIPOS DE EMERGENCIA");
 							params.put("TITULO3", "EMERGENCIAS DE CONTROL DE INCENDIO");

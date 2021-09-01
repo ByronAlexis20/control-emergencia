@@ -25,4 +25,16 @@ public class EmergenciaDAO extends ClaseDAO {
 		resultado = (List<Emergencia>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Emergencia> buscarPorFecha(Integer dia, Integer mes, Integer anio) {
+		List<Emergencia> resultado; 
+		Query query = getEntityManager().createNamedQuery("Emergencia.buscarPorFecha");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("dia", dia);
+		query.setParameter("mes", mes);
+		query.setParameter("anio", anio);
+		resultado = (List<Emergencia>) query.getResultList();
+		return resultado;
+	}
 }

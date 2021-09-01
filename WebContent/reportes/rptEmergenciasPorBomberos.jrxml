@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptEmergenciasPorBomberos" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c1ec475b-fed7-4327-bb56-bed17e801ad8">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="control_emergencia"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -14,6 +13,9 @@
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="ID_MES" class="java.lang.Integer"/>
 	<parameter name="ANIO" class="java.lang.Integer"/>
 	<parameter name="NOMBRE_INSTITUCION" class="java.lang.String"/>
@@ -30,7 +32,7 @@ and e.id_mes = $P{ID_MES}  and e.anio = $P{ANIO}) as contLS,
 and p.estado = 'A' and p.id_informante = u.id_usuario and t.grupo = 'APH'
 and EXTRACT(MONTH FROM p.fecha_atencion) = $P{ID_MES}  and EXTRACT(Year FROM p.fecha_atencion) = $P{ANIO} ) as contAPH
 from usuario u, persona p, perfil pe
-where u.id_persona = p.id_persona and u.id_perfil = pe.id_perfil 
+where u.id_persona = p.id_persona and u.id_perfil = pe.id_perfil
 and pe.estado = 'A' and u.estado = 'A' and p.estado = 'A'
 and u.id_perfil in (3,4,6)]]>
 	</queryString>
@@ -81,7 +83,7 @@ and u.id_perfil in (3,4,6)]]>
 				<textFieldExpression><![CDATA[$P{NOMBRE_INSTITUCION}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="190" y="30" width="470" height="17" uuid="5405df4d-2294-466d-bd48-fb89b111815e"/>
+				<reportElement x="190" y="30" width="470" height="53" uuid="5405df4d-2294-466d-bd48-fb89b111815e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12" isBold="true"/>
 				</textElement>
@@ -118,7 +120,6 @@ and u.id_perfil in (3,4,6)]]>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
-					<dataset resetType="Report"/>
 					<categorySeries>
 						<seriesExpression><![CDATA["Control Incendio"]]></seriesExpression>
 						<categoryExpression><![CDATA[$F{nombres}]]></categoryExpression>

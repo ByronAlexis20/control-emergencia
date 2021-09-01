@@ -14,18 +14,64 @@
 							iconSclass="z-icon-plus" onClick="@command('nuevo')" />
 					</div>
 					<hbox align="center">
-						<textbox value="@bind(vm.textoBuscar)" onOK="@command('buscar')"
-							width="300px" class="form-control tamanio-textbox"
-							placeholder="Búsqueda" />
+						<textbox id="txtDia" class="form-control form-control-sm" maxlength="2" width="100px" placeholder="Día" xmlns:w="client">
+							<attribute w:name="doKeyDown_"><![CDATA[
+								function (evt) {
+									var keyCode = event.keyCode;
+									if( keyCode == 8 // back space
+										|| keyCode == 13 // enter
+										|| keyCode == 16 // enter
+										|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
+										|| keyCode == 46) { // Delete
+										this.$doKeyDown_(evt);
+									} else if ( !evt.shiftKey &&  // only do without shift key
+										(keyCode >= 48 && keyCode <= 57)
+										|| (keyCode >= 96 && keyCode <= 105)) {// number range
+										this.$doKeyDown_(evt);
+									} else {
+										evt.stop();
+										return;
+									}
+								}
+							]]></attribute>
+						</textbox>
+						<combobox id="cboMes"
+							model="@load(vm.listaMeses)" readonly="true" placeholder="Mes"
+							selectedItem="@bind(vm.mesSeleccionado)">
+							<template name="model">
+								<comboitem label="${each.mes}" />
+							</template>
+						</combobox>
+						<textbox id="txtAnio" xmlns:w="client" class="form-control form-control-sm" width="100px" placeholder="Año" maxlength="4">
+							<attribute w:name="doKeyDown_"><![CDATA[
+								function (evt) {
+									var keyCode = event.keyCode;
+									if( keyCode == 8 // back space
+										|| keyCode == 13 // enter
+										|| keyCode == 16 // enter
+										|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
+										|| keyCode == 46) { // Delete
+										this.$doKeyDown_(evt);
+									} else if ( !evt.shiftKey &&  // only do without shift key
+										(keyCode >= 48 && keyCode <= 57)
+										|| (keyCode >= 96 && keyCode <= 105)) {// number range
+										this.$doKeyDown_(evt);
+									} else {
+										evt.stop();
+										return;
+									}
+								}
+							]]></attribute>
+						</textbox>
 						<button iconSclass="z-icon-search" zclass="btn btn-info btn-sm"
 							onClick="@command('buscar')" />
 					</hbox>
 				</hlayout>
 			</div>
 			<hlayout vflex="1" hflex="1">
-				<listbox id="lstEmergencias" model="@load(vm.listaEmergencia)" autopaging="true"
-					mold="paging" hflex="1" vflex="1">
+				<listbox id="lstEmergencias" model="@load(vm.listaEmergencia)" hflex="1" vflex="1">
 					<listhead>
+						<listheader label="Tipo Emergencia"/>
 						<listheader label="Tipo Emergencia"/>
 						<listheader label="Parroquia" />
 						<listheader label="Teléfono" />
@@ -34,6 +80,13 @@
 					</listhead>
 					<template name="model">
 						<listitem>
+							<listcell>
+								<label value="@load(each.dia)"/>
+								<label value="/"/>
+								<label value="@load(each.me.idMes)"/>
+								<label value="/"/>
+								<label value="@load(each.anio)"/>
+							</listcell>
 							<listcell label="@load(each.tipoEmergencia.tipoEmergencia)" />
 							<listcell label="@load(each.parroquia.parroquia)"/>
 							<listcell label="@load(each.telefono)"/>

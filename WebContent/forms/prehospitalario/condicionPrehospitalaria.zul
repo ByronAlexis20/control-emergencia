@@ -18,17 +18,17 @@
 				</hlayout>
 			</div>
 			<hlayout vflex="1" hflex="1">
-				<listbox id="lstPrehospitalario" model="@load(vm.listaPrehospitalaria)"
-					mold="paging" hflex="1" vflex="1">
+				<listbox id="lstPrehospitalario" model="@load(vm.listaPrehospitalaria)" hflex="1" vflex="1">
 					<listhead>
+					<listheader label="Fecha del evento"/>
 						<listheader label="Cédula"/>
 						<listheader label="Nombre" />
 						<listheader label="Informante" />
-						<listheader label="Fecha del evento"/>
 						<listheader label="Acción" width="min" align="center"/>
 					</listhead>
 					<template name="model">
 						<listitem>
+							<listcell label="@load(each.fechaEvento) @converter('formatedDate',format='dd/MM/yyyy')" />
 							<listcell label="@load(each.cedulaUsuario)" />
 							<listcell label="@load(each.nombreUsuario)"/>
 							<listcell>
@@ -36,7 +36,6 @@
 								<label value=" "/>
 								<label value="@load(each.informante.persona.apellidos)"/>
 							</listcell>
-							<listcell label="@load(each.fechaEvento)" />
 							<listcell>
 								<div align="center">
 									<button label="Editar" iconSclass="z-icon-pencil" zclass="btn btn-success btn-sm"

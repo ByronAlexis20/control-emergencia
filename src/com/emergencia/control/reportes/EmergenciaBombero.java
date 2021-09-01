@@ -58,7 +58,7 @@ public class EmergenciaBombero {
 						try {						
 							Map<String, Object> params = new HashMap<String, Object>();
 							params.put("NOMBRE_INSTITUCION", "CUERPO DE BOMBEROS DEL CANTÓN LA LIBERTAD");
-							params.put("NOMBRE_REPORTE", "EMERGENCIAS POR BOMBEROS");
+							params.put("NOMBRE_REPORTE", "EMERGENCIAS POR BOMBEROS\nMES: " + mesSeleccionado.getMes());
 							params.put("ID_MES", mesSeleccionado.getIdMes());
 							params.put("ANIO", Integer.parseInt(txtAnio.getText()));
 							PrintReport report = new PrintReport();
