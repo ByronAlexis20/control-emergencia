@@ -109,11 +109,11 @@
 			</div>
 		</div>
 		<hlayout hflex="1">
-			<vlayout hflex="1" vflex="1">
+			<vlayout hflex="1" vflex="1" style="border: #000000 0px outset;box-shadow: 2px 2px 10px #592A08;background-color: #FFFFFF; margin-left: 10px;">
 				<label value="Resumen emergencias" style="font-size:15px;font-weight: bold;" />
 				<image id="imGraficoResumenEmergencia" height="200px" hflex="1"></image>
 			</vlayout>
-			<vlayout hflex="1" vflex="1">
+			<vlayout hflex="1" vflex="1" style="border: #000000 0px outset;box-shadow: 2px 2px 10px #592A08;background-color: #FFFFFF; margin-left: 10px; margin-right: 10px">
 				<label value="Emergencias atendidas por vehículos" style="font-size:15px;font-weight: bold;" />
 				<listbox id="lstEmergenciaVehiculo"
 					hflex="1" height="200px">
@@ -132,11 +132,11 @@
 				</listbox>
 			</vlayout>
 		</hlayout>
-		<hlayout hflex="1" >
-			<vlayout width="300px" vflex="1">
+		<hlayout hflex="1" style="margin-top:10px">
+			<vlayout width="360px" vflex="1" style="border: #000000 0px outset;box-shadow: 2px 2px 10px #592A08;background-color: #FFFFFF; margin-left: 10px">
 				<label value="Emergencias por bomberos" style="font-size:15px;font-weight: bold;" />
 				<listbox id="lstEmergenciaBomberos"
-					hflex="1" height="200px">
+					hflex="1" height="300px">
 					<listhead>
 						<listheader label="Bombero" class="listheader-bombero"/>
 						<listheader label="APH" width="12%" class="listheader-bombero"/>
@@ -157,9 +157,9 @@
 					</template>
 				</listbox>
 			</vlayout>
-			<vlayout hflex="1" vflex="1">
+			<vlayout hflex="1" vflex="1" style="border: #000000 0px outset;box-shadow: 2px 2px 10px #592A08;background-color: #FFFFFF; margin-left: 10px; margin-right: 10px">
 				<label value="Emergencias en los ultimos 3 meses" style="font-size:15px;font-weight: bold;" />
-				<image id="imGraficoTiempoEmergencia" height="200px" hflex="1"></image>
+				<image id="imGraficoTiempoEmergencia" height="300px" hflex="1"></image>
 			</vlayout>
 		</hlayout>
 	</vlayout>

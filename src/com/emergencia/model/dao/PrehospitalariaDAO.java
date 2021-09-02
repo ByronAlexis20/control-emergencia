@@ -36,4 +36,14 @@ public class PrehospitalariaDAO extends ClaseDAO {
 		resultado = (List<Prehospitalaria>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Prehospitalaria> buscarPorMes(Integer mes) {
+		List<Prehospitalaria> resultado; 
+		Query query = getEntityManager().createNamedQuery("Prehospitalaria.buscarPorMes");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("mes", mes);
+		resultado = (List<Prehospitalaria>) query.getResultList();
+		return resultado;
+	}
 }

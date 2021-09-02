@@ -1,5 +1,6 @@
 package com.emergencia.control;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -13,8 +14,16 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.encoders.EncoderUtil;
 import org.jfree.chart.encoders.ImageFormat;
+import org.jfree.chart.labels.StandardXYItemLabelGenerator;
+import org.jfree.chart.labels.XYItemLabelGenerator;
 import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
@@ -168,7 +177,7 @@ public class Dashboard {
 			System.out.println(ex.getMessage());
 		}
 	}
-	private void generarGraficoLineal(Date fecha) {
+	private void generarGraficoLineal(Date fecha) throws IOException {
 		Date fechaActual = fecha;
 		
 		Calendar c = Calendar.getInstance();
@@ -181,7 +190,128 @@ public class Dashboard {
 		c1.add(Calendar.MONTH, -2);
 		Date fechaMenosDos = c1.getTime();
 		
+		//se declara el grafico XY Lineal
+        XYDataset xydataset = xyDataset(fechaActual, fechaMenosUno, fechaMenosDos);
+        JFreeChart jfreechart = ChartFactory.createXYLineChart(
+                "" , "", "Número de emergencias",  
+                xydataset, PlotOrientation.VERTICAL,  true, true, false);
+        
+        
+        //personalización del grafico
+        XYPlot xyplot = (XYPlot) jfreechart.getPlot();
+        xyplot.setBackgroundPaint( Color.white );
+        xyplot.setDomainGridlinePaint( Color.BLACK );
+        xyplot.setRangeGridlinePaint( Color.BLACK );
+        xyplot.setForegroundAlpha(0.9f);
+        // -> Pinta Shapes en los puntos dados por el XYDataset
+        XYLineAndShapeRenderer xylineandshaperenderer = (XYLineAndShapeRenderer) xyplot.getRenderer();
+        xylineandshaperenderer.setBaseShapesVisible(true);
+        //--> muestra los valores de cada punto XY
+        XYItemLabelGenerator xy = new StandardXYItemLabelGenerator();
+        xylineandshaperenderer.setBaseItemLabelGenerator( xy );
+        xylineandshaperenderer.setBaseItemLabelsVisible(true);
+        xylineandshaperenderer.setBaseLinesVisible(true);
+        xylineandshaperenderer.setBaseItemLabelsVisible(true);                
+        //fin de personalización
+
+        //se crea la imagen y se asigna a la clase ImageIcon
+        BufferedImage bi = jfreechart.createBufferedImage(500, 250, BufferedImage.SCALE_REPLICATE , null);
+		byte[] bytes = EncoderUtil.encode(bi, ImageFormat.JPEG, true);
+		AImage image = new AImage("Pie Chart", bytes);
+		imGraficoTiempoEmergencia.setContent(image);
+        
 	}
+	private XYDataset xyDataset(Date fechaActual, Date fechaMenosUno, Date fechaMenosDos) {
+		LocalDate localDateActual = fechaActual.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		int anioAntual  = localDateActual.getYear();
+		int mesActual = localDateActual.getMonthValue();
+		
+		LocalDate localDateMenosUno = fechaMenosUno.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		int anioMenosUno  = localDateMenosUno.getYear();
+		int mesMenosUno = localDateMenosUno.getMonthValue();
+		
+		LocalDate localDateMenosDos = fechaMenosDos.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		int anioMenosDos  = localDateMenosDos.getYear();
+		int mesMenosDos = localDateMenosDos.getMonthValue();
+		
+		List<Emergencia> listaEmergenciaTotal = emergenciaDAO.obtenerEmergencias();
+		List<Prehospitalaria> listaTodasPrehospitlaria = prehospitalariaDAO.obtenerPrehospitalarias();
+		List<Emergencia> listaCIPrimerMes = new ArrayList<>();
+		List<Emergencia> listaCISegundoMes = new ArrayList<>();
+		List<Emergencia> listaCITercerMes = new ArrayList<>();
+		
+		List<Emergencia> listaLSPrimerMes = new ArrayList<>();
+		List<Emergencia> listaLSSegundoMes = new ArrayList<>();
+		List<Emergencia> listaLSTercerMes = new ArrayList<>();
+		
+		List<Prehospitalaria> listaAPHPrimerMes = new ArrayList<>();
+		List<Prehospitalaria> listaAPHSegundoMes = new ArrayList<>();
+		List<Prehospitalaria> listaAPHTercerMes = new ArrayList<>();
+		
+		//el primero es menos 2
+		for(Emergencia em : listaEmergenciaTotal) {
+			if(em.getAnio() == anioMenosDos && em.getMe().getIdMes() == mesMenosDos) {
+				if(em.getTipoEmergencia().getGrupo().equals("LS")) {
+					listaLSPrimerMes.add(em);
+				}else if(em.getTipoEmergencia().getGrupo().equals("CI")) {
+					listaCIPrimerMes.add(em);
+				}
+			}
+			if(em.getAnio() == anioMenosUno && em.getMe().getIdMes() == mesMenosUno) {
+				if(em.getTipoEmergencia().getGrupo().equals("LS")) {
+					listaLSSegundoMes.add(em);
+				}else if(em.getTipoEmergencia().getGrupo().equals("CI")) {
+					listaCISegundoMes.add(em);
+				}
+			}
+			if(em.getAnio() == anioAntual && em.getMe().getIdMes() == mesActual) {
+				if(em.getTipoEmergencia().getGrupo().equals("LS")) {
+					listaLSTercerMes.add(em);
+				}else if(em.getTipoEmergencia().getGrupo().equals("CI")) {
+					listaCITercerMes.add(em);
+				}
+			}
+		}
+		for(Prehospitalaria p : listaTodasPrehospitlaria) {
+			LocalDate local = p.getFechaEvento().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			int anio  = local.getYear();
+			int mes = local.getMonthValue();
+			if(anio == anioMenosDos && mes == mesMenosDos) {
+				listaAPHPrimerMes.add(p);
+			}
+			if(anio == anioMenosUno && mes == mesMenosUno) {
+				listaAPHSegundoMes.add(p);
+			}
+			if(anio == anioAntual && mes == mesActual) {
+				listaAPHTercerMes.add(p);
+			}
+		}
+        //se declaran las series y se llenan los datos
+        XYSeries sPrehospitalaria = new XYSeries("Prehospitalaria");
+        XYSeries sControlIncendio = new XYSeries("Contro de Incendio");
+        XYSeries sLaborSocial = new XYSeries("Labor Social");
+        //serie #1
+        
+        sPrehospitalaria.add( 1, listaAPHPrimerMes.size());
+        sPrehospitalaria.add( 2, listaAPHSegundoMes.size());
+        sPrehospitalaria.add( 3, listaAPHTercerMes.size());
+        //serie #2
+        sControlIncendio.add( 1, listaCIPrimerMes.size());
+        sControlIncendio.add( 2, listaCISegundoMes.size());
+        sControlIncendio.add( 3, listaCITercerMes.size());
+        //serie #3
+        sLaborSocial.add( 1, listaLSPrimerMes.size());
+        sLaborSocial.add( 2, listaLSSegundoMes.size());
+        sLaborSocial.add( 3, listaLSTercerMes.size());
+        
+
+        XYSeriesCollection xyseriescollection =  new XYSeriesCollection();
+        xyseriescollection.addSeries( sPrehospitalaria );        
+        xyseriescollection.addSeries( sControlIncendio );
+        xyseriescollection.addSeries( sLaborSocial );
+
+        return xyseriescollection;
+    }
 	public List<Control> getListaControlVehiculo() {
 		return listaControlVehiculo;
 	}
