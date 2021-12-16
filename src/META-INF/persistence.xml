@@ -22,7 +22,6 @@
 		<class>com.emergencia.model.entity.Procedimiento</class>
 		<class>com.emergencia.model.entity.Provincia</class>
 		<class>com.emergencia.model.entity.SignoVital</class>
-		<class>com.emergencia.model.entity.SignoVitalEmergencia</class>
 		<class>com.emergencia.model.entity.TipoEmergencia</class>
 		<class>com.emergencia.model.entity.TipoProcedimiento</class>
 		<class>com.emergencia.model.entity.TipoSangre</class>

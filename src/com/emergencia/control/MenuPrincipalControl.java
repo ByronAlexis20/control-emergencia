@@ -44,11 +44,9 @@ public class MenuPrincipalControl {
 	List<Permiso> listaPermisosHijo = new ArrayList<Permiso>();
 
 	private PermisoDAO permisoDAO = new PermisoDAO();
-	@Wire
-	Tree menu;
+	@Wire Tree menu;
 
-	@Wire
-	Include areaContenido;
+	@Wire Include areaContenido;
 
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
@@ -95,27 +93,9 @@ public class MenuPrincipalControl {
 				});
 				menu.appendChild(getTreechildren(listaMenu));   
 			}
-			cargarFotoUsuario(usuario);
 		}
 	}
-	public void cargarFotoUsuario(Usuario us) {
-//		if(us != null) {
-//			if(us.getFoto() != null) {
-//				fotoUsuario.setContent(getImagenUsuario(us));
-//			}
-//		}
-	}
-//	public AImage getImagenUsuario(Usuario us) {
-//		AImage retorno = null;
-//		if (us.getFoto() != null) {
-//			try {
-//				retorno = FileUtil.getImagenTamanoFijo(new AImage(us.getFoto()), 100, -1);
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return retorno; 
-//	}
+
 	private Treechildren getTreechildren(List<Menu> listaMenu) {
 		Treechildren retorno = new Treechildren();
 		for(Menu opcion : listaMenu) {
@@ -181,7 +161,12 @@ public class MenuPrincipalControl {
 		areaContenido.setSrc("/forms/dashboard/dashboard.zul");
 	}
 	public String getNombreUsuario() {
-		return SecurityUtil.getUser().getUsername();
+		Usuario usuario = this.usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername());
+		return usuario.getPersona().getApellidos() + " " + usuario.getPersona().getNombres();
+	}
+	public String getPerfilUsuario() {
+		Usuario usuario = this.usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername());
+		return usuario.getPerfil().getNombre();
 	}
 	public List<Menu> getListaOpcion() {
 		return listaOpcion;

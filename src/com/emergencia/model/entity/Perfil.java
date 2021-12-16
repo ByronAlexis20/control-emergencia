@@ -8,7 +8,9 @@ import java.util.List;
 @Table(name="perfil")
 @NamedQueries({
 	@NamedQuery(name="Perfil.buscarPorPatron", query="SELECT p FROM Perfil p where lower(p.nombre) like lower(:patron)"),
-	@NamedQuery(name="Perfil.buscarPerfilPorId", query="SELECT p FROM Perfil p where p.idPerfil = :idPerfil")
+	@NamedQuery(name="Perfil.buscarPerfilPorId", query="SELECT p FROM Perfil p where p.idPerfil = :idPerfil"),
+	@NamedQuery(name="Perfil.buscarPorNombre", query="SELECT p FROM Perfil p where lower(p.nombre) = lower(:patron)"),
+	@NamedQuery(name="Perfil.buscarPorNombreDiferenteId", query="SELECT p FROM Perfil p where lower(p.nombre) = lower(:patron) and p.idPerfil <> :id"),
 })
 public class Perfil implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -23,6 +23,7 @@ import org.zkoss.zul.Window;
 
 import com.emergencia.model.dao.EstadoCivilDAO;
 import com.emergencia.model.dao.PerfilDAO;
+import com.emergencia.model.dao.PersonaDAO;
 import com.emergencia.model.dao.TipoSangreDAO;
 import com.emergencia.model.dao.UsuarioDAO;
 import com.emergencia.model.entity.EstadoCivil;
@@ -55,6 +56,7 @@ public class ChoferEditar {
 	EstadoCivil estadoCivilSeleccionado;
 	TipoSangreDAO tipoSangreDAO = new TipoSangreDAO();
 	TipoSangre tipoSangreSeleccionado;
+	PersonaDAO personaDAO = new PersonaDAO();
 	
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -143,6 +145,24 @@ public class ChoferEditar {
 			Clients.showNotification("Número de CÉDULA NO VÁLIDA!","info",txtNoDocumento,"end_center",2000);
 			txtNoDocumento.focus();
 			return false;
+		}
+		//validar que la cedula no la tenga otra persona
+		if(persona != null) {
+			if(persona.getIdPersona() != null) {
+				List<Persona> listaPersona = this.personaDAO.buscarPorCedulaDiferenteId(txtNoDocumento.getText(), persona.getIdPersona());
+				if(listaPersona.size() > 0) {
+					Clients.showNotification("Número de cédula ya existe entre los registros","info",txtNoDocumento,"end_center",2000);
+					txtNoDocumento.focus();
+					return false;
+				}
+			}else {
+				List<Persona> listaPersona = this.personaDAO.buscarPorCedula(txtNoDocumento.getText());
+				if(listaPersona.size() > 0) {
+					Clients.showNotification("Número de cédula ya existe entre los registros","info",txtNoDocumento,"end_center",2000);
+					txtNoDocumento.focus();
+					return false;
+				}
+			}
 		}
 		if(cboEstadoCivil.getSelectedIndex() == -1) {
 			Clients.showNotification("Debe seleccionar estado civil","info",cboEstadoCivil,"end_center",2000);

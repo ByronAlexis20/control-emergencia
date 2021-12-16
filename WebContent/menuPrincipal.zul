@@ -31,8 +31,9 @@
 						<image src="/imagenes/logo_usuario.png" height="30px" style="border-radius:160px;width:30px;height:30px;"/>
 					</vbox>
 					<separator orient="horizontal" width="1px" />
-					<vbox vflex="1" pack="center">
+					<vbox vflex="1" pack="center" align="center">
 						<label value="@load(vm.nombreUsuario)" style="font: 100% sans-serif;color:white" />
+						<label value="@load(vm.perfilUsuario)" style="font: 100% sans-serif;color:white" />
 					</vbox>
 					<separator orient="horizontal" width="10px" />
 					

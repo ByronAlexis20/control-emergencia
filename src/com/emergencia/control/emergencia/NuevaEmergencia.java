@@ -2,16 +2,13 @@ package com.emergencia.control.emergencia;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
-import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -22,7 +19,6 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.ListModelList;
-import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
@@ -34,7 +30,6 @@ import com.emergencia.model.dao.FormaAvisoDAO;
 import com.emergencia.model.dao.MesDAO;
 import com.emergencia.model.dao.ParroquiaDAO;
 import com.emergencia.model.dao.ProvinciaDAO;
-import com.emergencia.model.dao.SignoVitalEmergenciaDAO;
 import com.emergencia.model.dao.TipoEmergenciaDAO;
 import com.emergencia.model.dao.UsuarioDAO;
 import com.emergencia.model.entity.Barrio;
@@ -44,14 +39,12 @@ import com.emergencia.model.entity.FormaAviso;
 import com.emergencia.model.entity.Me;
 import com.emergencia.model.entity.Parroquia;
 import com.emergencia.model.entity.Provincia;
-import com.emergencia.model.entity.SignoVitalEmergencia;
 import com.emergencia.model.entity.TipoEmergencia;
 import com.emergencia.model.entity.Usuario;
 import com.emergencia.util.Globales;
 
 public class NuevaEmergencia {
 	
-	@Wire Listbox lstSignosVitales;
 	@Wire Combobox cboBarrio;
 	@Wire Combobox cboInformante;
 	@Wire Window winNuevaEmergencia;
@@ -77,7 +70,6 @@ public class NuevaEmergencia {
 	List<Parroquia> listaParroquia;
 	List<TipoEmergencia> listaTipoEmergencia;
 	List<FormaAviso> listaFormaAviso;
-	List<SignoVitalEmergencia> listaSignosVitales;
 	
 	Me mesSeleccionado;
 	Provincia provinciaSeleccionado;
@@ -85,7 +77,6 @@ public class NuevaEmergencia {
 	Parroquia parroquiaSeleccionado;
 	TipoEmergencia tipoEmergenciaSeleccionado;
 	FormaAviso formaAvisoSeleccionado;
-	SignoVitalEmergencia signoVitalSeleccionado;
 	Barrio barrioSeleccionado;
 	Usuario usuarioSeleccionado;
 	
@@ -95,7 +86,6 @@ public class NuevaEmergencia {
 	ParroquiaDAO parroquiaDAO = new ParroquiaDAO();
 	TipoEmergenciaDAO tipoEmergenciaDAO = new TipoEmergenciaDAO();
 	FormaAvisoDAO formaAvisoDAO = new FormaAvisoDAO();
-	SignoVitalEmergenciaDAO signoDAO = new SignoVitalEmergenciaDAO();
 	UsuarioDAO usuarioDAO = new UsuarioDAO();
 	
 	EmergenciaDAO emergenciaDAO = new EmergenciaDAO();
@@ -144,20 +134,6 @@ public class NuevaEmergencia {
 			cboInformante.setText(emergencia.getUsuario().getPersona().getNombres() + " " + emergencia.getUsuario().getPersona().getApellidos());
 			usuarioSeleccionado = emergencia.getUsuario();	
 		}
-		cargarSignosVitales();
-	}
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@GlobalCommand("SignoVitalEmergencia.buscarPorEmergencia")
-	@NotifyChange({"listaSignosVitales"})
-	public void cargarSignosVitales() {
-		try {
-			if(listaSignosVitales != null)
-				listaSignosVitales = null;
-			listaSignosVitales = signoDAO.buscarPorEmergencia(emergencia.getIdEmergencia());
-			lstSignosVitales.setModel(new ListModelList(listaSignosVitales));
-		}catch(Exception ex) {
-			System.out.println(ex.getMessage());
-		}
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
@@ -177,14 +153,6 @@ public class NuevaEmergencia {
 								emergenciaDAO.getEntityManager().persist(emergencia);
 							}else {
 								emergenciaDAO.getEntityManager().merge(emergencia);
-							}
-							if(listaSignosVitales != null) {
-								for(SignoVitalEmergencia sig : listaSignosVitales) {
-									if(sig.getEmergencia() == null) {
-										sig.setEmergencia(emergencia);
-										emergenciaDAO.getEntityManager().persist(sig);
-									}
-								}
 							}
 							emergenciaDAO.getEntityManager().getTransaction().commit();
 							Clients.showNotification("Proceso Ejecutado con exito.");
@@ -277,54 +245,7 @@ public class NuevaEmergencia {
 	public void salir() {
 		winNuevaEmergencia.detach();
 	}
-	@Command
-	public void nuevoSignoVital() {
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("NuevaEmergencia", this);
-		Window ventanaCargar = (Window) Executions.createComponents("/forms/emergencias/signosVitales.zul", null, params);
-		ventanaCargar.doModal();
-	}
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@NotifyChange({"listaSignosVitales"})
-	public void agregarSignoVital(SignoVitalEmergencia sig) {
-		if(listaSignosVitales == null) {
-			listaSignosVitales = new ArrayList<>();
-		}
-		listaSignosVitales.add(sig);
-		lstSignosVitales.setModel(new ListModelList(listaSignosVitales));
-	}
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Command
-	public void eliminarSignoVital() {
-		if(lstSignosVitales.getSelectedItem() == null) {
-			Clients.showNotification("Seleccione una opción de la lista.");
-			return;
-		}
-		SignoVitalEmergencia sig = (SignoVitalEmergencia)lstSignosVitales.getSelectedItem().getValue();
-		Messagebox.show("Desea dar de baja el registro seleccionado?", "Confirmación de Eliminación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
-			@Override
-			public void onEvent(Event event) throws Exception {
-				if (event.getName().equals("onYes")) {
-					try {
-						if(sig.getIdSignoVital() == null) {
-							listaSignosVitales.remove(sig);
-							lstSignosVitales.setModel(new ListModelList(listaSignosVitales));
-						}else {
-							signoDAO.getEntityManager().getTransaction().begin();
-							sig.setEstado("I");
-							signoDAO.getEntityManager().merge(sig);
-							signoDAO.getEntityManager().getTransaction().commit();
-							listaSignosVitales.remove(sig);
-							lstSignosVitales.setModel(new ListModelList(listaSignosVitales));
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-						signoDAO.getEntityManager().getTransaction().rollback();
-					}
-				}
-			}
-		});	
-	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@NotifyChange({"listaCanton"})
 	@Command
@@ -428,21 +349,6 @@ public class NuevaEmergencia {
 	}
 	public List<Barrio> getListaBarrios(){
 		return barrioDAO.getBarrioPorDescripcion("");
-	}
-	public List<SignoVitalEmergencia> getListaSignosVitales() {
-		return listaSignosVitales;
-	}
-
-	public void setListaSignosVitales(List<SignoVitalEmergencia> listaSignosVitales) {
-		this.listaSignosVitales = listaSignosVitales;
-	}
-
-	public SignoVitalEmergencia getSignoVitalSeleccionado() {
-		return signoVitalSeleccionado;
-	}
-
-	public void setSignoVitalSeleccionado(SignoVitalEmergencia signoVitalSeleccionado) {
-		this.signoVitalSeleccionado = signoVitalSeleccionado;
 	}
 	public Barrio getBarrioSeleccionado() {
 		return barrioSeleccionado;

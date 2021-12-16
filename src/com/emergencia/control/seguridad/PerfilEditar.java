@@ -1,5 +1,7 @@
 package com.emergencia.control.seguridad;
 
+import java.util.List;
+
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
@@ -31,7 +33,6 @@ public class PerfilEditar {
 		Selectors.wireComponents(view, this, false);
 		// Recupera el objeto pasado como parametro. 
 		perfil = (Perfil) Executions.getCurrent().getArg().get("Perfil");
-	
 		if (perfil == null) {
 			perfil = new Perfil();
 			perfil.setEstado("A");
@@ -45,6 +46,21 @@ public class PerfilEditar {
 				Clients.showNotification("Obligatoria regitrar el Perfil","info",txtPerfil,"end_center",2000);
 				txtPerfil.setFocus(true);
 				return retorna;
+			}
+			if(perfil != null) {
+				if(perfil.getIdPerfil() == null) {
+					List<Perfil> listaPerfil = this.perfilDAO.buscarPorNombre(txtPerfil.getValue());
+					if(listaPerfil.size() > 0) {
+						Clients.showNotification("Nombre de Perfil ya existe","info",txtPerfil,"end_center",2000);
+						return retorna;
+					}
+				}else {
+					List<Perfil> listaPerfil = this.perfilDAO.buscarPorNombreDiferenteId(txtPerfil.getValue(), perfil.getIdPerfil());
+					if(listaPerfil.size() > 0) {
+						Clients.showNotification("Nombre de Perfil ya existe","info",txtPerfil,"end_center",2000);
+						return retorna;
+					}
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

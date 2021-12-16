@@ -33,4 +33,27 @@ public class PerfilDAO extends ClaseDAO {
 		resultado = (List<Perfil>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Perfil> buscarPorNombre(String value) {
+		List<Perfil> resultado; 
+		String patron = value;
+		Query query = getEntityManager().createNamedQuery("Perfil.buscarPorNombre");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("patron", patron.trim());
+		resultado = (List<Perfil>) query.getResultList();
+		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Perfil> buscarPorNombreDiferenteId(String value, Integer idPerfil) {
+		List<Perfil> resultado; 
+		String patron = value;
+		Query query = getEntityManager().createNamedQuery("Perfil.buscarPorNombreDiferenteId");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("patron", patron.trim());
+		query.setParameter("id", idPerfil);
+		resultado = (List<Perfil>) query.getResultList();
+		return resultado;
+	}
 }

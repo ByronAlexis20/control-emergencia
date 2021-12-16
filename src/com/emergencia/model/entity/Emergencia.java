@@ -94,10 +94,6 @@ public class Emergencia implements Serializable {
 	@JoinColumn(name="id_bombero")
 	private Usuario usuario;
 
-	//bi-directional many-to-one association to SignoVitalEmergencia
-	@OneToMany(mappedBy="emergencia", cascade = CascadeType.ALL)
-	private List<SignoVitalEmergencia> signoVitalEmergencias;
-
 	@OneToMany(mappedBy="emergencia", cascade = CascadeType.ALL)
 	private List<ControlVehiculo> controlVehiculos;
 	
@@ -262,28 +258,6 @@ public class Emergencia implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-
-	public List<SignoVitalEmergencia> getSignoVitalEmergencias() {
-		return this.signoVitalEmergencias;
-	}
-
-	public void setSignoVitalEmergencias(List<SignoVitalEmergencia> signoVitalEmergencias) {
-		this.signoVitalEmergencias = signoVitalEmergencias;
-	}
-
-	public SignoVitalEmergencia addSignoVitalEmergencia(SignoVitalEmergencia signoVitalEmergencia) {
-		getSignoVitalEmergencias().add(signoVitalEmergencia);
-		signoVitalEmergencia.setEmergencia(this);
-
-		return signoVitalEmergencia;
-	}
-
-	public SignoVitalEmergencia removeSignoVitalEmergencia(SignoVitalEmergencia signoVitalEmergencia) {
-		getSignoVitalEmergencias().remove(signoVitalEmergencia);
-		signoVitalEmergencia.setEmergencia(null);
-
-		return signoVitalEmergencia;
 	}
 
 	public List<ControlVehiculo> getControlVehiculos() {

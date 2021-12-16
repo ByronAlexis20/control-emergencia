@@ -228,33 +228,6 @@
 										</row>
 									</rows>
 								</grid>	
-								<hlayout hflex="1">
-									<button zclass="btn btn-primary btn-sm" label="Nuevo"
-										iconSclass="z-icon-plus" onClick="@command('nuevoSignoVital')" />
-									<button zclass="btn btn-danger btn-sm" label="Eliminar"
-										iconSclass="z-icon-trash-o" onClick="@command('eliminarSignoVital')" />
-								</hlayout>
-								<listbox id="lstSignosVitales"  autopaging="true" model="@load(vm.listaSignosVitales)"
-									mold="paging" hflex="1" vflex="1" height="50px">
-									<listhead>
-										<listheader label="Hora"/>
-										<listheader label="Presión arterial"/>
-										<listheader label="Pulso mínimo"/>
-										<listheader label="Temperatura corporal"/>
-										<listheader label="Frecuencia respiratoria"/>
-										<listheader label="Saturación oxigeno"/>
-									</listhead>
-									<template name="model">
-										<listitem>
-											<listcell label="${each.hora}"/>
-											<listcell label="${each.presionArterial}"/>
-											<listcell label="${each.pulsoMinimo}"/>
-											<listcell label="${each.temperaturaCorporal}"/>
-											<listcell label="${each.frecuenciaRespiratoria}"/>
-											<listcell label="${each.saturacionOxigeno}"/>
-										</listitem>
-									</template>
-								</listbox>
 							</vlayout>
 						</tabpanel>
 					</tabpanels>
