@@ -1,6 +1,11 @@
 package com.emergencia.control.registros;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.zkoss.bind.BindUtils;
@@ -174,6 +179,18 @@ public class ChoferEditar {
 		}
 		if(dtpFechaNacimiento.getValue() == null) {
 			Clients.showNotification("Debe registrar fecha de nacimiento","info",dtpFechaNacimiento,"end_center",2000);
+			return false;
+		}
+		//validar edad entre 18 a 30 años
+		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+		Date fechaNacimiento = dtpFechaNacimiento.getValue();
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate fechaNac = LocalDate.parse(formatoFecha.format(fechaNacimiento), fmt);
+		LocalDate ahora = LocalDate.now();
+		Period periodo = Period.between(fechaNac, ahora);
+		int anio = periodo.getYears();
+		if(anio < 18 || anio > 30) {
+			Clients.showNotification("Solo puede registrar personas entre [18 - 30] años de edad","info",dtpFechaNacimiento,"end_center",2000);
 			return false;
 		}
 		//luego preguntar si el numero de documento ya se encuentra sobre los registros

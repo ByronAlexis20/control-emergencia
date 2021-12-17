@@ -41,6 +41,12 @@
 						</cell>
 					</row>
 					<row>
+						<cell class="label-form">Perfil:</cell>
+						<cell>
+							<textbox class="form-control form-control-sm" hflex="1" value="Chófer" disabled="true"/>
+						</cell>
+					</row>
+					<row>
 						<cell class="label-form">Nombres:</cell>
 						<cell>
 							<textbox

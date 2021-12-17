@@ -46,27 +46,11 @@
 					</row>
 					<row>
 						<label value="Temperatura corporal: " class="label-form"/>
-						<textbox id="txtTemperaturaCorporal" class="form-control form-control-sm" hflex="1" xmlns:w="client">
-							<attribute w:name="doKeyDown_"><![CDATA[
-								function (evt) {
-									var keyCode = event.keyCode;
-									if( keyCode == 8 // back space
-										|| keyCode == 13 // enter
-										|| keyCode == 16 // enter
-										|| (keyCode >= 35 && keyCode <= 40) // home, end, arrows
-										|| keyCode == 46) { // Delete
-										this.$doKeyDown_(evt);
-									} else if ( !evt.shiftKey &&  // only do without shift key
-										(keyCode >= 48 && keyCode <= 57)
-										|| (keyCode >= 96 && keyCode <= 105)) {// number range
-										this.$doKeyDown_(evt);
-									} else {
-										evt.stop();
-										return;
-									}
-								}
-							]]></attribute>
-						</textbox>
+						<textbox id="txtTemperaturaCorporal" class="form-control form-control-sm" hflex="1" />
+					</row>
+					<row>
+						<label value="Escala de Glasgow: " class="label-form"/>
+						<textbox id="txtEscalaGlasgow" class="form-control form-control-sm" hflex="1" />
 					</row>
 					<row>
 						<label value="Frecuencia respiratoria: " class="label-form"/>

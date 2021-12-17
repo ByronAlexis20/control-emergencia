@@ -1,6 +1,11 @@
 package com.emergencia.control.seguridad;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.zkoss.bind.BindUtils;
@@ -32,6 +37,7 @@ import com.emergencia.model.entity.Persona;
 import com.emergencia.model.entity.TipoSangre;
 import com.emergencia.model.entity.Usuario;
 import com.emergencia.util.ControllerHelper;
+import com.emergencia.util.Globales;
 
 
 public class UsuarioEditar {
@@ -178,6 +184,19 @@ public class UsuarioEditar {
 			Clients.showNotification("Debe registrar fecha de nacimiento","info",dtpFechaNacimiento,"end_center",2000);
 			return false;
 		}
+		//validar edad entre 18 a 30 años
+		SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+		Date fechaNacimiento = dtpFechaNacimiento.getValue();
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate fechaNac = LocalDate.parse(formatoFecha.format(fechaNacimiento), fmt);
+		LocalDate ahora = LocalDate.now();
+		Period periodo = Period.between(fechaNac, ahora);
+		int anio = periodo.getYears();
+		if(anio < 18 || anio > 30) {
+			Clients.showNotification("Solo puede registrar personas entre [18 - 30] años de edad","info",dtpFechaNacimiento,"end_center",2000);
+			return false;
+		}
+		
 		//luego preguntar si el numero de documento ya se encuentra sobre los registros
 		if(validarUsuarioExistente() == true) {
 			Clients.showNotification("Ya hay un Usuario con el número de documento " + txtNoDocumento.getText() + "!","info",txtNoDocumento,"end_center",2000);
@@ -251,7 +270,17 @@ public class UsuarioEditar {
 	}
 
 	public List<Perfil> getPerfiles(){
-		return perfilDAO.getPerfilesPorDescripcion("");
+		List<Perfil> lista = perfilDAO.getPerfilesPorDescripcion("");
+		List<Perfil> listaRetornar = new ArrayList<>();
+		for(Perfil ls : lista) {
+			if(ls.getIdPerfil() == Globales.codigoAdministrador)
+				listaRetornar.add(ls);
+			else if(ls.getIdPerfil() == Globales.codigoSecretaria)
+				listaRetornar.add(ls);
+			else if(ls.getIdPerfil() == Globales.codigoJefeGuardia)
+				listaRetornar.add(ls);
+		}
+		return listaRetornar;
 	}
 	
 	public List<EstadoCivil> getEstadosCiviles(){

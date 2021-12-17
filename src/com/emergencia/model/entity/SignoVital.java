@@ -33,13 +33,16 @@ public class SignoVital implements Serializable {
 	@Column(name="presion_arterial")
 	private int presionArterial;
 
+	@Column(name="escala_glasgow")
+	private String escalaGlasgow;
+	
 	@Column(name="pulso_min")
 	private int pulsoMin;
 
 	@Column(name="saturacion_oxigeno")
 	private int saturacionOxigeno;
 
-	private float temperatura;
+	private String temperatura;
 
 	//bi-directional many-to-one association to Prehospitalaria
 	@ManyToOne
@@ -113,11 +116,11 @@ public class SignoVital implements Serializable {
 		this.saturacionOxigeno = saturacionOxigeno;
 	}
 
-	public float getTemperatura() {
+	public String getTemperatura() {
 		return this.temperatura;
 	}
 
-	public void setTemperatura(float temperatura) {
+	public void setTemperatura(String temperatura) {
 		this.temperatura = temperatura;
 	}
 
@@ -127,6 +130,14 @@ public class SignoVital implements Serializable {
 
 	public void setPrehospitalaria(Prehospitalaria prehospitalaria) {
 		this.prehospitalaria = prehospitalaria;
+	}
+
+	public String getEscalaGlasgow() {
+		return escalaGlasgow;
+	}
+
+	public void setEscalaGlasgow(String escalaGlasgow) {
+		this.escalaGlasgow = escalaGlasgow;
 	}
 
 }

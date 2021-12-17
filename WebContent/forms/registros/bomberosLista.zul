@@ -40,7 +40,7 @@
 							<listcell label="@load(each.persona.nombres)"/>
 							<listcell label="@load(each.persona.apellidos)"/>
 							<listcell label="@load(each.persona.tipoSangre.tipoSangre)"/>
-							<listcell label="@load(each.persona.cargo)"/>
+							<listcell label="@load(each.perfil.nombre)"/>
 							<listcell label="@load(each.estado)"/>
 							<listcell>
 								<div align="center">
