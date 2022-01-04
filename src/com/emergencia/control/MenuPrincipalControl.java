@@ -62,6 +62,15 @@ public class MenuPrincipalControl {
 			listaPermisosHijo = permisoDAO.getListaPermisosHijo(usuario.getPerfil().getIdPerfil());
 			
 			//obtener la lista de menus padre de cada menu
+			Menu mn = new Menu();
+			mn.setDescripcion("Dashboard");
+			mn.setEstado("A");
+			mn.setIdMenu(0);
+			mn.setUrl("/forms/dashboard/dashboard.zul");
+			mn.setIdMenuPadre(0);
+			mn.setIcono("/imagenes/ic_dashboard.png");
+			
+			listaPermisosPadre.add(mn);
 			boolean bandera = false;
 			for(Permiso per : listaPermisosHijo) {
 				bandera = false;

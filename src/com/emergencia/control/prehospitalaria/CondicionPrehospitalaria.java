@@ -50,7 +50,7 @@ public class CondicionPrehospitalaria {
 			Clients.showNotification("No hay datos para mostrar.!!");
 		}
 	}
-	@GlobalCommand("Prehospitalaria.findAll")
+	@GlobalCommand("Prehospitalaria.buscarPorFecha")
 	@Command
 	@NotifyChange({"listaPrehospitalaria"})
 	public void buscar(){

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptVehiculos" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4ac201d3-7d92-4922-800b-1669bd0557ed">
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
@@ -23,11 +23,6 @@
 	<parameter name="NOMBRE_REPORTE" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select v.codigo,
-(select count(*) 
-from control_vehiculo c 
-where c.estado = 'A' and c.id_vehiculo = v.id_vehiculo
-and c.id_prehospitalaria is not null
-and c.fecha between  $P{FECHA_INICIO} and  $P{FECHA_FIN} ) as countPrehospitalaria,
 (select count(*)
 		from control_vehiculo c, emergencia e, tipo_emergencia t 
 		where c.id_emergencia = e.id_emergencia and e.id_tipo_emergencia = t.id_tipo_emergencia 
@@ -39,7 +34,12 @@ and c.fecha between  $P{FECHA_INICIO} and  $P{FECHA_FIN} ) as countPrehospitalar
 		where c.id_emergencia = e.id_emergencia and e.id_tipo_emergencia = t.id_tipo_emergencia 
 		and t.grupo = 'LS'
 		and c.id_vehiculo = v.id_vehiculo and c.estado = 'A' 
-		and c.fecha between  $P{FECHA_INICIO} and  $P{FECHA_FIN} ) as countLaborSocial
+		and c.fecha between  $P{FECHA_INICIO} and  $P{FECHA_FIN} ) as countLaborSocial,
+(select count(*) 
+	from control_vehiculo c 
+	where c.estado = 'A' and c.id_vehiculo = v.id_vehiculo
+	and c.id_prehospitalaria is not null
+	and c.fecha between  $P{FECHA_INICIO} and  $P{FECHA_FIN} ) as countPrehospitalaria
 from vehiculo v
 where v.estado = 'A']]>
 	</queryString>
@@ -49,10 +49,6 @@ where v.estado = 'A']]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="vehiculo"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="countPrehospitalaria" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.name" value="countPrehospitalaria"/>
-		<property name="com.jaspersoft.studio.field.label" value="countPrehospitalaria"/>
-	</field>
 	<field name="countControlIncendio" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="countControlIncendio"/>
 		<property name="com.jaspersoft.studio.field.label" value="countControlIncendio"/>
@@ -60,6 +56,10 @@ where v.estado = 'A']]>
 	<field name="countLaborSocial" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="countLaborSocial"/>
 		<property name="com.jaspersoft.studio.field.label" value="countLaborSocial"/>
+	</field>
+	<field name="countPrehospitalaria" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="countPrehospitalaria"/>
+		<property name="com.jaspersoft.studio.field.label" value="countPrehospitalaria"/>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -86,18 +86,13 @@ where v.estado = 'A']]>
 			</image>
 			<barChart>
 				<chart evaluationTime="Report">
-					<reportElement x="-10" y="92" width="820" height="348" uuid="3b33ce18-cded-4fde-9792-4758850bf587"/>
+					<reportElement x="-10" y="92" width="820" height="348" uuid="096c7001-d02e-4a0d-9f75-ad75c3f6e457"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
 					<dataset resetType="Report"/>
-					<categorySeries>
-						<seriesExpression><![CDATA["Prehospitalaria"]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{codigo}]]></categoryExpression>
-						<valueExpression><![CDATA[$F{countPrehospitalaria}]]></valueExpression>
-					</categorySeries>
 					<categorySeries>
 						<seriesExpression><![CDATA["Control de incendio"]]></seriesExpression>
 						<categoryExpression><![CDATA[$F{codigo}]]></categoryExpression>
@@ -107,6 +102,11 @@ where v.estado = 'A']]>
 						<seriesExpression><![CDATA["Labor Social"]]></seriesExpression>
 						<categoryExpression><![CDATA[$F{codigo}]]></categoryExpression>
 						<valueExpression><![CDATA[$F{countLaborSocial}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Prehospitalaria"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{codigo}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{countPrehospitalaria}]]></valueExpression>
 					</categorySeries>
 				</categoryDataset>
 				<barPlot>
