@@ -31,6 +31,7 @@ import org.zkoss.zul.Window;
 import com.emergencia.model.dao.CondicionLlegadaDAO;
 import com.emergencia.model.dao.GeneroDAO;
 import com.emergencia.model.dao.LocalizacionLesionDAO;
+import com.emergencia.model.dao.PersonalPrehospitalariaDAO;
 import com.emergencia.model.dao.PrehospitalariaDAO;
 import com.emergencia.model.dao.ProcedimientoDAO;
 import com.emergencia.model.dao.SignoVitalDAO;
@@ -39,6 +40,7 @@ import com.emergencia.model.dao.UsuarioDAO;
 import com.emergencia.model.entity.CondicionLlegada;
 import com.emergencia.model.entity.Genero;
 import com.emergencia.model.entity.LocalizacionLesion;
+import com.emergencia.model.entity.PersonalPrehospitalaria;
 import com.emergencia.model.entity.Prehospitalaria;
 import com.emergencia.model.entity.Procedimiento;
 import com.emergencia.model.entity.SignoVital;
@@ -51,6 +53,7 @@ public class RegistroPrehospitalario {
 	@Wire Listbox lstSignosVitales;
 	@Wire Listbox lstProcedimiento;
 	@Wire Listbox lstLocalizacion;
+	@Wire Listbox lstPersonalEmergencia;
 	@Wire Textbox txtCedulaUsuario;
 	@Wire Textbox txtNombreUsuario;
 	@Wire Textbox txtEdad;
@@ -68,6 +71,8 @@ public class RegistroPrehospitalario {
 	List<Procedimiento> listaProcedimiento;
 	List<LocalizacionLesion> listaLocalizacionLesion;
 	List<TipoEmergencia> listaTipoEmergencia;
+	List<PersonalPrehospitalaria> listaBomberos;
+	
 	Prehospitalaria prehospitalario;
 	GeneroDAO generoDAO = new GeneroDAO();
 	CondicionLlegadaDAO condicionLlegadaDAO = new CondicionLlegadaDAO();
@@ -81,6 +86,7 @@ public class RegistroPrehospitalario {
 	TipoEmergencia tipoEmergenciaSeleccionado;
 	UsuarioDAO usuarioDAO = new UsuarioDAO();
 	Usuario usuarioSeleccionado;
+	PersonalPrehospitalariaDAO personalPrehospitalarioDAO = new PersonalPrehospitalariaDAO();
 	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
@@ -92,6 +98,7 @@ public class RegistroPrehospitalario {
 			prehospitalario = new Prehospitalaria();
 		}
 	}
+	
 	private void recuperarDatos() {
 		txtCedulaUsuario.setText(prehospitalario.getCedulaUsuario());
 		txtNombreUsuario.setText(prehospitalario.getNombreUsuario());
@@ -113,7 +120,9 @@ public class RegistroPrehospitalario {
 		cargarSignosVitales();
 		cargarProcedimiento();
 		cargarLocalizacion();
+		cargarBomberos();
 	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
 	public void grabar() {
@@ -157,6 +166,14 @@ public class RegistroPrehospitalario {
 									}
 								}
 							}
+							if(listaBomberos != null) {
+								for(PersonalPrehospitalaria per : listaBomberos) {
+									if(per.getPrehospitalaria() == null) {
+										per.setPrehospitalaria(prehospitalario);
+										prehospitalarioDAO.getEntityManager().persist(per);
+									}
+								}
+							}
 							prehospitalarioDAO.getEntityManager().getTransaction().commit();
 							Clients.showNotification("Proceso Ejecutado con exito.");
 							BindUtils.postGlobalCommand(null, null, "Prehospitalaria.findAll", null);
@@ -172,6 +189,7 @@ public class RegistroPrehospitalario {
 			
 		}
 	}
+	
 	private void cargarDatos() {
 		prehospitalario.setCedulaUsuario(txtCedulaUsuario.getText());
 		prehospitalario.setNombreUsuario(txtNombreUsuario.getText());
@@ -187,6 +205,7 @@ public class RegistroPrehospitalario {
 		prehospitalario.setInterrogatorio(txtInterrogatorio.getText());
 		prehospitalario.setEstado("A");
 	}
+	
 	private boolean validarDatos() {
 		try {
 			boolean band = true;
@@ -234,6 +253,7 @@ public class RegistroPrehospitalario {
 			return false;
 		}
 	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GlobalCommand("SignoVital.buscarPorPrehospitalario")
 	@NotifyChange({"listaSignoVital"})
@@ -247,6 +267,21 @@ public class RegistroPrehospitalario {
 			System.out.println(ex.getMessage());
 		}
 	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@GlobalCommand("PersonalPrehospitalaria.buscarPorEmergencia")
+	@NotifyChange({"listaBomberos"})
+	public void cargarBomberos() {
+		try {
+			if(listaBomberos != null)
+				listaBomberos = null;
+			listaBomberos = personalPrehospitalarioDAO.buscarPorEmergencia(prehospitalario.getIdPrehospitalaria());
+			lstPersonalEmergencia.setModel(new ListModelList(listaBomberos));
+		}catch(Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GlobalCommand("Procedimiento.buscarPorPrehospitalario")
 	@NotifyChange({"listaProcedimiento"})
@@ -260,6 +295,7 @@ public class RegistroPrehospitalario {
 			System.out.println(ex.getMessage());
 		}
 	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@GlobalCommand("LocalizacionLesion.buscarPorPrehospitalario")
 	@NotifyChange({"listaLocalizacionLesion"})
@@ -273,6 +309,7 @@ public class RegistroPrehospitalario {
 			System.out.println(ex.getMessage());
 		}
 	}
+	
 	@Command
 	public void nuevoSignoVital() {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -280,6 +317,7 @@ public class RegistroPrehospitalario {
 		Window ventanaCargar = (Window) Executions.createComponents("/forms/prehospitalario/signoVital.zul", null, params);
 		ventanaCargar.doModal();
 	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@NotifyChange({"listaSignoVital"})
 	public void agregarSignoVital(SignoVital sig) {
@@ -289,6 +327,7 @@ public class RegistroPrehospitalario {
 		listaSignoVital.add(sig);
 		lstSignosVitales.setModel(new ListModelList(listaSignoVital));
 	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
 	public void eliminarSignoVital() {
@@ -321,6 +360,58 @@ public class RegistroPrehospitalario {
 			}
 		});	
 	}
+	
+	@Command
+	public void nuevoBombero() {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("RegistroPrehospitalario", this);
+		Window ventanaCargar = (Window) Executions.createComponents("/forms/prehospitalario/seleccionarBombero.zul", null, params);
+		ventanaCargar.doModal();
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@NotifyChange({"listaBomberos"})
+	public void agregarBombero(PersonalPrehospitalaria bom) {
+		if(listaBomberos == null) {
+			listaBomberos = new ArrayList<>();
+		}
+		listaBomberos.add(bom);
+		lstPersonalEmergencia.setModel(new ListModelList(listaBomberos));
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Command
+	public void eliminarBombero() {
+		if(lstPersonalEmergencia.getSelectedItem() == null) {
+			Clients.showNotification("Seleccione una opción de la lista.");
+			return;
+		}
+		PersonalPrehospitalaria usu = (PersonalPrehospitalaria) lstPersonalEmergencia.getSelectedItem().getValue();
+		Messagebox.show("Desea dar de baja el registro seleccionado?", "Confirmación de Eliminación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
+			@Override
+			public void onEvent(Event event) throws Exception {
+				if (event.getName().equals("onYes")) {
+					try {
+						if(usu.getIdPersonalPrehospitalaria() == null) {
+							listaBomberos.remove(usu);
+							lstPersonalEmergencia.setModel(new ListModelList(listaBomberos));
+						}else {
+							personalPrehospitalarioDAO.getEntityManager().getTransaction().begin();
+							usu.setEstado("I");
+							personalPrehospitalarioDAO.getEntityManager().merge(usu);
+							personalPrehospitalarioDAO.getEntityManager().getTransaction().commit();
+							listaBomberos.remove(usu);
+							lstPersonalEmergencia.setModel(new ListModelList(listaBomberos));
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						personalPrehospitalarioDAO.getEntityManager().getTransaction().rollback();
+					}
+				}
+			}
+		});	
+	}
+	
 	@Command
 	public void nuevoProcedimiento() {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -328,6 +419,7 @@ public class RegistroPrehospitalario {
 		Window ventanaCargar = (Window) Executions.createComponents("/forms/prehospitalario/procedimiento.zul", null, params);
 		ventanaCargar.doModal();
 	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@NotifyChange({"listaProcedimiento"})
 	public void agregarProcedimiento(Procedimiento tip) {
@@ -337,6 +429,7 @@ public class RegistroPrehospitalario {
 		listaProcedimiento.add(tip);
 		lstProcedimiento.setModel(new ListModelList(listaProcedimiento));
 	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
 	public void eliminarProcedimiento() {
@@ -369,6 +462,7 @@ public class RegistroPrehospitalario {
 			}
 		});	
 	}
+	
 	@Command
 	public void nuevoLocalizacionLesion() {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -376,6 +470,7 @@ public class RegistroPrehospitalario {
 		Window ventanaCargar = (Window) Executions.createComponents("/forms/prehospitalario/lesiones.zul", null, params);
 		ventanaCargar.doModal();
 	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@NotifyChange({"listaLocalizacionLesion"})
 	public void agregarLocalizacionLesion(LocalizacionLesion les) {
@@ -385,6 +480,7 @@ public class RegistroPrehospitalario {
 		listaLocalizacionLesion.add(les);
 		lstLocalizacion.setModel(new ListModelList(listaLocalizacionLesion));
 	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
 	public void eliminarLocalizacionLesion() {
@@ -417,49 +513,64 @@ public class RegistroPrehospitalario {
 			}
 		});	
 	}
+	
 	@Command
 	public void salir() {
 		winRegistroPrehospitalaria.detach();
 	}
+	
 	public List<Genero> getListaGenero(){
 		return generoDAO.buscarGeneros();
 	}
+	
 	public List<CondicionLlegada> getListaCondicionLlegada(){
 		return condicionLlegadaDAO.buscarCondicionLlegada();
 	}
+	
 	public Prehospitalaria getPrehospitalario() {
 		return prehospitalario;
 	}
+	
 	public void setPrehospitalario(Prehospitalaria prehospitalario) {
 		this.prehospitalario = prehospitalario;
 	}
+	
 	public List<SignoVital> getListaSignoVital() {
 		return listaSignoVital;
 	}
+	
 	public void setListaSignoVital(List<SignoVital> listaSignoVital) {
 		this.listaSignoVital = listaSignoVital;
 	}
+	
 	public List<Procedimiento> getListaProcedimiento() {
 		return listaProcedimiento;
 	}
+	
 	public void setListaProcedimiento(List<Procedimiento> listaProcedimiento) {
 		this.listaProcedimiento = listaProcedimiento;
 	}
+	
 	public List<LocalizacionLesion> getListaLocalizacionLesion() {
 		return listaLocalizacionLesion;
 	}
+	
 	public void setListaLocalizacionLesion(List<LocalizacionLesion> listaLocalizacionLesion) {
 		this.listaLocalizacionLesion = listaLocalizacionLesion;
 	}
+	
 	public Genero getGeneroSeleccionado() {
 		return generoSeleccionado;
 	}
+	
 	public void setGeneroSeleccionado(Genero generoSeleccionado) {
 		this.generoSeleccionado = generoSeleccionado;
 	}
+	
 	public CondicionLlegada getCondicionLlegadaSeleccionado() {
 		return condicionLlegadaSeleccionado;
 	}
+	
 	public void setCondicionLlegadaSeleccionado(CondicionLlegada condicionLlegadaSeleccionado) {
 		this.condicionLlegadaSeleccionado = condicionLlegadaSeleccionado;
 	}
@@ -467,9 +578,11 @@ public class RegistroPrehospitalario {
 	public TipoEmergencia getTipoEmergenciaSeleccionado() {
 		return tipoEmergenciaSeleccionado;
 	}
+	
 	public void setTipoEmergenciaSeleccionado(TipoEmergencia tipoEmergenciaSeleccionado) {
 		this.tipoEmergenciaSeleccionado = tipoEmergenciaSeleccionado;
 	}
+	
 	public List<Usuario> getUsuariosBomberos(){
 		return usuarioDAO.buscarBomberoEmergencias();
 	}
@@ -477,9 +590,19 @@ public class RegistroPrehospitalario {
 	public Usuario getUsuarioSeleccionado() {
 		return usuarioSeleccionado;
 	}
+	
 	public void setUsuarioSeleccionado(Usuario usuarioSeleccionado) {
 		this.usuarioSeleccionado = usuarioSeleccionado;
 	}
+	
+	public List<PersonalPrehospitalaria> getListaBomberos() {
+		return listaBomberos;
+	}
+	
+	public void setListaBomberos(List<PersonalPrehospitalaria> listaBomberos) {
+		this.listaBomberos = listaBomberos;
+	}
+	
 	public List<TipoEmergencia> getListaTipoEmergencia() {
 		List<TipoEmergencia> listaTodos = tipoEmergenciaDAO.obtenerTodos();
 		List<TipoEmergencia> lista = new ArrayList<>();

@@ -2,13 +2,16 @@ package com.emergencia.control.emergencia;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -19,6 +22,7 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
@@ -29,6 +33,7 @@ import com.emergencia.model.dao.EmergenciaDAO;
 import com.emergencia.model.dao.FormaAvisoDAO;
 import com.emergencia.model.dao.MesDAO;
 import com.emergencia.model.dao.ParroquiaDAO;
+import com.emergencia.model.dao.PersonalEmergenciaDAO;
 import com.emergencia.model.dao.ProvinciaDAO;
 import com.emergencia.model.dao.TipoEmergenciaDAO;
 import com.emergencia.model.dao.UsuarioDAO;
@@ -38,6 +43,7 @@ import com.emergencia.model.entity.Emergencia;
 import com.emergencia.model.entity.FormaAviso;
 import com.emergencia.model.entity.Me;
 import com.emergencia.model.entity.Parroquia;
+import com.emergencia.model.entity.PersonalEmergencia;
 import com.emergencia.model.entity.Provincia;
 import com.emergencia.model.entity.TipoEmergencia;
 import com.emergencia.model.entity.Usuario;
@@ -63,6 +69,7 @@ public class NuevaEmergencia {
 	@Wire Textbox txtAvenida;
 	@Wire Textbox txtDescripcionOperaciones;
 	@Wire Textbox txtNovedades;
+	@Wire Listbox lstPersonalEmergencia;
 	
 	List<Me> listaMeses;
 	List<Provincia> listaProvincia;
@@ -70,6 +77,8 @@ public class NuevaEmergencia {
 	List<Parroquia> listaParroquia;
 	List<TipoEmergencia> listaTipoEmergencia;
 	List<FormaAviso> listaFormaAviso;
+	
+	List<PersonalEmergencia> listaBomberos;
 	
 	Me mesSeleccionado;
 	Provincia provinciaSeleccionado;
@@ -90,8 +99,10 @@ public class NuevaEmergencia {
 	
 	EmergenciaDAO emergenciaDAO = new EmergenciaDAO();
 	BarrioDAO barrioDAO = new BarrioDAO();
+	PersonalEmergenciaDAO personalEmergenciaDAO = new PersonalEmergenciaDAO();
 	
 	Emergencia emergencia;
+	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
@@ -102,6 +113,7 @@ public class NuevaEmergencia {
 			emergencia = new Emergencia();
 		}
 	}
+	
 	private void recuperarDatos() {
 		cboProvincia.setText(emergencia.getParroquia().getCanton().getProvincia().getProvincia());
 		provinciaSeleccionado = emergencia.getParroquia().getCanton().getProvincia();
@@ -134,7 +146,23 @@ public class NuevaEmergencia {
 			cboInformante.setText(emergencia.getUsuario().getPersona().getNombres() + " " + emergencia.getUsuario().getPersona().getApellidos());
 			usuarioSeleccionado = emergencia.getUsuario();	
 		}
+		cargarBomberos();
 	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@GlobalCommand("PersonalEmergencia.buscarPorEmergencia")
+	@NotifyChange({"listaBomberos"})
+	public void cargarBomberos() {
+		try {
+			if(listaBomberos != null)
+				listaBomberos = null;
+			listaBomberos = personalEmergenciaDAO.buscarPorEmergencia(emergencia.getIdEmergencia());
+			lstPersonalEmergencia.setModel(new ListModelList(listaBomberos));
+		}catch(Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Command
 	public void grabar() {
@@ -154,6 +182,16 @@ public class NuevaEmergencia {
 							}else {
 								emergenciaDAO.getEntityManager().merge(emergencia);
 							}
+							
+							if(listaBomberos != null) {
+								for(PersonalEmergencia per : listaBomberos) {
+									if(per.getEmergencia() == null) {
+										per.setEmergencia(emergencia);
+										emergenciaDAO.getEntityManager().persist(per);
+									}
+								}
+							}
+							
 							emergenciaDAO.getEntityManager().getTransaction().commit();
 							Clients.showNotification("Proceso Ejecutado con exito.");
 							BindUtils.postGlobalCommand(null, null, "Emergencia.findAll", null);
@@ -241,6 +279,63 @@ public class NuevaEmergencia {
 			return false;
 		}
 	}
+	
+	@Command
+	public void nuevoBombero() {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("NuevaEmergencia", this);
+		//pasar tambien por parametros los bomberos que ya estan agregados para que no las muestre
+		List<Usuario> bomberos = new ArrayList<>();
+		for(PersonalEmergencia per : listaBomberos) {
+			bomberos.add(per.getBombero());
+		}
+		params.put("Bomberos", bomberos);
+		Window ventanaCargar = (Window) Executions.createComponents("/forms/emergencias/seleccionarBombero.zul", null, params);
+		ventanaCargar.doModal();
+	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@NotifyChange({"listaBomberos"})
+	public void agregarBombero(PersonalEmergencia bom) {
+		if(listaBomberos == null) {
+			listaBomberos = new ArrayList<>();
+		}
+		listaBomberos.add(bom);
+		lstPersonalEmergencia.setModel(new ListModelList(listaBomberos));
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Command
+	public void eliminarBombero() {
+		if(lstPersonalEmergencia.getSelectedItem() == null) {
+			Clients.showNotification("Seleccione una opción de la lista.");
+			return;
+		}
+		PersonalEmergencia usu = (PersonalEmergencia) lstPersonalEmergencia.getSelectedItem().getValue();
+		Messagebox.show("Desea dar de baja el registro seleccionado?", "Confirmación de Eliminación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
+			@Override
+			public void onEvent(Event event) throws Exception {
+				if (event.getName().equals("onYes")) {
+					try {
+						if(usu.getIdPersonalEmergencia() == null) {
+							listaBomberos.remove(usu);
+							lstPersonalEmergencia.setModel(new ListModelList(listaBomberos));
+						}else {
+							personalEmergenciaDAO.getEntityManager().getTransaction().begin();
+							usu.setEstado("I");
+							personalEmergenciaDAO.getEntityManager().merge(usu);
+							personalEmergenciaDAO.getEntityManager().getTransaction().commit();
+							listaBomberos.remove(usu);
+							lstPersonalEmergencia.setModel(new ListModelList(listaBomberos));
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						personalEmergenciaDAO.getEntityManager().getTransaction().rollback();
+					}
+				}
+			}
+		});	
+	}
+	
 	@Command
 	public void salir() {
 		winNuevaEmergencia.detach();
@@ -365,4 +460,11 @@ public class NuevaEmergencia {
 	public void setUsuarioSeleccionado(Usuario usuarioSeleccionado) {
 		this.usuarioSeleccionado = usuarioSeleccionado;
 	}
+	public List<PersonalEmergencia> getListaBomberos() {
+		return listaBomberos;
+	}
+	public void setListaBomberos(List<PersonalEmergencia> listaBomberos) {
+		this.listaBomberos = listaBomberos;
+	}
+	
 }

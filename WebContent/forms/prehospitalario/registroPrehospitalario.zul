@@ -11,6 +11,7 @@
 					<tab label="Datos Generales" id="tabDatosPersonales"/>
 					<tab label="Signos vitales" id="tabDocumentos"/>
 					<tab label="Lesiones y procedimiento" id="tabFichaMedica"/>
+					<tab label="Personal que asiste" id="tabPersonalAsiste"/>
 				</tabs>
 				<tabpanels>
 					<tabpanel>
@@ -252,6 +253,33 @@
 								</vlayout>
 							</groupbox>
 						</hlayout>
+					</tabpanel>
+				
+					<tabpanel>
+						<vlayout hflex="1" vflex="1">
+							<hlayout hflex="1">
+								<button zclass="btn btn-primary btn-sm" label="Nuevo"
+									iconSclass="z-icon-plus" onClick="@command('nuevoBombero')" />
+								<button zclass="btn btn-danger btn-sm" label="Eliminar"
+									iconSclass="z-icon-trash-o" onClick="@command('eliminarBombero')" />
+							</hlayout>
+							<listbox id="lstPersonalEmergencia" model="@load(vm.listaBomberos)" mold="paging" hflex="1" vflex="1">
+								<listhead>
+									<listheader label="Cédula"/>
+									<listheader label="Nombres"/>
+									<listheader label="Apellidos"/>
+									<listheader label="Cargo"/>
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell label="${each.bombero.persona.cedula}"/>
+										<listcell label="${each.bombero.persona.nombres}"/>
+										<listcell label="${each.bombero.persona.apellidos}"/>
+										<listcell label="${each.bombero.perfil.nombre}"/>
+									</listitem>
+								</template>
+							</listbox>
+						</vlayout>
 					</tabpanel>
 				</tabpanels>
 			</tabbox>
