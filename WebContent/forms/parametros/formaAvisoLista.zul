@@ -16,7 +16,7 @@
 					<hbox align="center">
 						<textbox value="@bind(vm.textoBuscar)" onOK="@command('buscar')"
 							width="300px" class="form-control tamanio-textbox"
-							placeholder="Búsqueda forma de aviso" />
+							placeholder="Búsqueda por forma de aviso" />
 						<button iconSclass="z-icon-search" class="but btn-form btn-sm"
 							onClick="@command('buscar')" />
 					</hbox>

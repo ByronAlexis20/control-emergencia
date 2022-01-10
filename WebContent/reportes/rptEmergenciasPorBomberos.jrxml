@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptEmergenciasPorBomberos" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c1ec475b-fed7-4327-bb56-bed17e801ad8">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="control_emergencia"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -22,14 +23,14 @@
 	<parameter name="NOMBRE_REPORTE" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select u.id_usuario,p.cedula,concat(p.nombres, '', p.apellidos) as nombres, pe.nombre,
-(select count(*) from emergencia e, tipo_emergencia t where t.id_tipo_emergencia = e.id_tipo_emergencia
-and e.estado = 'A' and e.id_bombero = u.id_usuario and t.grupo = 'CI'
+(select count(*) from emergencia e, tipo_emergencia t, personal_emergencia pe where t.id_tipo_emergencia = e.id_tipo_emergencia
+and e.estado = 'A' and pe.id_bombero = u.id_usuario and t.grupo = 'CI' and pe.estado = 'A' and pe.id_emergencia = e.id_emergencia
 and e.id_mes = $P{ID_MES}  and e.anio = $P{ANIO} ) as contCI,
-(select count(*) from emergencia e, tipo_emergencia t where t.id_tipo_emergencia = e.id_tipo_emergencia
-and e.estado = 'A' and e.id_bombero = u.id_usuario and t.grupo = 'LS'
+(select count(*) from emergencia e, tipo_emergencia t, personal_emergencia pe where t.id_tipo_emergencia = e.id_tipo_emergencia
+and e.estado = 'A' and pe.id_bombero = u.id_usuario and t.grupo = 'LS' and pe.estado = 'A' and pe.id_emergencia = e.id_emergencia
 and e.id_mes = $P{ID_MES}  and e.anio = $P{ANIO}) as contLS,
-(select count(*) from prehospitalaria p, tipo_emergencia t where p.id_tipo_emergencia = t.id_tipo_emergencia
-and p.estado = 'A' and p.id_informante = u.id_usuario and t.grupo = 'APH'
+(select count(*) from prehospitalaria p, tipo_emergencia t, personal_prehospitalaria pp where p.id_tipo_emergencia = t.id_tipo_emergencia
+and p.estado = 'A' and p.id_informante = u.id_usuario and t.grupo = 'APH' and pp.id_prehospitalaria = p.id_prehospitalaria and pp.estado = 'A'
 and EXTRACT(MONTH FROM p.fecha_atencion) = $P{ID_MES}  and EXTRACT(Year FROM p.fecha_atencion) = $P{ANIO} ) as contAPH
 from usuario u, persona p, perfil pe
 where u.id_persona = p.id_persona and u.id_perfil = pe.id_perfil
@@ -120,6 +121,7 @@ and u.id_perfil in (3,4,6)]]>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
+					<dataset resetType="Report"/>
 					<categorySeries>
 						<seriesExpression><![CDATA["Control Incendio"]]></seriesExpression>
 						<categoryExpression><![CDATA[$F{nombres}]]></categoryExpression>

@@ -28,21 +28,27 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+import com.emergencia.model.dao.CantonDAO;
 import com.emergencia.model.dao.CondicionLlegadaDAO;
 import com.emergencia.model.dao.GeneroDAO;
 import com.emergencia.model.dao.LocalizacionLesionDAO;
+import com.emergencia.model.dao.ParroquiaDAO;
 import com.emergencia.model.dao.PersonalPrehospitalariaDAO;
 import com.emergencia.model.dao.PrehospitalariaDAO;
 import com.emergencia.model.dao.ProcedimientoDAO;
+import com.emergencia.model.dao.ProvinciaDAO;
 import com.emergencia.model.dao.SignoVitalDAO;
 import com.emergencia.model.dao.TipoEmergenciaDAO;
 import com.emergencia.model.dao.UsuarioDAO;
+import com.emergencia.model.entity.Canton;
 import com.emergencia.model.entity.CondicionLlegada;
 import com.emergencia.model.entity.Genero;
 import com.emergencia.model.entity.LocalizacionLesion;
+import com.emergencia.model.entity.Parroquia;
 import com.emergencia.model.entity.PersonalPrehospitalaria;
 import com.emergencia.model.entity.Prehospitalaria;
 import com.emergencia.model.entity.Procedimiento;
+import com.emergencia.model.entity.Provincia;
 import com.emergencia.model.entity.SignoVital;
 import com.emergencia.model.entity.TipoEmergencia;
 import com.emergencia.model.entity.Usuario;
@@ -67,11 +73,27 @@ public class RegistroPrehospitalario {
 	@Wire Textbox txtInterrogatorio;
 	@Wire Combobox cboTipoEmergencia;
 	
+	@Wire Combobox cboCanton;
+	@Wire Combobox cboParroquia;
+	@Wire Combobox cboProvincia;
+	
 	List<SignoVital> listaSignoVital;
 	List<Procedimiento> listaProcedimiento;
 	List<LocalizacionLesion> listaLocalizacionLesion;
 	List<TipoEmergencia> listaTipoEmergencia;
 	List<PersonalPrehospitalaria> listaBomberos;
+	
+	List<Provincia> listaProvincia;
+	List<Canton> listaCanton;
+	List<Parroquia> listaParroquia;
+	
+	Provincia provinciaSeleccionado;
+	Canton cantonSeleccionado;
+	Parroquia parroquiaSeleccionado;
+	
+	ProvinciaDAO provinciaDAO = new ProvinciaDAO();
+	CantonDAO cantonDAO = new CantonDAO();
+	ParroquiaDAO parroquiaDAO = new ParroquiaDAO();
 	
 	Prehospitalaria prehospitalario;
 	GeneroDAO generoDAO = new GeneroDAO();
@@ -117,6 +139,16 @@ public class RegistroPrehospitalario {
 			cboTipoEmergencia.setText(prehospitalario.getTipoEmergencia().getTipoEmergencia());
 			tipoEmergenciaSeleccionado = prehospitalario.getTipoEmergencia();
 		}
+		if(prehospitalario.getParroquia() != null) {
+			cboProvincia.setText(prehospitalario.getParroquia().getCanton().getProvincia().getProvincia());
+			provinciaSeleccionado = prehospitalario.getParroquia().getCanton().getProvincia();
+			seleccionarProvincia();
+			cboCanton.setText(prehospitalario.getParroquia().getCanton().getCanton());
+			cantonSeleccionado = prehospitalario.getParroquia().getCanton();
+			seleccionarCanton();
+			cboParroquia.setText(prehospitalario.getParroquia().getParroquia());
+		}
+		
 		cargarSignosVitales();
 		cargarProcedimiento();
 		cargarLocalizacion();
@@ -193,6 +225,7 @@ public class RegistroPrehospitalario {
 	private void cargarDatos() {
 		prehospitalario.setCedulaUsuario(txtCedulaUsuario.getText());
 		prehospitalario.setNombreUsuario(txtNombreUsuario.getText());
+		prehospitalario.setParroquia((Parroquia) cboParroquia.getSelectedItem().getValue());
 		prehospitalario.setEdad(Integer.parseInt(txtEdad.getText()));
 		prehospitalario.setGenero((Genero)cboGenero.getSelectedItem().getValue());
 		prehospitalario.setFechaAtencion(dtpFechaAtencion.getValue());
@@ -222,6 +255,18 @@ public class RegistroPrehospitalario {
 			if(txtEdad.getText().isEmpty()) {
 				Clients.showNotification("Debe registrar edad del usuario","info",txtEdad,"end_center",2000);
 				txtEdad.focus();
+				return false;
+			}
+			if(cboProvincia.getSelectedIndex() == -1) {
+				Clients.showNotification("Debe seleccionar Provincia","info",cboProvincia,"end_center",2000);
+				return false;
+			}
+			if(cboCanton.getSelectedIndex() == -1) {
+				Clients.showNotification("Debe seleccionar Canton","info",cboCanton,"end_center",2000);
+				return false;
+			}
+			if(cboParroquia.getSelectedIndex() == -1) {
+				Clients.showNotification("Debe seleccionar Parroquia","info",cboParroquia,"end_center",2000);
 				return false;
 			}
 			if(cboGenero.getSelectedIndex() == -1) {
@@ -365,6 +410,14 @@ public class RegistroPrehospitalario {
 	public void nuevoBombero() {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("RegistroPrehospitalario", this);
+		//pasar tambien por parametros los bomberos que ya estan agregados para que no las muestre
+		List<Usuario> bomberos = new ArrayList<>();
+		if(listaBomberos != null) {
+			for(PersonalPrehospitalaria per : listaBomberos) {
+				bomberos.add(per.getBombero());
+			}
+		}
+		params.put("Bomberos", bomberos);
 		Window ventanaCargar = (Window) Executions.createComponents("/forms/prehospitalario/seleccionarBombero.zul", null, params);
 		ventanaCargar.doModal();
 	}
@@ -514,6 +567,30 @@ public class RegistroPrehospitalario {
 		});	
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@NotifyChange({"listaCanton"})
+	@Command
+	public void seleccionarProvincia(){
+		if(listaCanton != null)
+			listaCanton = new ArrayList<>();
+		
+		listaCanton = cantonDAO.buscarPorIdProvincia(provinciaSeleccionado.getIdProvincia());
+		cboCanton.setModel(new ListModelList(listaCanton));
+		listaParroquia = new ArrayList<>();
+		cboParroquia.setModel(new ListModelList(listaParroquia));
+		cboCanton.setText("");
+		cboParroquia.setText("");
+	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@NotifyChange({"listaParroquia"})
+	@Command
+	public void seleccionarCanton(){
+		if(listaParroquia != null)
+			listaParroquia = new ArrayList<>();
+		listaParroquia = parroquiaDAO.buscarPorIdCanton(cantonSeleccionado.getIdCanton());
+		cboParroquia.setModel(new ListModelList(listaParroquia));
+	}
+	
 	@Command
 	public void salir() {
 		winRegistroPrehospitalaria.detach();
@@ -612,5 +689,53 @@ public class RegistroPrehospitalario {
 			}
 		}
 		return lista;
+	}
+	
+	public List<Provincia> getListaProvincia() {
+		return provinciaDAO.obtenerProvincias();
+	}
+	
+	public void setListaProvincia(List<Provincia> listaProvincia) {
+		this.listaProvincia = listaProvincia;
+	}
+	
+	public List<Canton> getListaCanton() {
+		return listaCanton;
+	}
+	
+	public void setListaCanton(List<Canton> listaCanton) {
+		this.listaCanton = listaCanton;
+	}
+	
+	public List<Parroquia> getListaParroquia() {
+		return listaParroquia;
+	}
+	
+	public void setListaParroquia(List<Parroquia> listaParroquia) {
+		this.listaParroquia = listaParroquia;
+	}
+
+	public Provincia getProvinciaSeleccionado() {
+		return provinciaSeleccionado;
+	}
+
+	public void setProvinciaSeleccionado(Provincia provinciaSeleccionado) {
+		this.provinciaSeleccionado = provinciaSeleccionado;
+	}
+
+	public Canton getCantonSeleccionado() {
+		return cantonSeleccionado;
+	}
+
+	public void setCantonSeleccionado(Canton cantonSeleccionado) {
+		this.cantonSeleccionado = cantonSeleccionado;
+	}
+
+	public Parroquia getParroquiaSeleccionado() {
+		return parroquiaSeleccionado;
+	}
+
+	public void setParroquiaSeleccionado(Parroquia parroquiaSeleccionado) {
+		this.parroquiaSeleccionado = parroquiaSeleccionado;
 	}
 }

@@ -51,9 +51,9 @@
 			<button iconSclass="z-icon-refresh" onClick="@command('actualizar')"/>
 		</div>
 		<div class="cardContainer" >
-			<div class="card" style="background-color:#FB2D2D;">
+			<div class="card" style="background-color:#FABF57;">
 				<hlayout hflex="1" vflex="1">
-					<vlayout style="background-color:#FD1313;text-align:center; width: 60px;" vflex="1">
+					<vlayout style="background-color:#F1A828;text-align:center; width: 60px;" vflex="1">
 						<vbox hflex="1" vflex="1" align="center" pack="center">
 							<image src="imagenes/ic_emergencia_blanco.png" width="42px"/>
 						</vbox>
@@ -65,9 +65,9 @@
 					</vlayout>
 				</hlayout>
 			</div>
-			<div class="card" style="background-color:#5FE83E;">
+			<div class="card" style="background-color:#3547FF;">
 				<hlayout hflex="1" vflex="1">
-					<vlayout style="background-color:#2BCC04;text-align:center; width: 60px;" vflex="1">
+					<vlayout style="background-color:#606EF7;text-align:center; width: 60px;" vflex="1">
 						<vbox hflex="1" vflex="1" align="center" pack="center">
 							<image src="imagenes/ic_labor_social_blanco.png" width="42px"/>
 						</vbox>
@@ -79,9 +79,9 @@
 					</vlayout>
 				</hlayout>
 			</div>
-			<div class="card" style="background-color:#28ECF1;">
+			<div class="card" style="background-color:#82FE88;">
 				<hlayout hflex="1" vflex="1">
-					<vlayout style="background-color:#07CFD5;text-align:center; width: 60px;" vflex="1">
+					<vlayout style="background-color:#09FE14;text-align:center; width: 60px;" vflex="1">
 						<vbox hflex="1" vflex="1" align="center" pack="center">
 							<image src="imagenes/ic_prehospitalaria_blanco.png" width="42px"/>
 						</vbox>
@@ -93,9 +93,9 @@
 					</vlayout>
 				</hlayout>
 			</div>
-			<div class="card" style="background-color:#FABF57;">
+			<div class="card" style="background-color:#FB2D2D;">
 				<hlayout hflex="1" vflex="1">
-					<vlayout style="background-color:#F1A828;text-align:center; width: 60px;" vflex="1">
+					<vlayout style="background-color:#FD1313;text-align:center; width: 60px;" vflex="1">
 						<vbox hflex="1" vflex="1" align="center" pack="center">
 							<image src="imagenes/ic_contra_incendio_blanco.png" width="42px"/>
 						</vbox>

@@ -59,9 +59,11 @@ public class SeleccionarBombero {
 		List<Usuario> listaAgg = new ArrayList<>();
 		for(Usuario us : lista) {
 			bandera = false;
-			for(Usuario usAgg : listaBomberosAgregados) {
-				if(usAgg.getIdUsuario() == us.getIdUsuario())
-					bandera = true;
+			if(listaBomberosAgregados != null) {
+				for(Usuario usAgg : listaBomberosAgregados) {
+					if(usAgg.getIdUsuario() == us.getIdUsuario())
+						bandera = true;
+				}
 			}
 			if(bandera == false){
 				listaAgg.add(us);

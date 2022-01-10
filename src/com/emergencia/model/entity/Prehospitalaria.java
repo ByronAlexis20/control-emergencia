@@ -66,6 +66,10 @@ public class Prehospitalaria implements Serializable {
 	@JoinColumn(name = "id_condicion_llegada")
 	private CondicionLlegada condicionLlegada;
 
+	@ManyToOne
+	@JoinColumn(name = "id_parroquia")
+	private Parroquia parroquia;
+	
 	// bi-directional many-to-one association to Emergencia
 	@ManyToOne
 	@JoinColumn(name = "id_tipo_emergencia")
@@ -318,4 +322,13 @@ public class Prehospitalaria implements Serializable {
 
 		return controlVehiculo;
 	}
+
+	public Parroquia getParroquia() {
+		return parroquia;
+	}
+
+	public void setParroquia(Parroquia parroquia) {
+		this.parroquia = parroquia;
+	}
+
 }

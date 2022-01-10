@@ -100,7 +100,7 @@
 						<cell><label value="No Reporte: "/> </cell>
 						<cell><textbox id="txtNoReporte"/></cell>
 						<cell><label value="Fecha: "/> </cell>
-						<cell><datebox id="dtpFecha"/></cell>
+						<cell><datebox id="dtpFecha" hflex="1"/></cell>
 						<cell><label value="Hora salida de la base: " class="label-form"/></cell>
 						<cell><timebox id="tmHorasalida"/></cell>
 					</row>

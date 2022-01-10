@@ -73,10 +73,6 @@
 						<div align="center">
 							<input type="submit" name="login" id="login" value="Ingresar al Sistema"/>
 						</div>
-						<div align="center">	
-							<p>¿Olvidaste tu contraseña?</p>
-							<a href="./Mantenimiento/recuperar/recuperar.zul" style="color:yellow">¡Clic Aquí!</a>							
-						</div>
 						<div align="center">
 							<html style="color:white"
 								if="${not empty param.login_error}">

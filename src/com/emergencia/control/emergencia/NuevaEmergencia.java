@@ -286,8 +286,10 @@ public class NuevaEmergencia {
 		params.put("NuevaEmergencia", this);
 		//pasar tambien por parametros los bomberos que ya estan agregados para que no las muestre
 		List<Usuario> bomberos = new ArrayList<>();
-		for(PersonalEmergencia per : listaBomberos) {
-			bomberos.add(per.getBombero());
+		if(listaBomberos != null) {
+			for(PersonalEmergencia per : listaBomberos) {
+				bomberos.add(per.getBombero());
+			}
 		}
 		params.put("Bomberos", bomberos);
 		Window ventanaCargar = (Window) Executions.createComponents("/forms/emergencias/seleccionarBombero.zul", null, params);
@@ -352,6 +354,7 @@ public class NuevaEmergencia {
 		cboCanton.setModel(new ListModelList(listaCanton));
 		listaParroquia = new ArrayList<>();
 		cboParroquia.setModel(new ListModelList(listaParroquia));
+		cboCanton.setText("");
 		cboParroquia.setText("");
 	}
 	@SuppressWarnings({ "rawtypes", "unchecked" })

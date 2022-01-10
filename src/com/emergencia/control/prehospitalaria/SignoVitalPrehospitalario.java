@@ -68,7 +68,7 @@ public class SignoVitalPrehospitalario {
 						signos.setFrecuenciaRespiratoria(Integer.parseInt(txtFrecuenciaRespiratoria.getText()));
 						signos.setIdSignoVital(null);
 						signos.setLlenadoCapilar(Integer.parseInt(txtLlenadoCapilar.getText()));
-						signos.setPresionArterial(Integer.parseInt(txtPresionArterial.getText()));
+						signos.setPresionArterial(txtPresionArterial.getText());
 						signos.setPulsoMin(Integer.parseInt(txtPulsoMin.getText()));
 						signos.setSaturacionOxigeno(Integer.parseInt(txtSaturacionOxigeno.getText()));
 						signos.setTemperatura(txtTemperaturaCorporal.getText());

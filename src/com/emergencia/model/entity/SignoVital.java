@@ -31,7 +31,7 @@ public class SignoVital implements Serializable {
 	private int llenadoCapilar;
 
 	@Column(name="presion_arterial")
-	private int presionArterial;
+	private String presionArterial;
 
 	@Column(name="escala_glasgow")
 	private String escalaGlasgow;
@@ -92,11 +92,11 @@ public class SignoVital implements Serializable {
 		this.llenadoCapilar = llenadoCapilar;
 	}
 
-	public int getPresionArterial() {
+	public String getPresionArterial() {
 		return this.presionArterial;
 	}
 
-	public void setPresionArterial(int presionArterial) {
+	public void setPresionArterial(String presionArterial) {
 		this.presionArterial = presionArterial;
 	}
 
