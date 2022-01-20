@@ -24,7 +24,6 @@ import javax.persistence.TemporalType;
 	@NamedQuery(name="ControlVehiculo.buscarPorEmergencia", query="SELECT c FROM ControlVehiculo c where c.emergencia.idEmergencia = :idEmergencia and c.estado = 'A'"),
 	@NamedQuery(name="ControlVehiculo.buscarPorPrehospitalaria", query="SELECT c FROM ControlVehiculo c where c.prehospitalaria.idPrehospitalaria = :idPrehospitalaria and c.estado = 'A'"),
 	@NamedQuery(name="ControlVehiculo.buscarPorFecha", query="SELECT c FROM ControlVehiculo c where c.fecha = :fecha and c.estado = 'A'"),
-	
 })
 public class ControlVehiculo implements Serializable {
 	private static final long serialVersionUID = 1L;

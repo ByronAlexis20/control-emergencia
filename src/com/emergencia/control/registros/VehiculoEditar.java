@@ -14,8 +14,10 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Row;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
@@ -29,6 +31,8 @@ public class VehiculoEditar {
 	@Wire private Textbox txtCodigo;
 	@Wire private Textbox txtDescripcion;
 	@Wire private Combobox cboTipoVehiculo;
+	@Wire private Checkbox chkEstado;
+	@Wire private Row rowEstado;
 	Vehiculo vehiculo;
 	VehiculoDAO vehiculoDAO = new VehiculoDAO();
 	TipoVehiculoDAO tipoVehiculoDAO = new TipoVehiculoDAO();
@@ -37,13 +41,20 @@ public class VehiculoEditar {
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
+		chkEstado.setChecked(true);
 		// Recupera el objeto pasado como parametro. 
 		vehiculo = (Vehiculo) Executions.getCurrent().getArg().get("Vehiculo");
 		if (vehiculo == null) {
 			vehiculo = new Vehiculo();
 			vehiculo.setEstado("A");
+			rowEstado.setVisible(false);
 		}else {
 			cboTipoVehiculo.setText(vehiculo.getTipoVehiculo().getTipoVehiculo());
+			if(vehiculo.getEstado().equals("A")) {
+				chkEstado.setChecked(true);
+			}else {
+				chkEstado.setChecked(false);
+			}
 		}
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -56,7 +67,12 @@ public class VehiculoEditar {
 			@Override
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {		
-					try {						
+					try {
+						if(chkEstado.isChecked())
+							vehiculo.setEstado("A");
+						else
+							vehiculo.setEstado("I");
+						
 						vehiculoDAO.getEntityManager().getTransaction().begin();
 						vehiculo.setTipoVehiculo((TipoVehiculo)cboTipoVehiculo.getSelectedItem().getValue());
 						if (vehiculo.getIdVehiculo() == null) {
@@ -105,6 +121,18 @@ public class VehiculoEditar {
 				if(listaVehiculo.size() > 0) {
 					Clients.showNotification("Ya existe un vehículo con el codigo " + txtCodigo.getText());
 					return retorna;
+				}
+			}
+			
+			if(vehiculo.getIdVehiculo() != null) {
+				if(!chkEstado.isChecked()) {
+					Vehiculo vh = vehiculoDAO.buscarPorId(vehiculo.getIdVehiculo());
+					if(vh != null) {
+						if(vh.getControlVehiculos().size() > 0) {
+							Clients.showNotification("No se puede eliminar el registro, hay registros que dependen de éste.");
+							return retorna;
+						}
+					}
 				}
 			}
 		} catch (Exception e) {

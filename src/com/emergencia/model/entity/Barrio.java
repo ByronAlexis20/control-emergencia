@@ -6,7 +6,12 @@ import java.util.List;
 
 @Entity
 @Table(name="barrio")
-@NamedQuery(name="Barrio.buscarPorPatron", query="SELECT b FROM Barrio b where lower(b.barrio) like lower(:patron) and b.estado = 'A'")
+@NamedQueries({
+	@NamedQuery(name="Barrio.buscarPorPatron", query="SELECT b FROM Barrio b where lower(b.barrio) like lower(:patron) order by b.idBarrio"),
+	@NamedQuery(name="Barrio.buscarPorId", query="SELECT b FROM Barrio b where b.idBarrio = :id"),
+	@NamedQuery(name="Barrio.buscarPorNombre", query="SELECT b FROM Barrio b where lower(b.barrio) = lower(:patron)"),
+	@NamedQuery(name="Barrio.buscarPorNombreDiferenteId", query="SELECT b FROM Barrio b where lower(b.barrio) = lower(:patron) and b.idBarrio <> :id"),
+})
 public class Barrio implements Serializable {
 	private static final long serialVersionUID = 1L;
 

@@ -33,4 +33,36 @@ public class EstadoCivilDAO extends ClaseDAO {
 		resultado = (List<EstadoCivil>) query.getResultList();
 		return resultado;
 	}
+	
+	public EstadoCivil buscarPorId(Integer id) {
+		EstadoCivil dato; 
+		Query consulta;
+		consulta = getEntityManager().createNamedQuery("EstadoCivil.buscarPorId");
+		consulta.setParameter("id", id);
+		dato = (EstadoCivil) consulta.getSingleResult();
+		return dato;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<EstadoCivil> buscarPorNombre(String value) {
+		List<EstadoCivil> resultado; 
+		String patron = value;
+		Query query = getEntityManager().createNamedQuery("EstadoCivil.buscarPorNombre");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("patron", patron.trim());
+		resultado = (List<EstadoCivil>) query.getResultList();
+		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<EstadoCivil> buscarPorNombreDiferenteId(String value, Integer id) {
+		List<EstadoCivil> resultado; 
+		String patron = value;
+		Query query = getEntityManager().createNamedQuery("EstadoCivil.buscarPorNombreDiferenteId");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("patron", patron.trim());
+		query.setParameter("id", id);
+		resultado = (List<EstadoCivil>) query.getResultList();
+		return resultado;
+	}
 }

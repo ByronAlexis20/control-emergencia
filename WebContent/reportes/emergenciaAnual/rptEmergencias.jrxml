@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptEmergencias" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6d2d70a-1397-4a22-abc6-a45bb9cb7985">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ControlEmergencia"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="ANIO_P" class="java.lang.Integer"/>
+	<parameter name="NOMBRE_INSTITUCION" class="java.lang.String"/>
+	<parameter name="NOMBRE_REPORTE" class="java.lang.String"/>
+	<parameter name="TITULO1" class="java.lang.String"/>
+	<parameter name="TITULO2" class="java.lang.String"/>
+	<parameter name="TITULO3" class="java.lang.String"/>
+	<parameter name="TITULO4" class="java.lang.String"/>
+	<parameter name="TITULO5" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select count(*) from emergencia]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="86" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="110" y="10" width="390" height="20" uuid="615727da-efd5-4d8b-87a4-70f2053af8d8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NOMBRE_INSTITUCION}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="33" width="390" height="53" uuid="d3cd0be3-84eb-4e6d-9da4-96566a05c862"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NOMBRE_REPORTE}]]></textFieldExpression>
+			</textField>
+			<image scaleImage="FillFrame">
+				<reportElement x="30" y="10" width="70" height="60" uuid="95242c13-0402-4346-ae33-0e874c137ce1"/>
+				<imageExpression><![CDATA["logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="42" splitType="Stretch">
+			<subreport>
+				<reportElement x="20" y="24" width="510" height="16" uuid="31995b76-5671-406f-96f2-233a0a5a1f3c">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<subreportParameter name="ANIO">
+					<subreportParameterExpression><![CDATA[$P{ANIO_P}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["rptSubResumenEmergencias.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement x="80" y="4" width="400" height="16" uuid="2719f0f3-ad11-4d45-81cb-c7d0aa8e8691"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TITULO1}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="67">
+			<textField>
+				<reportElement x="80" y="3" width="400" height="16" uuid="9669550c-80cb-4eaf-8e1c-d35025747d6c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TITULO2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="20" width="400" height="20" uuid="9b317036-1629-4cc1-8cc7-1fecd9fec8b1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TITULO3}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="20" y="40" width="510" height="16" uuid="9cc9ec76-7507-4526-b4f4-42b97d3e6963">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="ANIO">
+					<subreportParameterExpression><![CDATA[$P{ANIO_P}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["rptSubControlIncendio.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="85">
+			<textField>
+				<reportElement x="80" y="6" width="400" height="20" uuid="ea631d8b-e1ab-4598-a7d7-e975ba220cf7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TITULO4}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="20" y="26" width="510" height="16" uuid="e8e5d3e3-abcd-42b1-a0c3-e30c55c85810">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="ANIO">
+					<subreportParameterExpression><![CDATA[$P{ANIO_P}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["rptSubPrehospitalaria.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="45">
+			<textField>
+				<reportElement x="80" y="4" width="400" height="17" uuid="f243473f-a42d-4a16-b584-1a41f356786c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{TITULO5}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="20" y="23" width="510" height="16" uuid="d437b8d8-558c-4b70-b22e-81971cb6dabb">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="ANIO">
+					<subreportParameterExpression><![CDATA[$P{ANIO_P}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["rptSubLaborSocial.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="21" splitType="Stretch"/>
+	</summary>
+</jasperReport>

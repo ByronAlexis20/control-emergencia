@@ -24,6 +24,15 @@ public class VehiculoDAO extends ClaseDAO {
 		return resultado;
 	}
 	
+	public Vehiculo buscarPorId(Integer id) {
+		Vehiculo usuario; 
+		Query consulta;
+		consulta = getEntityManager().createNamedQuery("Vehiculo.buscarPorId");
+		consulta.setParameter("id", id);
+		usuario = (Vehiculo) consulta.getSingleResult();
+		return usuario;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Vehiculo> buscarPorCodigo(String codigo) {
 		List<Vehiculo> resultado; 

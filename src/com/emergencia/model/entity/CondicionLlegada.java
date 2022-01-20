@@ -8,7 +8,10 @@ import java.util.List;
 @Table(name="condicion_llegada")
 @NamedQueries({
 	@NamedQuery(name="CondicionLlegada.findAll", query="SELECT c FROM CondicionLlegada c where c.estado = 'A'"),
-	@NamedQuery(name="CondicionLlegada.buscarPorPatron", query="SELECT c FROM CondicionLlegada c where lower(c.condicionLlegada) like lower(:patron) and c.estado = 'A'")
+	@NamedQuery(name="CondicionLlegada.buscarPorPatron", query="SELECT c FROM CondicionLlegada c where lower(c.condicionLlegada) like lower(:patron)"),
+	@NamedQuery(name="CondicionLlegada.buscarPorId", query="SELECT c FROM CondicionLlegada c where c.idCondicionLlegada = :id"),
+	@NamedQuery(name="CondicionLlegada.buscarPorNombre", query="SELECT c FROM CondicionLlegada c where lower(c.condicionLlegada) = lower(:patron)"),
+	@NamedQuery(name="CondicionLlegada.buscarPorNombreDiferenteId", query="SELECT c FROM CondicionLlegada c where lower(c.condicionLlegada) = lower(:patron) and c.idCondicionLlegada <> :id"),
 })
 public class CondicionLlegada implements Serializable {
 	private static final long serialVersionUID = 1L;

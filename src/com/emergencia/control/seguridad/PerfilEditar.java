@@ -14,7 +14,9 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Row;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
@@ -25,17 +27,28 @@ public class PerfilEditar {
 	@Wire private Window winPerfilEditar;
 	@Wire private Textbox txtPerfil;
 
+	@Wire private Checkbox chkEstado;
+	@Wire private Row rowEstado;
+	
 	private PerfilDAO perfilDAO = new PerfilDAO();
 	private Perfil perfil;
 	
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
+		chkEstado.setChecked(true);
 		// Recupera el objeto pasado como parametro. 
 		perfil = (Perfil) Executions.getCurrent().getArg().get("Perfil");
 		if (perfil == null) {
 			perfil = new Perfil();
 			perfil.setEstado("A");
+			rowEstado.setVisible(false);
+		}else {
+			if(perfil.getEstado().equals("A")) {
+				chkEstado.setChecked(true);
+			}else {
+				chkEstado.setChecked(false);
+			}
 		}
 	}
 
@@ -62,6 +75,17 @@ public class PerfilEditar {
 					}
 				}
 			}
+			if(perfil.getIdPerfil() != null) {
+				if(!chkEstado.isChecked()) {
+					Perfil per = perfilDAO.getPerfilPorId(perfil.getIdPerfil());
+					if(per != null) {
+						if(per.getPermisos().size() > 0 || per.getUsuarios().size() > 0) {
+							Clients.showNotification("No se puede eliminar el registro, hay registros que dependen de éste.");
+							return retorna;
+						}
+					}
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -78,7 +102,12 @@ public class PerfilEditar {
 			@Override
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {		
-					try {						
+					try {
+						if(chkEstado.isChecked())
+							perfil.setEstado("A");
+						else
+							perfil.setEstado("I");
+						
 						perfilDAO.getEntityManager().getTransaction().begin();			
 						if (perfil.getIdPerfil() == null) {
 							perfilDAO.getEntityManager().persist(perfil);

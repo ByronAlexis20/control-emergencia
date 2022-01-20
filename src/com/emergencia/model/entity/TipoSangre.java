@@ -8,7 +8,10 @@ import java.util.List;
 @Table(name="tipo_sangre")
 @NamedQueries({
 	@NamedQuery(name="TipoSangre.findAll", query="SELECT t FROM TipoSangre t where t.estado = 'A'"),
-	@NamedQuery(name="TipoSangre.buscarPorPatron", query="SELECT t FROM TipoSangre t where lower(t.tipoSangre) like lower(:patron) and t.estado = 'A'")
+	@NamedQuery(name="TipoSangre.buscarPorPatron", query="SELECT t FROM TipoSangre t where lower(t.tipoSangre) like lower(:patron)"),
+	@NamedQuery(name="TipoSangre.buscarPorId", query="SELECT t FROM TipoSangre t where t.idTipoSangre = :id"),
+	@NamedQuery(name="TipoSangre.buscarPorNombre", query="SELECT t FROM TipoSangre t where lower(t.tipoSangre) = lower(:patron)"),
+	@NamedQuery(name="TipoSangre.buscarPorNombreDiferenteId", query="SELECT t FROM TipoSangre t where lower(t.tipoSangre) = lower(:patron) and t.idTipoSangre <> :id"),
 })
 public class TipoSangre implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -1,5 +1,7 @@
 package com.emergencia.control.parametros;
 
+import java.util.List;
+
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
@@ -12,7 +14,9 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Row;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
@@ -22,17 +26,27 @@ import com.emergencia.model.entity.Barrio;
 public class BarrioEditar {
 	@Wire private Window winBarrioEditar;
 	@Wire private Textbox txtBarrio;
+	@Wire private Checkbox chkEstado;
+	@Wire private Row rowEstado;
 	Barrio barrio;
 	BarrioDAO barrioDAO = new BarrioDAO();
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
+		chkEstado.setChecked(true);
 		// Recupera el objeto pasado como parametro. 
 		barrio = (Barrio) Executions.getCurrent().getArg().get("Barrio");
 		if (barrio == null) {
 			barrio = new Barrio();
 			barrio.setEstado("A");
+			rowEstado.setVisible(false);
+		}else {
+			if(barrio.getEstado().equals("A")) {
+				chkEstado.setChecked(true);
+			}else {
+				chkEstado.setChecked(false);
+			}
 		}
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -46,7 +60,11 @@ public class BarrioEditar {
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {		
 					try {						
-						barrioDAO.getEntityManager().getTransaction().begin();			
+						barrioDAO.getEntityManager().getTransaction().begin();
+						if(chkEstado.isChecked())
+							barrio.setEstado("A");
+						else
+							barrio.setEstado("I");
 						if (barrio.getIdBarrio() == null) {
 							barrioDAO.getEntityManager().persist(barrio);
 						}else{
@@ -76,6 +94,32 @@ public class BarrioEditar {
 				Clients.showNotification("Obligatoria regitrar el nombre del barrio","info",txtBarrio,"end_center",2000);
 				txtBarrio.setFocus(true);
 				return retorna;
+			}
+			if(barrio != null) {
+				if(barrio.getIdBarrio() == null) {
+					List<Barrio> lista = this.barrioDAO.buscarPorNombre(txtBarrio.getValue());
+					if(lista.size() > 0) {
+						Clients.showNotification("Nombre de barrio ya existe","info",txtBarrio,"end_center",2000);
+						return retorna;
+					}
+				}else {
+					List<Barrio> lista = this.barrioDAO.buscarPorNombreDiferenteId(txtBarrio.getValue(), barrio.getIdBarrio());
+					if(lista.size() > 0) {
+						Clients.showNotification("Nombre de barrio ya existe","info",txtBarrio,"end_center",2000);
+						return retorna;
+					}
+				}
+			}
+			if(barrio.getIdBarrio() != null) {
+				if(!chkEstado.isChecked()) {
+					Barrio br = barrioDAO.buscarPorId(barrio.getIdBarrio());
+					if(br != null) {
+						if(br.getEmergencias().size() > 0) {
+							Clients.showNotification("No se puede eliminar el registro, hay registros que dependen de éste.");
+							return retorna;
+						}
+					}
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

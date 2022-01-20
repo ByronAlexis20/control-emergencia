@@ -16,6 +16,10 @@
 						<label value="Tipo de sangre: " class="label-form"/>
 						<textbox id="txtTipo" value="@bind(vm.tipoSangre.tipoSangre)" hflex="1" />
 					</row>
+					<row id="rowEstado">
+						<label value="Estado: " class="label-form"/>
+						<checkbox id="chkEstado"/>
+					</row>
 				</rows>
 			</grid>
 			<!-- Los iconos listados con iconSclass son de: http://fontawesome.io/icons/ -->

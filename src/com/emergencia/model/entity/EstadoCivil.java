@@ -13,7 +13,10 @@ import java.util.List;
 @Table(name="estado_civil")
 @NamedQueries({
 	@NamedQuery(name="EstadoCivil.findAll", query="SELECT e FROM EstadoCivil e where e.estado = 'A'"),
-	@NamedQuery(name="EstadoCivil.buscarPorPatron", query="SELECT e FROM EstadoCivil e where lower(e.estadoCivil) like lower(:patron) and e.estado = 'A'")
+	@NamedQuery(name="EstadoCivil.buscarPorPatron", query="SELECT e FROM EstadoCivil e where lower(e.estadoCivil) like lower(:patron)"),
+	@NamedQuery(name="EstadoCivil.buscarPorId", query="SELECT e FROM EstadoCivil e where e.idEstadoCivil = :id"),
+	@NamedQuery(name="EstadoCivil.buscarPorNombre", query="SELECT e FROM EstadoCivil e where lower(e.estadoCivil) = lower(:patron)"),
+	@NamedQuery(name="EstadoCivil.buscarPorNombreDiferenteId", query="SELECT e FROM EstadoCivil e where lower(e.estadoCivil) = lower(:patron) and e.idEstadoCivil <> :id"),
 })
 public class EstadoCivil implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -114,9 +114,10 @@ public class Dashboard {
 				tPrehospitalario = (listaPrehospitalario.size() * 100) / totalEmergencia;
 				tControlIncendio = (listaControlIncendio.size() * 100) / totalEmergencia;
 			}
+			pieDataset.setValue("Control Incendio (" + listaControlIncendio.size() + ")", tControlIncendio);
 			pieDataset.setValue("Labor Social (" + listaLaborSocial.size() + ")", tLaborSocial);
 			pieDataset.setValue("Prehospitalario (" + listaPrehospitalario.size() + ")", tPrehospitalario);
-			pieDataset.setValue("Control Incendio (" + listaControlIncendio.size() + ")", tControlIncendio);
+			
 			pieDataset.setNotify(true);
 			JFreeChart chart = ChartFactory.createPieChart3D("Emergencias", pieDataset,true,true,false);
 			PiePlot3D plot = (PiePlot3D) chart.getPlot();
@@ -287,9 +288,9 @@ public class Dashboard {
 			}
 		}
         //se declaran las series y se llenan los datos
-        XYSeries sPrehospitalaria = new XYSeries("Prehospitalaria");
-        XYSeries sControlIncendio = new XYSeries("Contro de Incendio");
+		XYSeries sControlIncendio = new XYSeries("Contro de Incendio");
         XYSeries sLaborSocial = new XYSeries("Labor Social");
+        XYSeries sPrehospitalaria = new XYSeries("Prehospitalaria");
         //serie #1
         
         sPrehospitalaria.add( 1, listaAPHPrimerMes.size());
@@ -306,9 +307,9 @@ public class Dashboard {
         
 
         XYSeriesCollection xyseriescollection =  new XYSeriesCollection();
-        xyseriescollection.addSeries( sPrehospitalaria );        
         xyseriescollection.addSeries( sControlIncendio );
         xyseriescollection.addSeries( sLaborSocial );
+        xyseriescollection.addSeries( sPrehospitalaria );        
 
         return xyseriescollection;
     }

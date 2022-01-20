@@ -8,6 +8,7 @@ import java.util.List;
 @Table(name="usuario")
 @NamedQueries({
 	@NamedQuery(name="Usuario.findAll", query="SELECT u FROM Usuario u"),
+	@NamedQuery(name="Usuario.buscarPorId", query="SELECT u FROM Usuario u where u.idUsuario = :id"),
 	@NamedQuery(name="Usuario.buscaUsuario", 
 	query="SELECT u FROM Usuario u WHERE u.usuario = :nombreUsuario and u.estado = 'A'"),
 	@NamedQuery(name="Usuario.buscarPorPatron", query="SELECT u FROM Usuario u where (lower(u.persona.nombres) "

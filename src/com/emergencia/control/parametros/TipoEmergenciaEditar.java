@@ -15,8 +15,10 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Row;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
@@ -28,6 +30,8 @@ public class TipoEmergenciaEditar {
 	@Wire private Window winTipoEmergenciaEditar;
 	@Wire private Textbox txtTipoEmergencia;
 	@Wire private Combobox cboGrupo;
+	@Wire private Checkbox chkEstado;
+	@Wire private Row rowEstado;
 	TipoEmergencia tipoEmergencia;
 	TipoEmergenciaDAO tipoEmergenciaDAO = new TipoEmergenciaDAO();
 	GrupoEmergencia grupoSeleccionado;
@@ -35,11 +39,13 @@ public class TipoEmergenciaEditar {
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
+		chkEstado.setChecked(true);
 		// Recupera el objeto pasado como parametro. 
 		tipoEmergencia = (TipoEmergencia) Executions.getCurrent().getArg().get("TipoEmergencia");
 		if (tipoEmergencia == null) {
 			tipoEmergencia = new TipoEmergencia();
 			tipoEmergencia.setEstado("A");
+			rowEstado.setVisible(false);
 		}else {
 			if(tipoEmergencia.getGrupo().equals(Globales.codigoPrehospitalaria)) {
 				cboGrupo.setText("Prehospitalario");
@@ -47,6 +53,12 @@ public class TipoEmergenciaEditar {
 				cboGrupo.setText("Control de incencio");
 			}else if(tipoEmergencia.getGrupo().equals(Globales.codigoLaborSocial)) {
 				cboGrupo.setText("Labor Social");
+			}
+			
+			if(tipoEmergencia.getEstado().equals("A")) {
+				chkEstado.setChecked(true);
+			}else {
+				chkEstado.setChecked(false);
 			}
 		}
 	}
@@ -60,7 +72,12 @@ public class TipoEmergenciaEditar {
 			@Override
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {		
-					try {						
+					try {
+						if(chkEstado.isChecked())
+							tipoEmergencia.setEstado("A");
+						else
+							tipoEmergencia.setEstado("I");
+						
 						tipoEmergenciaDAO.getEntityManager().getTransaction().begin();
 						GrupoEmergencia g = (GrupoEmergencia)cboGrupo.getSelectedItem().getValue();
 						tipoEmergencia.setGrupo(g.getCodigo());
@@ -97,6 +114,32 @@ public class TipoEmergenciaEditar {
 			if(cboGrupo.getSelectedIndex() == -1) {
 				Clients.showNotification("Debe seleccionar grupo","info",cboGrupo,"end_center",2000);
 				return retorna;
+			}
+			if(tipoEmergencia != null) {
+				if(tipoEmergencia.getIdTipoEmergencia() == null) {
+					List<TipoEmergencia> lista = this.tipoEmergenciaDAO.buscarPorNombre(txtTipoEmergencia.getValue());
+					if(lista.size() > 0) {
+						Clients.showNotification("Nombre de tipo de emergencia ya existe","info",txtTipoEmergencia,"end_center",2000);
+						return retorna;
+					}
+				}else {
+					List<TipoEmergencia> lista = this.tipoEmergenciaDAO.buscarPorNombreDiferenteId(txtTipoEmergencia.getValue(), tipoEmergencia.getIdTipoEmergencia());
+					if(lista.size() > 0) {
+						Clients.showNotification("Nombre de tipo de emergencia ya existe","info",txtTipoEmergencia,"end_center",2000);
+						return retorna;
+					}
+				}
+			}
+			if(tipoEmergencia.getIdTipoEmergencia() != null) {
+				if(!chkEstado.isChecked()) {
+					TipoEmergencia te = tipoEmergenciaDAO.buscarPorId(tipoEmergencia.getIdTipoEmergencia());
+					if(te != null) {
+						if(te.getEmergencias().size() > 0 || te.getPrehospitalarias().size() > 0) {
+							Clients.showNotification("No se puede eliminar el registro, hay registros que dependen de éste.");
+							return retorna;
+						}
+					}
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

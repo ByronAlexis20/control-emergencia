@@ -13,7 +13,10 @@ import java.util.List;
 @Table(name="forma_aviso")
 @NamedQueries({
 	@NamedQuery(name="FormaAviso.findAll", query="SELECT f FROM FormaAviso f where f.estado = 'A'"),
-	@NamedQuery(name="FormaAviso.buscarPorPatron", query="SELECT f FROM FormaAviso f where lower(f.formaAviso) like lower(:patron) and f.estado = 'A'")
+	@NamedQuery(name="FormaAviso.buscarPorPatron", query="SELECT f FROM FormaAviso f where lower(f.formaAviso) like lower(:patron)"),
+	@NamedQuery(name="FormaAviso.buscarPorId", query="SELECT f FROM FormaAviso f where f.idFormaAviso = :id"),
+	@NamedQuery(name="FormaAviso.buscarPorNombre", query="SELECT f FROM FormaAviso f where lower(f.formaAviso) = lower(:patron)"),
+	@NamedQuery(name="FormaAviso.buscarPorNombreDiferenteId", query="SELECT f FROM FormaAviso f where lower(f.formaAviso) = lower(:patron) and f.idFormaAviso <> :id"),
 })
 public class FormaAviso implements Serializable {
 	private static final long serialVersionUID = 1L;

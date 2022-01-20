@@ -1,5 +1,7 @@
 package com.emergencia.control.parametros;
 
+import java.util.List;
+
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
@@ -12,7 +14,9 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Row;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
@@ -22,17 +26,27 @@ import com.emergencia.model.entity.EstadoCivil;
 public class EstadoCivilEditar {
 	@Wire private Window winEstadoEditar;
 	@Wire private Textbox txtEstado;
+	@Wire private Checkbox chkEstado;
+	@Wire private Row rowEstado;
 	EstadoCivil estadoCivil;
 	EstadoCivilDAO estadoDAO = new EstadoCivilDAO();
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
+		chkEstado.setChecked(true);
 		// Recupera el objeto pasado como parametro. 
 		estadoCivil = (EstadoCivil) Executions.getCurrent().getArg().get("EstadoCivil");
 		if (estadoCivil == null) {
 			estadoCivil = new EstadoCivil();
 			estadoCivil.setEstado("A");
+			rowEstado.setVisible(false);
+		}else {
+			if(estadoCivil.getEstado().equals("A")) {
+				chkEstado.setChecked(true);
+			}else {
+				chkEstado.setChecked(false);
+			}
 		}
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -45,7 +59,12 @@ public class EstadoCivilEditar {
 			@Override
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {		
-					try {						
+					try {
+						if(chkEstado.isChecked())
+							estadoCivil.setEstado("A");
+						else
+							estadoCivil.setEstado("I");
+						
 						estadoDAO.getEntityManager().getTransaction().begin();			
 						if (estadoCivil.getIdEstadoCivil() == null) {
 							estadoDAO.getEntityManager().persist(estadoCivil);
@@ -76,6 +95,33 @@ public class EstadoCivilEditar {
 				Clients.showNotification("Obligatoria regitrar el nombre del estado civil","info",txtEstado,"end_center",2000);
 				txtEstado.setFocus(true);
 				return retorna;
+			}
+			if(estadoCivil != null) {
+				if(estadoCivil.getIdEstadoCivil() == null) {
+					List<EstadoCivil> lista = this.estadoDAO.buscarPorNombre(txtEstado.getValue());
+					if(lista.size() > 0) {
+						Clients.showNotification("Nombre de estado civil ya existe","info",txtEstado,"end_center",2000);
+						return retorna;
+					}
+				}else {
+					List<EstadoCivil> lista = this.estadoDAO.buscarPorNombreDiferenteId(txtEstado.getValue(), estadoCivil.getIdEstadoCivil());
+					if(lista.size() > 0) {
+						Clients.showNotification("Nombre de estado civil ya existe","info",txtEstado,"end_center",2000);
+						return retorna;
+					}
+				}
+			}
+			
+			if(estadoCivil.getIdEstadoCivil() != null) {
+				if(!chkEstado.isChecked()) {
+					EstadoCivil estado = estadoDAO.buscarPorId(estadoCivil.getIdEstadoCivil());
+					if(estado != null) {
+						if(estado.getPersonas().size() > 0) {
+							Clients.showNotification("No se puede eliminar el registro, hay registros que dependen de éste.");
+							return retorna;
+						}
+					}
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

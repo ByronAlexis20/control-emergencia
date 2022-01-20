@@ -78,6 +78,14 @@ public class BomberoLista {
 			Clients.showNotification("Seleccione una opción de la lista.");
 			return; 
 		}
+		Usuario usu = usuarioDAO.buscarPorId(us.getIdUsuario());
+		if(usu != null) {
+			if(usu.getControlvehiculoChofer().size() > 0 || usu.getEmergencias().size() > 0 || usu.getPrehospitalaria().size() > 0) {
+				Clients.showNotification("No se puede eliminar el registro, hay registros que dependen de éste.");
+				return;
+			}
+		}
+		
 		Messagebox.show("Desea dar de baja el registro seleccionado?", "Confirmación de Eliminación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
 			@Override
 			public void onEvent(Event event) throws Exception {

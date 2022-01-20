@@ -17,7 +17,9 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Radio;
 import org.zkoss.zul.Textbox;
 
 import com.emergencia.model.dao.MesDAO;
@@ -26,6 +28,9 @@ import com.emergencia.util.PrintReport;
 
 public class Emergencias {
 	@Wire Textbox txtAnio;
+	@Wire private Radio rbReporteMensual;
+	@Wire private Radio rbReporteAnual;
+	@Wire private Combobox cboMes;
 	List<Me> listaMeses;
 	MesDAO mesDAO = new MesDAO();
 	Me mesSeleccionado;
@@ -39,9 +44,28 @@ public class Emergencias {
         String currentYear = getYearFormat.format(date);
 		txtAnio.setText(String.valueOf(currentYear));
 	}
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	
+	@Command
+	public void reporteMensual(){
+		cboMes.setVisible(true);
+	}
+	
+	@Command
+	public void reporteAnual(){
+		cboMes.setVisible(false);
+	}
+	
 	@Command
 	public void imprimir() {
+		if(rbReporteMensual.isChecked()) {
+			imprimirReporteMensual();
+		}else if(rbReporteAnual.isChecked()) {
+			imprimirReporteAnual();
+		}
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void imprimirReporteMensual() {
 		try {
 			if (mesSeleccionado == null) {
 				Clients.showNotification("Debe seleccionar mes");
@@ -68,7 +92,7 @@ public class Emergencias {
 							params.put("ANIO_P", Integer.parseInt(txtAnio.getText()));
 							params.put("MES_P", mesSeleccionado.getMes());
 							PrintReport report = new PrintReport();
-							report.crearReporte("/reportes/rptEmergencias.jasper",mesDAO, params);	
+							report.crearReporte("/reportes/emergencia/rptEmergencias.jasper",mesDAO, params);	
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -79,6 +103,41 @@ public class Emergencias {
 			
 		}
 	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void imprimirReporteAnual() {
+		try {
+			if(txtAnio.getText().toString().isEmpty()) {
+				Clients.showNotification("Debe ingresar el año");
+				return;
+			}
+			Messagebox.show("Descargar reporte?", "Confirmación de Guardar", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
+				@Override
+				public void onEvent(Event event) throws Exception {
+					if (event.getName().equals("onYes")) {		
+						try {						
+							Map<String, Object> params = new HashMap<String, Object>();
+							params.put("NOMBRE_INSTITUCION", "CUERPO DE BOMBEROS DEL CANTÓN LA LIBERTAD");
+							params.put("NOMBRE_REPORTE", "EMERGENCIAS DEL AÑO " + txtAnio.getText());
+							params.put("TITULO1", "CLASIFICACIÓN DE EMERGENCIAS " + txtAnio.getText());
+							params.put("TITULO2", "TIPOS DE EMERGENCIA");
+							params.put("TITULO3", "EMERGENCIAS DE CONTROL DE INCENDIO");
+							params.put("TITULO4", "EMERGENCIAS PREHOSPITALARIAS");
+							params.put("TITULO5", "EMERGENCIAS DE LABOR SOCIAL");
+							params.put("ANIO_P", Integer.parseInt(txtAnio.getText()));
+							PrintReport report = new PrintReport();
+							report.crearReporte("/reportes/emergenciaAnual/rptEmergencias.jasper",mesDAO, params);	
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			});
+		}catch(Exception ex) {
+			
+		}
+	}
+	
 	public List<Me> getListaMeses() {
 		return mesDAO.obtenerMeses();
 	}

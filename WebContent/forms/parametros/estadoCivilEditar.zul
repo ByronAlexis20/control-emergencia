@@ -16,6 +16,10 @@
 						<label value="Estado civil: " class="label-form"/>
 						<textbox id="txtEstado" value="@bind(vm.estadoCivil.estadoCivil)" hflex="1" />
 					</row>
+					<row id="rowEstado">
+						<label value="Estado: " class="label-form"/>
+						<checkbox id="chkEstado"/>
+					</row>
 				</rows>
 			</grid>
 			<!-- Los iconos listados con iconSclass son de: http://fontawesome.io/icons/ -->

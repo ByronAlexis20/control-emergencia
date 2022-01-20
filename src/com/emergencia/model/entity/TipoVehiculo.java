@@ -12,7 +12,10 @@ import java.util.List;
 @Entity
 @Table(name="tipo_vehiculo")
 @NamedQueries({
-	@NamedQuery(name="TipoVehiculo.buscarPorPatron", query="SELECT t FROM TipoVehiculo t where lower(t.tipoVehiculo) like lower(:patron) and t.estado = 'A'")
+	@NamedQuery(name="TipoVehiculo.buscarPorPatron", query="SELECT t FROM TipoVehiculo t where lower(t.tipoVehiculo) like lower(:patron)"),
+	@NamedQuery(name="TipoVehiculo.buscarPorId", query="SELECT t FROM TipoVehiculo t where t.idTipoVehiculo = :id"),
+	@NamedQuery(name="TipoVehiculo.buscarPorNombre", query="SELECT t FROM TipoVehiculo t where lower(t.tipoVehiculo) = lower(:patron)"),
+	@NamedQuery(name="TipoVehiculo.buscarPorNombreDiferenteId", query="SELECT t FROM TipoVehiculo t where lower(t.tipoVehiculo) = lower(:patron) and t.idTipoVehiculo <> :id"),
 })
 public class TipoVehiculo implements Serializable {
 	private static final long serialVersionUID = 1L;

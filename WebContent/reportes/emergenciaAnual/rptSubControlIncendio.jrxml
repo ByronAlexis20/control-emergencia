@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptSubControlIncendio" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a6447d45-1a80-4655-bf6f-c77c3303b016">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ControlEmergencia"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="ANIO" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select 
+			t.id_tipo_emergencia, 
+			t.tipo_emergencia, 
+			t.grupo,
+			(select count(*) from emergencia e where e.estado = 'A' and e.id_tipo_emergencia = t.id_tipo_emergencia
+			and e.id_mes = 1 and e.anio = $P{ANIO}  ) as contEnero,
+            (select count(*) from emergencia e where e.estado = 'A' and e.id_tipo_emergencia = t.id_tipo_emergencia
+			and e.id_mes = 2 and e.anio = $P{ANIO}  ) as contFebrero,
+            (select count(*) from emergencia e where e.estado = 'A' and e.id_tipo_emergencia = t.id_tipo_emergencia
+			and e.id_mes = 3 and e.anio = $P{ANIO}  ) as contMarzo,
+            (select count(*) from emergencia e where e.estado = 'A' and e.id_tipo_emergencia = t.id_tipo_emergencia
+			and e.id_mes = 4 and e.anio = $P{ANIO}  ) as contAbril,
+            (select count(*) from emergencia e where e.estado = 'A' and e.id_tipo_emergencia = t.id_tipo_emergencia
+			and e.id_mes = 5 and e.anio = $P{ANIO}  ) as contMayo,
+            (select count(*) from emergencia e where e.estado = 'A' and e.id_tipo_emergencia = t.id_tipo_emergencia
+			and e.id_mes = 6 and e.anio = $P{ANIO}  ) as contJunio,
+            (select count(*) from emergencia e where e.estado = 'A' and e.id_tipo_emergencia = t.id_tipo_emergencia
+			and e.id_mes = 7 and e.anio = $P{ANIO}  ) as contJulio,
+            (select count(*) from emergencia e where e.estado = 'A' and e.id_tipo_emergencia = t.id_tipo_emergencia
+			and e.id_mes = 8 and e.anio = $P{ANIO}  ) as contAgosto,
+            (select count(*) from emergencia e where e.estado = 'A' and e.id_tipo_emergencia = t.id_tipo_emergencia
+			and e.id_mes = 9 and e.anio = $P{ANIO}  ) as contSeptiembre,
+            (select count(*) from emergencia e where e.estado = 'A' and e.id_tipo_emergencia = t.id_tipo_emergencia
+			and e.id_mes = 10 and e.anio = $P{ANIO}  ) as contOctubre,
+            (select count(*) from emergencia e where e.estado = 'A' and e.id_tipo_emergencia = t.id_tipo_emergencia
+			and e.id_mes = 10 and e.anio = $P{ANIO}  ) as contNoviembre,
+            (select count(*) from emergencia e where e.estado = 'A' and e.id_tipo_emergencia = t.id_tipo_emergencia
+			and e.id_mes = 12 and e.anio = $P{ANIO}  ) as contDiciembre
+from tipo_emergencia t
+where t.grupo in ('CI')
+and t.estado = 'A'
+order by t.grupo]]>
+	</queryString>
+	<field name="id_tipo_emergencia" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_tipo_emergencia"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_tipo_emergencia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tipo_emergencia"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipo_emergencia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tipo_emergencia"/>
+		<property name="com.jaspersoft.studio.field.label" value="tipo_emergencia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tipo_emergencia"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="grupo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="grupo"/>
+		<property name="com.jaspersoft.studio.field.label" value="grupo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tipo_emergencia"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="contEnero" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="contEnero"/>
+		<property name="com.jaspersoft.studio.field.label" value="contEnero"/>
+	</field>
+	<field name="contFebrero" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="contFebrero"/>
+		<property name="com.jaspersoft.studio.field.label" value="contFebrero"/>
+	</field>
+	<field name="contMarzo" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="contMarzo"/>
+		<property name="com.jaspersoft.studio.field.label" value="contMarzo"/>
+	</field>
+	<field name="contAbril" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="contAbril"/>
+		<property name="com.jaspersoft.studio.field.label" value="contAbril"/>
+	</field>
+	<field name="contMayo" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="contMayo"/>
+		<property name="com.jaspersoft.studio.field.label" value="contMayo"/>
+	</field>
+	<field name="contJunio" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="contJunio"/>
+		<property name="com.jaspersoft.studio.field.label" value="contJunio"/>
+	</field>
+	<field name="contJulio" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="contJulio"/>
+		<property name="com.jaspersoft.studio.field.label" value="contJulio"/>
+	</field>
+	<field name="contAgosto" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="contAgosto"/>
+		<property name="com.jaspersoft.studio.field.label" value="contAgosto"/>
+	</field>
+	<field name="contSeptiembre" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="contSeptiembre"/>
+		<property name="com.jaspersoft.studio.field.label" value="contSeptiembre"/>
+	</field>
+	<field name="contOctubre" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="contOctubre"/>
+		<property name="com.jaspersoft.studio.field.label" value="contOctubre"/>
+	</field>
+	<field name="contNoviembre" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="contNoviembre"/>
+		<property name="com.jaspersoft.studio.field.label" value="contNoviembre"/>
+	</field>
+	<field name="contDiciembre" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="contDiciembre"/>
+		<property name="com.jaspersoft.studio.field.label" value="contDiciembre"/>
+	</field>
+	<variable name="contEnero1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{contEnero}]]></variableExpression>
+	</variable>
+	<variable name="contFebrero1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{contFebrero}]]></variableExpression>
+	</variable>
+	<variable name="contMarzo1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{contMarzo}]]></variableExpression>
+	</variable>
+	<variable name="contAbril1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{contAbril}]]></variableExpression>
+	</variable>
+	<variable name="contMayo1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{contMayo}]]></variableExpression>
+	</variable>
+	<variable name="contJunio1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{contJunio}]]></variableExpression>
+	</variable>
+	<variable name="contJulio1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{contJulio}]]></variableExpression>
+	</variable>
+	<variable name="contAgosto1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{contAgosto}]]></variableExpression>
+	</variable>
+	<variable name="contSeptiembre1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{contSeptiembre}]]></variableExpression>
+	</variable>
+	<variable name="contObtubre1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{contOctubre}]]></variableExpression>
+	</variable>
+	<variable name="contNoviembre1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{contNoviembre}]]></variableExpression>
+	</variable>
+	<variable name="contDiciembre1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{contDiciembre}]]></variableExpression>
+	</variable>
+	<background>
+		<band height="7" splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<line>
+				<reportElement x="6" y="7" width="500" height="1" uuid="b4566da9-02b5-4686-a4e3-b29932587804">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="8" y="9" width="178" height="14" uuid="d25f397a-072c-4df4-8645-f396ebe4e575">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d1447e4a-bb6e-4122-89c5-3096959b03e3"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de emergencia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="483" y="9" width="25" height="14" uuid="3e4ad309-6492-4152-a964-5a5728ea3379">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="aa06a172-cb78-458e-808f-129256168e85"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<text><![CDATA[Dic.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="457" y="8" width="25" height="14" uuid="aba0b502-5cb7-4856-89c9-000573db30d0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="289423de-8b8c-458c-912d-e76dd48d2db2"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<text><![CDATA[Nov.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="431" y="8" width="25" height="14" uuid="0b8bf17b-94f6-439e-bf31-b4fb66a28a81">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5d8925d3-dd36-4770-826d-9f646ccf5bdd"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<text><![CDATA[Oct.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="8" width="25" height="14" uuid="d61afa3b-9a59-4e4c-9bc8-84035a618cf6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1b7a8650-6e0a-4292-bf15-0b1b95e64bf8"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<text><![CDATA[Sept.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="379" y="8" width="25" height="14" uuid="1a92fd2f-0af6-46ef-aa05-c5fa94262b57">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dfa8e555-ee13-4637-b91d-4d7d9611076f"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<text><![CDATA[Ago.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="8" width="25" height="14" uuid="c336794f-fa90-4376-b86f-784e27ab78ec">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b0aa19f-a8a1-4229-9fcd-c20be3919919"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<text><![CDATA[Jul.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="327" y="8" width="25" height="14" uuid="8e59acc7-9808-4202-9428-55eea35f32e0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fcf633c2-0257-4d6e-b3e7-51020c5c7e7a"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<text><![CDATA[Jun.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="301" y="8" width="25" height="14" uuid="16f92870-af28-4a1c-ae44-096e394458a1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8bcef1b0-a36d-4383-9cf6-9b3e7aa71c7c"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<text><![CDATA[May.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="275" y="8" width="25" height="14" uuid="42e6a8d5-66ae-4869-8e11-d83cdb50c8ea">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="08ffddb3-44d8-4a1e-81b5-4ca6927f7ed7"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<text><![CDATA[Abr.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="249" y="8" width="25" height="14" uuid="e3e511ea-fb0d-424d-9168-f616d946c39c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cc8173be-8a88-4280-9fb7-63590beb69ab"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<text><![CDATA[Mar.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="223" y="8" width="25" height="14" uuid="8799852e-d9a1-42b0-9dec-69ec0f525981">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="673231a9-e63f-4d7b-9fd6-d6703ac3a0af"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<text><![CDATA[Feb.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="197" y="8" width="25" height="14" uuid="60a0a34b-cb19-4ace-88ee-66b6fa145c2a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9337edcc-fe4d-439b-9d36-8f5d015d3ade"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<text><![CDATA[Ene.]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<line>
+				<reportElement x="6" y="0" width="500" height="1" uuid="b4467f2c-5228-48bb-93ec-b79e103e797b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<textField>
+				<reportElement x="483" y="1" width="25" height="14" uuid="3abdad13-740e-4f2f-8bb5-5c6228718c3e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="aa06a172-cb78-458e-808f-129256168e85"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contDiciembre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="457" y="1" width="25" height="14" uuid="8ee48441-5e49-4fcf-ad57-67d7fb739b7d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="289423de-8b8c-458c-912d-e76dd48d2db2"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contNoviembre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="431" y="1" width="25" height="14" uuid="a0b692f7-5131-4df1-a462-04f755117d24">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5d8925d3-dd36-4770-826d-9f646ccf5bdd"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contOctubre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="405" y="1" width="25" height="14" uuid="d9356e44-cba2-4a22-8ed7-55d677b1b72a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1b7a8650-6e0a-4292-bf15-0b1b95e64bf8"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contSeptiembre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="379" y="1" width="25" height="14" uuid="845cb8bd-b1c4-4887-85f1-787a345aee02">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dfa8e555-ee13-4637-b91d-4d7d9611076f"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contAgosto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="353" y="1" width="25" height="14" uuid="c68c617f-3ba5-4a07-8855-a2db81356290">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b0aa19f-a8a1-4229-9fcd-c20be3919919"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contJulio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="327" y="1" width="25" height="14" uuid="4cb3b3ca-1768-447b-9a6d-15ba8ebcde06">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fcf633c2-0257-4d6e-b3e7-51020c5c7e7a"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contJunio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="301" y="1" width="25" height="14" uuid="f9cc0d73-6ca3-4268-a32d-46538434347a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8bcef1b0-a36d-4383-9cf6-9b3e7aa71c7c"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contMayo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="275" y="1" width="25" height="14" uuid="3fe758f4-34ec-4720-9c14-eacda528b8cf">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="08ffddb3-44d8-4a1e-81b5-4ca6927f7ed7"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contAbril}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="249" y="1" width="25" height="14" uuid="d87e4273-e6dd-4d50-ab27-b2e3624ea67e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cc8173be-8a88-4280-9fb7-63590beb69ab"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contMarzo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="223" y="1" width="25" height="14" uuid="aff14559-84a6-4f33-b68c-2bee07512370">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="673231a9-e63f-4d7b-9fd6-d6703ac3a0af"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contFebrero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="197" y="1" width="25" height="14" uuid="14913466-0dac-4346-b2f7-2f9386cff3fd">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9337edcc-fe4d-439b-9d36-8f5d015d3ade"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contEnero}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="6" y="1" width="180" height="14" uuid="06f7ef7d-3525-4245-bd5d-21a90e48ba7f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="35af8ec7-7063-42b0-8ef9-3e936fe3d2c8"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_emergencia}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="19" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="6" y="0" width="180" height="15" uuid="e828a649-af9c-4c33-a2bc-41b412e173f0">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="197" y="1" width="25" height="14" uuid="ccaeb46a-d0d6-4bfe-9af2-f41f10eda218">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{contEnero1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="223" y="1" width="25" height="14" uuid="c8afee4b-0613-4da3-8b53-e90065db4bc2">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{contFebrero1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="249" y="1" width="25" height="14" uuid="accf998e-8a83-497f-874c-d7a588623629">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{contMarzo1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="275" y="1" width="25" height="14" uuid="1ad62a9c-c329-4c55-ace8-18696ea3791b">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{contAbril1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="301" y="1" width="25" height="14" uuid="cac549da-f531-4b14-a529-b07be7928786">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{contMayo1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="327" y="1" width="25" height="14" uuid="52ce5b6c-62fd-455e-9098-7f22cf56d608">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{contJunio1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="353" y="1" width="25" height="14" uuid="3a0445a1-6646-4014-94b2-c7e028c82cc8">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{contJulio1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="379" y="1" width="25" height="14" uuid="27a64466-0292-4dda-9829-ac9f7177bee0">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{contAgosto1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="405" y="1" width="25" height="14" uuid="691570af-7df2-4a9b-b67b-6150c0794aa9">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{contSeptiembre1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="431" y="1" width="25" height="14" uuid="dd6c6546-4ac0-4c06-88e0-06ae944e778c">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{contObtubre1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="457" y="1" width="25" height="14" uuid="c3584d0a-6a25-4b16-b992-73120602bbec">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{contNoviembre1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="483" y="1" width="25" height="14" uuid="6eb63dc7-2eff-4d58-980b-a8c558f19c95">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{contDiciembre1}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="6" y="0" width="500" height="1" uuid="a866741a-d7bb-43ee-8b11-3a4c6e7f8116">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

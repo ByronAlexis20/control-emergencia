@@ -77,6 +77,13 @@ public class TipoVehiculoLista {
 			Clients.showNotification("Seleccione una opción de la lista.");
 			return; 
 		}
+		TipoVehiculo tv = tipoVehiculoDAO.buscarPorId(tip.getIdTipoVehiculo());
+		if(tv != null) {
+			if(tv.getVehiculos().size() > 0) {
+				Clients.showNotification("No se puede eliminar el registro, hay registros que dependen de éste.");
+				return;
+			}
+		}
 		Messagebox.show("Desea dar de baja el registro seleccionado?", "Confirmación de Eliminación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
 			@Override
 			public void onEvent(Event event) throws Exception {

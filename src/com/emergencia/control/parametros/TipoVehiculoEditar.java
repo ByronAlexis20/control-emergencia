@@ -1,5 +1,7 @@
 package com.emergencia.control.parametros;
 
+import java.util.List;
+
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
@@ -12,7 +14,9 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Row;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
@@ -22,17 +26,27 @@ import com.emergencia.model.entity.TipoVehiculo;
 public class TipoVehiculoEditar {
 	@Wire private Window winTipoEditar;
 	@Wire private Textbox txtTipo;
+	@Wire private Checkbox chkEstado;
+	@Wire private Row rowEstado;
 	TipoVehiculo tipoVehiculo;
 	TipoVehiculoDAO tipoVehiculoDAO = new TipoVehiculoDAO();
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
+		chkEstado.setChecked(true);
 		// Recupera el objeto pasado como parametro. 
 		tipoVehiculo = (TipoVehiculo) Executions.getCurrent().getArg().get("TipoVehiculo");
 		if (tipoVehiculo == null) {
 			tipoVehiculo = new TipoVehiculo();
 			tipoVehiculo.setEstado("A");
+			rowEstado.setVisible(false);
+		}else {
+			if(tipoVehiculo.getEstado().equals("A")) {
+				chkEstado.setChecked(true);
+			}else {
+				chkEstado.setChecked(false);
+			}
 		}
 	}
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -45,7 +59,12 @@ public class TipoVehiculoEditar {
 			@Override
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {		
-					try {						
+					try {
+						if(chkEstado.isChecked())
+							tipoVehiculo.setEstado("A");
+						else
+							tipoVehiculo.setEstado("I");
+						
 						tipoVehiculoDAO.getEntityManager().getTransaction().begin();			
 						if (tipoVehiculo.getIdTipoVehiculo() == null) {
 							tipoVehiculoDAO.getEntityManager().persist(tipoVehiculo);
@@ -76,6 +95,32 @@ public class TipoVehiculoEditar {
 				Clients.showNotification("Obligatoria regitrar el tipo de vehículo","info",txtTipo,"end_center",2000);
 				txtTipo.setFocus(true);
 				return retorna;
+			}
+			if(tipoVehiculo != null) {
+				if(tipoVehiculo.getIdTipoVehiculo() == null) {
+					List<TipoVehiculo> lista = this.tipoVehiculoDAO.buscarPorNombre(txtTipo.getValue());
+					if(lista.size() > 0) {
+						Clients.showNotification("Nombre de tipo de vehículo ya existe","info",txtTipo,"end_center",2000);
+						return retorna;
+					}
+				}else {
+					List<TipoVehiculo> lista = this.tipoVehiculoDAO.buscarPorNombreDiferenteId(txtTipo.getValue(), tipoVehiculo.getIdTipoVehiculo());
+					if(lista.size() > 0) {
+						Clients.showNotification("Nombre de tipo de vehículo ya existe","info",txtTipo,"end_center",2000);
+						return retorna;
+					}
+				}
+			}
+			if(tipoVehiculo.getIdTipoVehiculo() != null) {
+				if(!chkEstado.isChecked()) {
+					TipoVehiculo tv = tipoVehiculoDAO.buscarPorId(tipoVehiculo.getIdTipoVehiculo());
+					if(tv != null) {
+						if(tv.getVehiculos().size() > 0) {
+							Clients.showNotification("No se puede eliminar el registro, hay registros que dependen de éste.");
+							return retorna;
+						}
+					}
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

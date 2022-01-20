@@ -81,6 +81,14 @@ public class UsuarioLista {
 			return; 
 		}
 
+		Usuario usu = usuarioDAO.buscarPorId(usuarioSeleccionada.getIdUsuario());
+		if(usu != null) {
+			if(usu.getControlvehiculoChofer().size() > 0 || usu.getEmergencias().size() > 0 || usu.getPrehospitalaria().size() > 0) {
+				Clients.showNotification("No se puede eliminar el registro, hay registros que dependen de éste.");
+				return;
+			}
+		}
+		
 		Messagebox.show("Desea eliminar el registro seleccionado?", "Confirmación de Eliminación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
 
 			@Override

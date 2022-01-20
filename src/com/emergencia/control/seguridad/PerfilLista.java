@@ -81,7 +81,13 @@ public class PerfilLista {
 			Clients.showNotification("Seleccione una opción de la lista.");
 			return; 
 		}
-
+		Perfil per = perfilDAO.getPerfilPorId(perfilSeleccionado.getIdPerfil());
+		if(per != null) {
+			if(per.getPermisos().size() > 0 || per.getUsuarios().size() > 0) {
+				Clients.showNotification("No se puede eliminar el registro, hay registros que dependen de éste.");
+				return;
+			}
+		}
 		Messagebox.show("Desea dar de baja el registro seleccionado?", "Confirmación de Eliminación", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
 
 			@Override

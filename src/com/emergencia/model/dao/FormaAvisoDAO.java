@@ -32,4 +32,36 @@ public class FormaAvisoDAO extends ClaseDAO {
 		resultado = (List<FormaAviso>) query.getResultList();
 		return resultado;
 	}
+	
+	public FormaAviso buscarPorId(Integer id) {
+		FormaAviso dato; 
+		Query consulta;
+		consulta = getEntityManager().createNamedQuery("FormaAviso.buscarPorId");
+		consulta.setParameter("id", id);
+		dato = (FormaAviso) consulta.getSingleResult();
+		return dato;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<FormaAviso> buscarPorNombre(String value) {
+		List<FormaAviso> resultado; 
+		String patron = value;
+		Query query = getEntityManager().createNamedQuery("FormaAviso.buscarPorNombre");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("patron", patron.trim());
+		resultado = (List<FormaAviso>) query.getResultList();
+		return resultado;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<FormaAviso> buscarPorNombreDiferenteId(String value, Integer id) {
+		List<FormaAviso> resultado; 
+		String patron = value;
+		Query query = getEntityManager().createNamedQuery("FormaAviso.buscarPorNombreDiferenteId");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("patron", patron.trim());
+		query.setParameter("id", id);
+		resultado = (List<FormaAviso>) query.getResultList();
+		return resultado;
+	}
 }

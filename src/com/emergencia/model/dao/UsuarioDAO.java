@@ -18,6 +18,15 @@ public class UsuarioDAO extends ClaseDAO{
 		return usuario;
 	}
 	
+	public Usuario buscarPorId(Integer id) {
+		Usuario usuario; 
+		Query consulta;
+		consulta = getEntityManager().createNamedQuery("Usuario.buscarPorId");
+		consulta.setParameter("id", id);
+		usuario = (Usuario) consulta.getSingleResult();
+		return usuario;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Usuario> getListaUsuariosBuscar(String value) {
 		List<Usuario> resultado = new ArrayList<Usuario>(); 

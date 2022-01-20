@@ -20,9 +20,11 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Row;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
@@ -50,6 +52,8 @@ public class ChoferEditar {
 	@Wire private Textbox txtDireccion;
 	@Wire private Textbox txtCorreo;
 	@Wire private Datebox dtpFechaNacimiento;
+	@Wire private Checkbox chkEstado;
+	@Wire private Row rowEstado;
 	
 	PerfilDAO perfilDAO = new PerfilDAO();
 	UsuarioDAO usuarioDAO = new UsuarioDAO();
@@ -66,6 +70,7 @@ public class ChoferEditar {
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
+		chkEstado.setChecked(true);
 		// Recupera el objeto pasado como parametro. 
 		usuario = (Usuario) Executions.getCurrent().getArg().get("Chofer");
 		if (usuario == null) {
@@ -76,6 +81,7 @@ public class ChoferEditar {
 			usuario.setPersona(persona);
 			perfilSeleccionado = null;
 			estadoCivilSeleccionado = null;
+			rowEstado.setVisible(false);
 		}else {
 			persona = usuario.getPersona();
 			perfilSeleccionado = usuario.getPerfil();
@@ -84,6 +90,11 @@ public class ChoferEditar {
 			dtpFechaNacimiento.setValue(usuario.getPersona().getFechaNacimiento());
 			tipoSangreSeleccionado = usuario.getPersona().getTipoSangre();
 			cboTipoSangre.setText(usuario.getPersona().getTipoSangre().getTipoSangre());
+			if(usuario.getEstado().equals("A")) {
+				chkEstado.setChecked(true);
+			}else {
+				chkEstado.setChecked(false);
+			}
 		}
 	}
 	
@@ -97,7 +108,12 @@ public class ChoferEditar {
 			@Override
 			public void onEvent(Event event) throws Exception {
 				if (event.getName().equals("onYes")) {		
-					try {						
+					try {
+						if(chkEstado.isChecked())
+							usuario.setEstado("A");
+						else
+							usuario.setEstado("I");
+						
 						usuario.setPerfil(perfilDAO.getPerfilPorId(Globales.codigoChofer));
 						usuarioDAO.getEntityManager().getTransaction().begin();			
 						if (usuario.getIdUsuario() == null) {
@@ -151,6 +167,18 @@ public class ChoferEditar {
 			txtNoDocumento.focus();
 			return false;
 		}
+		if(usuario.getIdUsuario() != null) {
+			if(!chkEstado.isChecked()) {
+				Usuario us = usuarioDAO.buscarPorId(usuario.getIdUsuario());
+				if(us != null) {
+					if(us.getControlvehiculoChofer().size() > 0 || us.getEmergencias().size() > 0 || us.getPrehospitalaria().size() > 0) {
+						Clients.showNotification("No se puede eliminar el registro, hay registros que dependen de éste.");
+						return false;
+					}
+				}
+			}
+		}
+		
 		//validar que la cedula no la tenga otra persona
 		if(persona != null) {
 			if(persona.getIdPersona() != null) {

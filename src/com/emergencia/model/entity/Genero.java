@@ -13,7 +13,10 @@ import java.util.List;
 @Table(name="genero")
 @NamedQueries({
 	@NamedQuery(name="Genero.findAll", query="SELECT g FROM Genero g where g.estado = 'A'"),
-	@NamedQuery(name="Genero.buscarPorPatron", query="SELECT g FROM Genero g where lower(g.genero) like lower(:patron) and g.estado = 'A'")
+	@NamedQuery(name="Genero.buscarPorPatron", query="SELECT g FROM Genero g where lower(g.genero) like lower(:patron)"),
+	@NamedQuery(name="Genero.buscarPorId", query="SELECT g FROM Genero g where g.idGenero = :id"),
+	@NamedQuery(name="Genero.buscarPorNombre", query="SELECT g FROM Genero g where lower(g.genero) = lower(:patron)"),
+	@NamedQuery(name="Genero.buscarPorNombreDiferenteId", query="SELECT g FROM Genero g where lower(g.genero) = lower(:patron) and g.idGenero <> :id"),
 })
 public class Genero implements Serializable {
 	private static final long serialVersionUID = 1L;
