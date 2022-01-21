@@ -12,7 +12,7 @@ import java.util.List;
 	@NamedQuery(name="Usuario.buscaUsuario", 
 	query="SELECT u FROM Usuario u WHERE u.usuario = :nombreUsuario and u.estado = 'A'"),
 	@NamedQuery(name="Usuario.buscarPorPatron", query="SELECT u FROM Usuario u where (lower(u.persona.nombres) "
-			+ "like(:patron) or lower(u.persona.apellidos) like(:patron)) and u.estado = 'A' and u.perfil.idPerfil IN (1,2,3)"),
+			+ "like(:patron) or lower(u.persona.apellidos) like(:patron)) and u.perfil.idPerfil IN (1,2,3)"),
 	@NamedQuery(name="Usuario.buscarPorCedula", query="SELECT u FROM Usuario u where u.persona.cedula = :cedula and u.estado = 'A'"),
 	@NamedQuery(name="Usuario.buscarPorCedulaDiferenteAlUsuarioActual", query="SELECT u FROM Usuario u where u.persona.cedula = :cedula and u.estado = 'A' "
 			+ "and u.idUsuario <> :idUsuario"),
