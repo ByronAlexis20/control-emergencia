@@ -154,7 +154,16 @@ public class RegistroEmergencia {
 		control.setHoraReporte(new Time(horaActual.getTime()));
 		control.setHoraSalidaBase(new Time(tmHorasalida.getValue().getTime()));
 		control.setNovedades(txtNovedades.getText());
-		control.setnReporte(txtNoReporte.getText());
+		//el numero de reporte si es un nuevo registro, se calcula
+		if(control.getIdControl() == null) {
+			List<ControlVehiculo> lista = this.controlDAO.buscarTodosOrdenados();
+			if(lista.size() > 0) {
+				Integer nRepor = Integer.parseInt(lista.get(0).getnReporte()) + 1;
+				control.setnReporte(String.valueOf(nRepor));
+			}
+			else
+				control.setnReporte("1");
+		}
 	}
 	private boolean validarDatos() {
 		try {
@@ -173,11 +182,6 @@ public class RegistroEmergencia {
 			}
 			if(dtpFecha.getValue() == null) {
 				Clients.showNotification("Seleccione fecha","info",dtpFecha,"end_center",2000);
-				return false;
-			}
-			if(txtNoReporte.getText().isEmpty()) {
-				Clients.showNotification("Debe registrar No. de Reporte","info",txtNoReporte,"end_center",2000);
-				txtNoReporte.focus();
 				return false;
 			}
 			if(tmHorasalida.getValue() == null) {

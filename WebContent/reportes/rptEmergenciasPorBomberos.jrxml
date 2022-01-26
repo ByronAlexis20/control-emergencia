@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptEmergenciasPorBomberos" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c1ec475b-fed7-4327-bb56-bed17e801ad8">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="control_emergencia"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -22,7 +21,7 @@
 	<parameter name="NOMBRE_INSTITUCION" class="java.lang.String"/>
 	<parameter name="NOMBRE_REPORTE" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select u.id_usuario,p.cedula,concat(p.nombres, '', p.apellidos) as nombres, pe.nombre,
+		<![CDATA[select u.id_usuario,p.cedula,concat(p.nombres, ' ', p.apellidos) as nombres, pe.nombre,
 (select count(*) from emergencia e, tipo_emergencia t, personal_emergencia pe where t.id_tipo_emergencia = e.id_tipo_emergencia
 and e.estado = 'A' and pe.id_bombero = u.id_usuario and t.grupo = 'CI' and pe.estado = 'A' and pe.id_emergencia = e.id_emergencia
 and e.id_mes = $P{ID_MES}  and e.anio = $P{ANIO} ) as contCI,
@@ -30,7 +29,7 @@ and e.id_mes = $P{ID_MES}  and e.anio = $P{ANIO} ) as contCI,
 and e.estado = 'A' and pe.id_bombero = u.id_usuario and t.grupo = 'LS' and pe.estado = 'A' and pe.id_emergencia = e.id_emergencia
 and e.id_mes = $P{ID_MES}  and e.anio = $P{ANIO}) as contLS,
 (select count(*) from prehospitalaria p, tipo_emergencia t, personal_prehospitalaria pp where p.id_tipo_emergencia = t.id_tipo_emergencia
-and p.estado = 'A' and p.id_informante = u.id_usuario and t.grupo = 'APH' and pp.id_prehospitalaria = p.id_prehospitalaria and pp.estado = 'A'
+and p.estado = 'A' and pp.id_bombero = u.id_usuario and t.grupo = 'APH' and pp.id_prehospitalaria = p.id_prehospitalaria and pp.estado = 'A'
 and EXTRACT(MONTH FROM p.fecha_atencion) = $P{ID_MES}  and EXTRACT(Year FROM p.fecha_atencion) = $P{ANIO} ) as contAPH
 from usuario u, persona p, perfil pe
 where u.id_persona = p.id_persona and u.id_perfil = pe.id_perfil
@@ -77,21 +76,21 @@ and u.id_perfil in (3,4,6)]]>
 	<title>
 		<band height="94" splitType="Stretch">
 			<textField>
-				<reportElement x="190" y="7" width="470" height="20" uuid="bc45101d-d9e2-4930-ac01-e6d2351ab455"/>
+				<reportElement uuid="bc45101d-d9e2-4930-ac01-e6d2351ab455" x="190" y="7" width="470" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{NOMBRE_INSTITUCION}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="190" y="30" width="470" height="53" uuid="5405df4d-2294-466d-bd48-fb89b111815e"/>
+				<reportElement uuid="5405df4d-2294-466d-bd48-fb89b111815e" x="190" y="30" width="470" height="53"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{NOMBRE_REPORTE}]]></textFieldExpression>
 			</textField>
 			<image scaleImage="FillFrame">
-				<reportElement x="110" y="7" width="70" height="60" uuid="aebbe301-a4d0-4269-80b1-452d1580455d"/>
+				<reportElement uuid="aebbe301-a4d0-4269-80b1-452d1580455d" x="110" y="7" width="70" height="60"/>
 				<imageExpression><![CDATA["logo.png"]]></imageExpression>
 			</image>
 		</band>
@@ -115,13 +114,12 @@ and u.id_perfil in (3,4,6)]]>
 		<band height="360" splitType="Stretch">
 			<barChart>
 				<chart evaluationTime="Report">
-					<reportElement x="30" y="10" width="730" height="300" uuid="65e36cd4-3a42-4720-9b02-595514743680"/>
+					<reportElement uuid="65e36cd4-3a42-4720-9b02-595514743680" x="30" y="10" width="730" height="300"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
-					<dataset resetType="Report"/>
 					<categorySeries>
 						<seriesExpression><![CDATA["Control Incendio"]]></seriesExpression>
 						<categoryExpression><![CDATA[$F{nombres}]]></categoryExpression>

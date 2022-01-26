@@ -26,6 +26,7 @@ import org.zkoss.zul.Window;
 
 import com.emergencia.model.dao.UsuarioDAO;
 import com.emergencia.model.entity.Usuario;
+import com.emergencia.util.Globales;
 
 public class UsuarioLista {
 	public String textoBuscar;
@@ -85,6 +86,10 @@ public class UsuarioLista {
 		if(usu != null) {
 			if(usu.getControlvehiculoChofer().size() > 0 || usu.getEmergencias().size() > 0 || usu.getPrehospitalaria().size() > 0) {
 				Clients.showNotification("No se puede eliminar el registro, hay registros que dependen de éste.");
+				return;
+			}
+			if(usu.getPerfil().getIdPerfil() == Globales.codigoAdministrador) {
+				Clients.showNotification("No se puede eliminar un usuario Administrador");
 				return;
 			}
 		}
