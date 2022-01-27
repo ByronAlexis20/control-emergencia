@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Table(name="vehiculo")
 @NamedQueries({
-	@NamedQuery(name="Vehiculo.buscarPorPatron", query="SELECT v FROM Vehiculo v where v.estado = 'A' and (lower(v.codigo) like lower(:patron) or lower(v.descripcion) like lower(:patron))"),
+	@NamedQuery(name="Vehiculo.buscarPorPatron", query="SELECT v FROM Vehiculo v where (lower(v.codigo) like lower(:patron) or lower(v.descripcion) like lower(:patron))"),
 	@NamedQuery(name="Vehiculo.buscarPorCodigo", query="SELECT v FROM Vehiculo v where v.estado = 'A' and v.codigo = :codigo"),
 	@NamedQuery(name="Vehiculo.buscarPorId", query="SELECT v FROM Vehiculo v where v.idVehiculo = :id"),
 	@NamedQuery(name="Vehiculo.buscarPorCodigoDiferenteActual", query="SELECT v FROM Vehiculo v where v.estado = 'A' and v.codigo = :codigo and v.idVehiculo <> :id")
