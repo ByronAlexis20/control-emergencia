@@ -25,6 +25,7 @@ import com.emergencia.model.dao.PermisoDAO;
 import com.emergencia.model.entity.Menu;
 import com.emergencia.model.entity.Perfil;
 import com.emergencia.model.entity.Permiso;
+import com.emergencia.util.Globales;
 
 
 public class Permisos {
@@ -177,7 +178,14 @@ public class Permisos {
 		}
 	}
 	public List<Perfil> getPerfiles(){
-		return perfilDAO.getPerfilesPorDescripcion("");
+		List<Perfil> lista = perfilDAO.getPerfilesPorDescripcion("");
+		List<Perfil> listaRetorno = new ArrayList<>();
+		for(Perfil per : lista) {
+			if(per.getIdPerfil() == Globales.codigoAdministrador || per.getIdPerfil() == Globales.codigoSecretaria || per.getIdPerfil() == Globales.codigoJefeGuardia) {
+				listaRetorno.add(per);
+			}
+		}
+		return listaRetorno;
 	}
 
 	public Perfil getPerfilSeleccionado() {

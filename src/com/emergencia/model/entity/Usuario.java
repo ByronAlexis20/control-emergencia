@@ -19,9 +19,9 @@ import java.util.List;
 	@NamedQuery(name="Usuario.buscarPorUsuario", query="SELECT s FROM Usuario s where s.usuario = :patron and s.idUsuario <> :idUsuario and s.estado = 'A'"),
 	@NamedQuery(name="Usuario.buscarUsuarioPorCedula", query="SELECT s FROM Usuario s where s.persona.cedula = :cedula and s.estado = 'A'"),
 	@NamedQuery(name="Usuario.buscarBomberoPorPatron", query="SELECT u FROM Usuario u where (lower(u.persona.nombres) "
-			+ "like(:patron) or lower(u.persona.apellidos) like(:patron)) and u.estado = 'A' and u.perfil.idPerfil IN (4,6)"),
+			+ "like(:patron) or lower(u.persona.apellidos) like(:patron)) and u.perfil.idPerfil IN (4,6)"),
 	@NamedQuery(name="Usuario.buscarChoferPorPatron", query="SELECT u FROM Usuario u where (lower(u.persona.nombres) "
-			+ "like(:patron) or lower(u.persona.apellidos) like(:patron)) and u.estado = 'A' and u.perfil.idPerfil = 5"),
+			+ "like(:patron) or lower(u.persona.apellidos) like(:patron)) and u.perfil.idPerfil = 5"),
 	@NamedQuery(name="Usuario.buscarBomberoEmergencias", query="SELECT u FROM Usuario u where u.estado = 'A' and u.perfil.idPerfil IN (3,4,6)"),
 })
 public class Usuario implements Serializable {

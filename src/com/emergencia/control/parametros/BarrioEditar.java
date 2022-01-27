@@ -99,13 +99,14 @@ public class BarrioEditar {
 				if(barrio.getIdBarrio() == null) {
 					List<Barrio> lista = this.barrioDAO.buscarPorNombre(txtBarrio.getValue());
 					if(lista.size() > 0) {
-						Clients.showNotification("Nombre de barrio ya existe","info",txtBarrio,"end_center",2000);
+						Clients.showNotification("Nombre de barrio ya existe 1","info",txtBarrio,"end_center",2000);
 						return retorna;
 					}
 				}else {
 					List<Barrio> lista = this.barrioDAO.buscarPorNombreDiferenteId(txtBarrio.getValue(), barrio.getIdBarrio());
+					System.out.println(barrio.getIdBarrio());
 					if(lista.size() > 0) {
-						Clients.showNotification("Nombre de barrio ya existe","info",txtBarrio,"end_center",2000);
+						Clients.showNotification("Nombre de barrio ya existe 2","info",txtBarrio,"end_center",2000);
 						return retorna;
 					}
 				}
