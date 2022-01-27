@@ -1,5 +1,7 @@
 package com.emergencia.control;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +21,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treecell;
@@ -33,6 +36,7 @@ import com.emergencia.model.entity.Menu;
 import com.emergencia.model.entity.Permiso;
 import com.emergencia.model.entity.Usuario;
 import com.emergencia.security.SecurityUtil;
+import com.emergencia.util.Globales;
 
 @SuppressWarnings("unchecked")
 public class MenuPrincipalControl {
@@ -54,7 +58,7 @@ public class MenuPrincipalControl {
 		loadTree();
 		areaContenido.setSrc("/forms/dashboard/dashboard.zul");
 	}
-
+	
 	public void loadTree() throws IOException{
 		Usuario usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim()); 
 		if (usuario != null){
@@ -94,7 +98,6 @@ public class MenuPrincipalControl {
 					listaMenu.add(permiso);
 				}
 				Collections.sort(listaMenu, new Comparator<Menu>() {
-					@SuppressWarnings("deprecation")
 					@Override
 					public int compare(Menu p1, Menu p2) {
 						return new Integer(p1.getPosicion()).compareTo(new Integer(p2.getPosicion()));
@@ -119,7 +122,6 @@ public class MenuPrincipalControl {
 			}
 			if (!listaPadreHijo.isEmpty()) {
 				Collections.sort(listaPadreHijo, new Comparator<Menu>() {
-					@SuppressWarnings("deprecation")
 					@Override
 					public int compare(Menu p1, Menu p2) {
 						return new Integer(p1.getPosicion()).compareTo(new Integer(p2.getPosicion()));
@@ -165,10 +167,31 @@ public class MenuPrincipalControl {
 			areaContenido.setSrc(opcion.getUrl());
 		}	
 	}
+	
 	@Command
 	public void dashboard() {
 		areaContenido.setSrc("/forms/dashboard/dashboard.zul");
 	}
+	
+	@Command
+	public void descargarManual() throws FileNotFoundException {
+		Usuario usuario = usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername().trim());
+		
+		String pathAbsoluto = Executions.getCurrent()
+				.getDesktop().getWebApp()
+				.getRealPath("/");
+		
+		
+		System.out.println(pathAbsoluto);
+		if(usuario.getPerfil().getIdPerfil() == Globales.codigoAdministrador) {
+			Filedownload.save(new File(pathAbsoluto + "recursos\\manual_administrador.pdf"), null);
+		}else if(usuario.getPerfil().getIdPerfil() == Globales.codigoJefeGuardia) {
+			Filedownload.save(new File(pathAbsoluto + "recursos\\manual_jefe_guardia.pdf"), null);
+		}else if(usuario.getPerfil().getIdPerfil() == Globales.codigoSecretaria) {
+			Filedownload.save(new File(pathAbsoluto + "recursos\\manual_secretaria.pdf"), null);
+		}
+	}
+	
 	public String getNombreUsuario() {
 		Usuario usuario = this.usuarioDAO.getUsuario(SecurityUtil.getUser().getUsername());
 		return usuario.getPersona().getApellidos() + " " + usuario.getPersona().getNombres();

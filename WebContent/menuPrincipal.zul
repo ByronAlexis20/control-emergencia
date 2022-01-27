@@ -26,6 +26,9 @@
 						<label style="font: 120% sans-serif; font-weight: bold; color: white;cursor:pointer; cursor: hand " value="Control de emergencias" onClick="@command('dashboard')"/>
 					</vbox>
 				</hbox>
+				<hbox vflex="1" hflex="1" pack="center">
+					<image src="/imagenes/ic_manual.png" height="35px" onClick="@command('descargarManual')" style="cursor:pointer; cursor: hand"/>
+				</hbox>
 				<hbox vflex="1" hflex="1" pack="end">
 					<vbox vflex="1" pack="center">
 						<image src="/imagenes/logo_usuario.png" height="30px" style="border-radius:160px;width:30px;height:30px;"/>

@@ -174,6 +174,10 @@ public class UsuarioEditar {
 						Clients.showNotification("No se puede eliminar el registro, hay registros que dependen de éste.");
 						return false;
 					}
+					if(us.getPerfil().getIdPerfil() == Globales.codigoAdministrador) {
+						Clients.showNotification("No se puede eliminar un usuario Administrador");
+						return false;
+					}
 				}
 			}
 		}

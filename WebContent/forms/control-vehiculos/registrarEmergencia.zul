@@ -98,7 +98,7 @@
 						<cell><label value="Fecha: "/> </cell>
 						<cell><datebox id="dtpFecha" hflex="1" format="dd/MM/yyyy"/></cell>
 						<cell><label value="No Reporte: "/> </cell>
-						<cell><textbox id="txtNoReporte" hflex="1"/></cell>
+						<cell><textbox id="txtNoReporte" hflex="1" disabled="true"/></cell>
 						<cell><label value="Hora salida de la base: " class="label-form"/></cell>
 						<cell><timebox id="tmHorasalida" hflex="1"/></cell>
 					</row>

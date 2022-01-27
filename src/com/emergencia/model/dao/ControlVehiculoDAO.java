@@ -18,6 +18,16 @@ public class ControlVehiculoDAO extends ClaseDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<ControlVehiculo> buscarTodosOrdenados() {
+		List<ControlVehiculo> resultado; 
+		Query query = getEntityManager().createNamedQuery("ControlVehiculo.buscarTodos");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		resultado = (List<ControlVehiculo>) query.getResultList();
+		return resultado;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
 	public List<ControlVehiculo> buscarPorEmergencia(Integer idEmergencia) {
 		List<ControlVehiculo> resultado; 
 		Query query = getEntityManager().createNamedQuery("ControlVehiculo.buscarPorEmergencia");
