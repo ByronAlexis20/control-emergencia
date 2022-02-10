@@ -98,6 +98,7 @@ public class MenuPrincipalControl {
 					listaMenu.add(permiso);
 				}
 				Collections.sort(listaMenu, new Comparator<Menu>() {
+					@SuppressWarnings("deprecation")
 					@Override
 					public int compare(Menu p1, Menu p2) {
 						return new Integer(p1.getPosicion()).compareTo(new Integer(p2.getPosicion()));
@@ -122,6 +123,7 @@ public class MenuPrincipalControl {
 			}
 			if (!listaPadreHijo.isEmpty()) {
 				Collections.sort(listaPadreHijo, new Comparator<Menu>() {
+					@SuppressWarnings("deprecation")
 					@Override
 					public int compare(Menu p1, Menu p2) {
 						return new Integer(p1.getPosicion()).compareTo(new Integer(p2.getPosicion()));

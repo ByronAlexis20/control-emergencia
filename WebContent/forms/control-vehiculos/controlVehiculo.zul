@@ -18,7 +18,7 @@
 				<listbox id="lstControlVehiculo" model="@load(vm.listaControlVehiculo)"
 					mold="paging" hflex="1" vflex="1">
 					<listhead>
-						<listheader label="Fecha Registro" align="center"/>
+						<listheader label="Fecha del Registro" align="center"/>
 						<listheader label="Vehículo" align="center" width="15%"/>
 						<listheader label="Tipo Vehiculo" align="center"/>
 						<listheader label="Emergencia" align="center"/>

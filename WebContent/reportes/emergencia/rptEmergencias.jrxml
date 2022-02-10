@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptEmergencias" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6d2d70a-1397-4a22-abc6-a45bb9cb7985">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="control_emergencia"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -26,21 +25,21 @@
 		<band height="86" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
-				<reportElement x="110" y="10" width="390" height="20" uuid="615727da-efd5-4d8b-87a4-70f2053af8d8"/>
+				<reportElement uuid="615727da-efd5-4d8b-87a4-70f2053af8d8" x="110" y="10" width="390" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{NOMBRE_INSTITUCION}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="110" y="33" width="390" height="53" uuid="d3cd0be3-84eb-4e6d-9da4-96566a05c862"/>
+				<reportElement uuid="d3cd0be3-84eb-4e6d-9da4-96566a05c862" x="110" y="33" width="390" height="53"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{NOMBRE_REPORTE}]]></textFieldExpression>
 			</textField>
 			<image scaleImage="FillFrame">
-				<reportElement x="30" y="10" width="70" height="60" uuid="95242c13-0402-4346-ae33-0e874c137ce1"/>
+				<reportElement uuid="95242c13-0402-4346-ae33-0e874c137ce1" x="30" y="10" width="70" height="60"/>
 				<imageExpression><![CDATA["logo.png"]]></imageExpression>
 			</image>
 		</band>
@@ -54,7 +53,7 @@
 	<detail>
 		<band height="42" splitType="Stretch">
 			<subreport>
-				<reportElement x="30" y="24" width="500" height="16" uuid="31995b76-5671-406f-96f2-233a0a5a1f3c"/>
+				<reportElement uuid="31995b76-5671-406f-96f2-233a0a5a1f3c" x="30" y="24" width="500" height="16"/>
 				<subreportParameter name="ID_MES">
 					<subreportParameterExpression><![CDATA[$P{ID_MES_P}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -68,7 +67,7 @@
 				<subreportExpression><![CDATA["rptSubResumenEmergencias.jasper"]]></subreportExpression>
 			</subreport>
 			<textField>
-				<reportElement x="80" y="4" width="400" height="16" uuid="2719f0f3-ad11-4d45-81cb-c7d0aa8e8691"/>
+				<reportElement uuid="2719f0f3-ad11-4d45-81cb-c7d0aa8e8691" x="80" y="4" width="400" height="16"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
@@ -77,7 +76,7 @@
 		</band>
 		<band height="67">
 			<textField>
-				<reportElement x="80" y="3" width="400" height="16" uuid="9669550c-80cb-4eaf-8e1c-d35025747d6c">
+				<reportElement uuid="9669550c-80cb-4eaf-8e1c-d35025747d6c" x="80" y="3" width="400" height="16">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -86,14 +85,14 @@
 				<textFieldExpression><![CDATA[$P{TITULO2}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="80" y="20" width="400" height="20" uuid="9b317036-1629-4cc1-8cc7-1fecd9fec8b1"/>
+				<reportElement uuid="9b317036-1629-4cc1-8cc7-1fecd9fec8b1" x="80" y="20" width="400" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{TITULO3}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="30" y="40" width="500" height="16" uuid="9cc9ec76-7507-4526-b4f4-42b97d3e6963">
+				<reportElement uuid="9cc9ec76-7507-4526-b4f4-42b97d3e6963" x="30" y="40" width="500" height="16">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
@@ -111,9 +110,9 @@
 				<subreportExpression><![CDATA["rptSubControlIncendio.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="48">
+		<band height="103">
 			<textField>
-				<reportElement x="80" y="6" width="400" height="20" uuid="ea631d8b-e1ab-4598-a7d7-e975ba220cf7">
+				<reportElement uuid="ea631d8b-e1ab-4598-a7d7-e975ba220cf7" x="80" y="6" width="400" height="20">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -122,7 +121,7 @@
 				<textFieldExpression><![CDATA[$P{TITULO4}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="30" y="26" width="500" height="16" uuid="e8e5d3e3-abcd-42b1-a0c3-e30c55c85810">
+				<reportElement uuid="e8e5d3e3-abcd-42b1-a0c3-e30c55c85810" x="30" y="26" width="500" height="16">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -142,7 +141,7 @@
 		</band>
 		<band height="45">
 			<textField>
-				<reportElement x="80" y="4" width="400" height="17" uuid="f243473f-a42d-4a16-b584-1a41f356786c">
+				<reportElement uuid="f243473f-a42d-4a16-b584-1a41f356786c" x="80" y="4" width="400" height="17">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -151,7 +150,7 @@
 				<textFieldExpression><![CDATA[$P{TITULO5}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="30" y="23" width="500" height="16" uuid="d437b8d8-558c-4b70-b22e-81971cb6dabb">
+				<reportElement uuid="d437b8d8-558c-4b70-b22e-81971cb6dabb" x="30" y="23" width="500" height="16">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -179,7 +178,7 @@
 	<summary>
 		<band height="21" splitType="Stretch">
 			<subreport>
-				<reportElement x="28" y="2" width="500" height="16" uuid="0069609f-fd9f-4eb7-8c15-bba9dabc1473">
+				<reportElement uuid="0069609f-fd9f-4eb7-8c15-bba9dabc1473" x="28" y="2" width="500" height="16">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>

@@ -26,7 +26,7 @@
 				<listbox id="lstBomberos" model="@load(vm.listaBombero)"
 					mold="paging" hflex="1" vflex="1">
 					<listhead>
-						<listheader label="Cdula" align="center" width="15%"/>
+						<listheader label="Cédula" align="center" width="15%"/>
 						<listheader label="Nombres" align="center"/>
 						<listheader label="Apellidos" align="center"/>
 						<listheader label="Tipo Sangre" align="center"/>

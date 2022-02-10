@@ -3,6 +3,7 @@ package com.emergencia.control;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -41,11 +42,15 @@ import org.zkoss.zul.Listbox;
 
 import com.emergencia.model.dao.ControlVehiculoDAO;
 import com.emergencia.model.dao.EmergenciaDAO;
+import com.emergencia.model.dao.PersonalEmergenciaDAO;
+import com.emergencia.model.dao.PersonalPrehospitalariaDAO;
 import com.emergencia.model.dao.PrehospitalariaDAO;
 import com.emergencia.model.dao.UsuarioDAO;
 import com.emergencia.model.dao.VehiculoDAO;
 import com.emergencia.model.entity.ControlVehiculo;
 import com.emergencia.model.entity.Emergencia;
+import com.emergencia.model.entity.PersonalEmergencia;
+import com.emergencia.model.entity.PersonalPrehospitalaria;
 import com.emergencia.model.entity.Prehospitalaria;
 import com.emergencia.model.entity.Usuario;
 import com.emergencia.model.entity.Vehiculo;
@@ -68,6 +73,8 @@ public class Dashboard {
 	ControlVehiculoDAO controlDAO = new ControlVehiculoDAO();
 	VehiculoDAO vehiculoDAO = new VehiculoDAO();
 	UsuarioDAO usuarioDAO = new UsuarioDAO();
+	PersonalPrehospitalariaDAO personalPrehospitalarioDAO = new PersonalPrehospitalariaDAO();
+	PersonalEmergenciaDAO personalEmergenciaDAO = new PersonalEmergenciaDAO();
 	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
@@ -151,21 +158,37 @@ public class Dashboard {
 				cont = 0;
 				BomberoEmergencia bom = new BomberoEmergencia();
 				bom.setBombero(us);
-				for(Prehospitalaria p : listaPrehospitalario) {
-					if(p.getInformante().getIdUsuario() == us.getIdUsuario())
+				//buscar por aph
+				List<PersonalPrehospitalaria> listaAPH = this.personalPrehospitalarioDAO.buscarPorBombero(us.getIdUsuario());
+				for(PersonalPrehospitalaria aph : listaAPH) {
+					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+					String fecha1 = format.format(aph.getPrehospitalaria().getFechaAtencion());
+					String fecha2 = format.format(fecha);
+					
+					if(fecha1.equals(fecha2)) {
 						cont ++;
+					}
 				}
 				bom.setContAPH(cont);
 				cont = 0;
-				for(Emergencia e : listaLaborSocial) {
-					if(e.getUsuario().getIdUsuario() == us.getIdUsuario()) 
-						cont ++;
+				
+				List<PersonalEmergencia> listaEmer = this.personalEmergenciaDAO.buscarPorBombero(us.getIdUsuario());
+				
+				for(PersonalEmergencia e : listaEmer) {
+					if(e.getEmergencia().getDia() == dia && e.getEmergencia().getMe().getIdMes() == mes && e.getEmergencia().getAnio() == anio) {
+						if(e.getEmergencia().getTipoEmergencia().getGrupo().equals("LS")) {
+							cont ++;
+						}
+					}
 				}
 				bom.setContLS(cont);
 				cont = 0;
-				for(Emergencia e : listaControlIncendio) {
-					if(e.getUsuario().getIdUsuario() == us.getIdUsuario()) 
-						cont ++;
+				for(PersonalEmergencia e : listaEmer) {
+					if(e.getEmergencia().getDia() == dia && e.getEmergencia().getMe().getIdMes() == mes && e.getEmergencia().getAnio() == anio) {
+						if(e.getEmergencia().getTipoEmergencia().getGrupo().equals("CI")) {
+							cont ++;
+						}
+					}
 				}
 				bom.setContCI(cont);
 				listaBomberosAgregar.add(bom);

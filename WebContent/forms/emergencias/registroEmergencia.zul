@@ -71,7 +71,7 @@
 			<hlayout vflex="1" hflex="1">
 				<listbox id="lstEmergencias" model="@load(vm.listaEmergencia)" hflex="1" vflex="1" mold="paging">
 					<listhead>
-						<listheader label="Tipo Emergencia"/>
+						<listheader label="Fecha del Evento"/>
 						<listheader label="Tipo Emergencia"/>
 						<listheader label="Parroquia" />
 						<listheader label="Teléfono" />

@@ -5,7 +5,7 @@
 		hflex="1" vflex="1">
 		<vlayout vflex="1">
 			<div style="margin-top:10px">
-				<label value="Reporte resumen de emergencias" style="font-size:25px;font-weight: bold;" />
+				<label value="Reporte Emergencias por Vehículos" style="font-size:25px;font-weight: bold;" />
 			</div>
 			<div hflex="1">
 				<hlayout hflex="1">

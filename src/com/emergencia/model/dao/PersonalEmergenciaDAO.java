@@ -18,4 +18,13 @@ public class PersonalEmergenciaDAO extends ClaseDAO {
 		return resultado;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<PersonalEmergencia> buscarPorBombero(Integer idBombero) {
+		List<PersonalEmergencia> resultado; 
+		Query query = getEntityManager().createNamedQuery("PersonalEmergencia.buscarPorBombero");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idBombero", idBombero);
+		resultado = (List<PersonalEmergencia>) query.getResultList();
+		return resultado;
+	}
 }

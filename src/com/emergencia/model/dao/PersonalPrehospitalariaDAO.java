@@ -16,4 +16,14 @@ public class PersonalPrehospitalariaDAO extends ClaseDAO {
 		resultado = (List<PersonalPrehospitalaria>) query.getResultList();
 		return resultado;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<PersonalPrehospitalaria> buscarPorBombero(Integer idBombero) {
+		List<PersonalPrehospitalaria> resultado; 
+		Query query = getEntityManager().createNamedQuery("PersonalPrehospitalaria.buscarPorBombero");
+		query.setHint("javax.persistence.cache.storeMode", "REFRESH");
+		query.setParameter("idBombero", idBombero);
+		resultado = (List<PersonalPrehospitalaria>) query.getResultList();
+		return resultado;
+	}
 }

@@ -29,7 +29,7 @@
 					<listhead>
 						<listheader label="Código" align="center" width="20%"/>
 						<listheader label="Tipo de vehículo" align="center"/>
-						<listheader label="Descripcion" align="center"/>
+						<listheader label="Descripción" align="center"/>
 						<listheader label="Estado" width="7%" align="center"/>
 						<listheader label="Acción" width="min" align="center"/>
 					</listhead>
