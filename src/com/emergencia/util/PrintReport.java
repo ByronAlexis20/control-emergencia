@@ -26,7 +26,7 @@ public class PrintReport {
 	public static final String FORMATO_PDF = "PDF";
 	public static final String FORMATO_XLS = "XLS";
 
-	public void crearReporte(String path, ClaseDAO claseDAO,Map<String, Object> param) {
+	public byte[] crearReporte(String path, ClaseDAO claseDAO,Map<String, Object> param) {
 		try {
 			String pathAbsoluto = Executions.getCurrent()
 					.getDesktop().getWebApp()
@@ -56,13 +56,15 @@ public class PrintReport {
 			fos.write(b);
 			fos.close();
 			
-			Filedownload.save(new File(nombreArchivo), "pdf"); 
+			//Filedownload.save(new File(nombreArchivo), "pdf"); 
+			return b;
 			/*
 			nombreArchivo = nombreArchivo + "/" + UUID.randomUUID().toString() + ".pdf";
 			Messagebox.show("nombre de ruta y archivo: " + nombreArchivo);
 			 */
 		}catch(Exception ex) {
 			ex.printStackTrace();
+			return null;
 		}
 	}
 

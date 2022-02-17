@@ -11,13 +11,16 @@ import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Radio;
 import org.zkoss.zul.Textbox;
@@ -26,7 +29,9 @@ import com.emergencia.model.dao.MesDAO;
 import com.emergencia.model.entity.Me;
 import com.emergencia.util.PrintReport;
 
-public class Emergencias {
+@SuppressWarnings({ "serial", "rawtypes" })
+public class Emergencias extends GenericForwardComposer{
+	@Wire Iframe reporte;
 	@Wire Textbox txtAnio;
 	@Wire private Radio rbReporteMensual;
 	@Wire private Radio rbReporteAnual;
@@ -64,7 +69,6 @@ public class Emergencias {
 		}
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void imprimirReporteMensual() {
 		try {
 			if (mesSeleccionado == null) {
@@ -75,64 +79,45 @@ public class Emergencias {
 				Clients.showNotification("Debe ingresar el año");
 				return;
 			}
-			Messagebox.show("Descargar reporte?", "Confirmación de Guardar", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
-				@Override
-				public void onEvent(Event event) throws Exception {
-					if (event.getName().equals("onYes")) {		
-						try {						
-							Map<String, Object> params = new HashMap<String, Object>();
-							params.put("NOMBRE_INSTITUCION", "CUERPO DE BOMBEROS DEL CANTÓN LA LIBERTAD");
-							params.put("NOMBRE_REPORTE", "EMERGENCIAS " + txtAnio.getText() + "\nMES: " + mesSeleccionado.getMes());
-							params.put("TITULO1", "CLASIFICACIÓN DE EMERGENCIAS " + txtAnio.getText());
-							params.put("TITULO2", "TIPOS DE EMERGENCIA");
-							params.put("TITULO3", "EMERGENCIAS DE CONTROL DE INCENDIO");
-							params.put("TITULO4", "EMERGENCIAS PREHOSPITALARIAS");
-							params.put("TITULO5", "EMERGENCIAS DE LABOR SOCIAL");
-							params.put("ID_MES_P", mesSeleccionado.getIdMes());
-							params.put("ANIO_P", Integer.parseInt(txtAnio.getText()));
-							params.put("MES_P", mesSeleccionado.getMes());
-							PrintReport report = new PrintReport();
-							report.crearReporte("/reportes/emergencia/rptEmergencias.jasper",mesDAO, params);	
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			});
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("NOMBRE_INSTITUCION", "CUERPO DE BOMBEROS DEL CANTÓN LA LIBERTAD");
+			params.put("NOMBRE_REPORTE", "EMERGENCIAS " + txtAnio.getText() + "\nMES: " + mesSeleccionado.getMes());
+			params.put("TITULO1", "CLASIFICACIÓN DE EMERGENCIAS " + txtAnio.getText());
+			params.put("TITULO2", "TIPOS DE EMERGENCIA");
+			params.put("TITULO3", "EMERGENCIAS DE CONTROL DE INCENDIO");
+			params.put("TITULO4", "EMERGENCIAS PREHOSPITALARIAS");
+			params.put("TITULO5", "EMERGENCIAS DE LABOR SOCIAL");
+			params.put("ID_MES_P", mesSeleccionado.getIdMes());
+			params.put("ANIO_P", Integer.parseInt(txtAnio.getText()));
+			params.put("MES_P", mesSeleccionado.getMes());
+			PrintReport report = new PrintReport();
+			byte[] arr = report.crearReporte("/reportes/emergencia/rptEmergencias.jasper",mesDAO, params);	
+			final AMedia amedia = new AMedia("Reporte-emergencias.pdf", "pdf","application/pdf", arr);
+	    	reporte.setContent(amedia);
 		}catch(Exception ex) {
 			
 		}
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void imprimirReporteAnual() {
 		try {
 			if(txtAnio.getText().toString().isEmpty()) {
 				Clients.showNotification("Debe ingresar el año");
 				return;
 			}
-			Messagebox.show("Descargar reporte?", "Confirmación de Guardar", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
-				@Override
-				public void onEvent(Event event) throws Exception {
-					if (event.getName().equals("onYes")) {		
-						try {						
-							Map<String, Object> params = new HashMap<String, Object>();
-							params.put("NOMBRE_INSTITUCION", "CUERPO DE BOMBEROS DEL CANTÓN LA LIBERTAD");
-							params.put("NOMBRE_REPORTE", "EMERGENCIAS DEL AÑO " + txtAnio.getText());
-							params.put("TITULO1", "CLASIFICACIÓN DE EMERGENCIAS " + txtAnio.getText());
-							params.put("TITULO2", "TIPOS DE EMERGENCIA");
-							params.put("TITULO3", "EMERGENCIAS DE CONTROL DE INCENDIO");
-							params.put("TITULO4", "EMERGENCIAS PREHOSPITALARIAS");
-							params.put("TITULO5", "EMERGENCIAS DE LABOR SOCIAL");
-							params.put("ANIO_P", Integer.parseInt(txtAnio.getText()));
-							PrintReport report = new PrintReport();
-							report.crearReporte("/reportes/emergenciaAnual/rptEmergencias.jasper",mesDAO, params);	
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			});
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("NOMBRE_INSTITUCION", "CUERPO DE BOMBEROS DEL CANTÓN LA LIBERTAD");
+			params.put("NOMBRE_REPORTE", "EMERGENCIAS DEL AÑO " + txtAnio.getText());
+			params.put("TITULO1", "CLASIFICACIÓN DE EMERGENCIAS " + txtAnio.getText());
+			params.put("TITULO2", "TIPOS DE EMERGENCIA");
+			params.put("TITULO3", "EMERGENCIAS DE CONTROL DE INCENDIO");
+			params.put("TITULO4", "EMERGENCIAS PREHOSPITALARIAS");
+			params.put("TITULO5", "EMERGENCIAS DE LABOR SOCIAL");
+			params.put("ANIO_P", Integer.parseInt(txtAnio.getText()));
+			PrintReport report = new PrintReport();
+			byte[] arr = report.crearReporte("/reportes/emergenciaAnual/rptEmergencias.jasper",mesDAO, params);	
+			final AMedia amedia = new AMedia("Reporte-emergencias.pdf", "pdf","application/pdf", arr);
+	    	reporte.setContent(amedia);
 		}catch(Exception ex) {
 			
 		}

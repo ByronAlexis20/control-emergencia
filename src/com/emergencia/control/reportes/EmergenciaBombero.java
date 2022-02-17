@@ -11,20 +11,22 @@ import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zul.Messagebox;
+import org.zkoss.zk.ui.util.GenericForwardComposer;
+import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Textbox;
 
 import com.emergencia.model.dao.MesDAO;
 import com.emergencia.model.entity.Me;
 import com.emergencia.util.PrintReport;
 
-public class EmergenciaBombero {
+@SuppressWarnings({ "serial", "rawtypes" })
+public class EmergenciaBombero extends GenericForwardComposer{
+	@Wire Iframe reporte;
 	@Wire Textbox txtAnio;
 	List<Me> listaMeses;
 	MesDAO mesDAO = new MesDAO();
@@ -39,7 +41,7 @@ public class EmergenciaBombero {
         String currentYear = getYearFormat.format(date);
 		txtAnio.setText(String.valueOf(currentYear));
 	}
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	
 	@Command
 	public void imprimir() {
 		try {
@@ -51,24 +53,17 @@ public class EmergenciaBombero {
 				Clients.showNotification("Debe ingresar el año");
 				return;
 			}
-			Messagebox.show("Descargar reporte?", "Confirmación de Guardar", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, new EventListener() {
-				@Override
-				public void onEvent(Event event) throws Exception {
-					if (event.getName().equals("onYes")) {		
-						try {						
-							Map<String, Object> params = new HashMap<String, Object>();
-							params.put("NOMBRE_INSTITUCION", "CUERPO DE BOMBEROS DEL CANTÓN LA LIBERTAD");
-							params.put("NOMBRE_REPORTE", "EMERGENCIAS POR BOMBEROS\nMES: " + mesSeleccionado.getMes());
-							params.put("ID_MES", mesSeleccionado.getIdMes());
-							params.put("ANIO", Integer.parseInt(txtAnio.getText()));
-							PrintReport report = new PrintReport();
-							report.crearReporte("/reportes/rptEmergenciasPorBomberos.jasper",mesDAO, params);	
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			});
+			
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("NOMBRE_INSTITUCION", "CUERPO DE BOMBEROS DEL CANTÓN LA LIBERTAD");
+			params.put("NOMBRE_REPORTE", "EMERGENCIAS POR BOMBEROS\nMES: " + mesSeleccionado.getMes());
+			params.put("ID_MES", mesSeleccionado.getIdMes());
+			params.put("ANIO", Integer.parseInt(txtAnio.getText()));
+			PrintReport report = new PrintReport();
+			byte[] arr = report.crearReporte("/reportes/rptEmergenciasPorBomberos.jasper",mesDAO, params);	
+			final AMedia amedia = new AMedia("Emergencia-bombero.pdf", "pdf","application/pdf", arr);
+	    	reporte.setContent(amedia);
+	    	
 		}catch(Exception ex) {
 			
 		}

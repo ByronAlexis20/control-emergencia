@@ -161,15 +161,11 @@ public class Dashboard {
 				//buscar por aph
 				List<PersonalPrehospitalaria> listaAPH = this.personalPrehospitalarioDAO.buscarPorBombero(us.getIdUsuario());
 				for(PersonalPrehospitalaria aph : listaAPH) {
-<<<<<<< HEAD
 					SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 					String fecha1 = format.format(aph.getPrehospitalaria().getFechaAtencion());
 					String fecha2 = format.format(fecha);
 					
 					if(fecha1.equals(fecha2)) {
-=======
-					if(aph.getPrehospitalaria().getFechaAtencion().equals(fecha)) {
->>>>>>> b1487a0ffbdda259f9c25568065afe7c3d039229
 						cont ++;
 					}
 				}

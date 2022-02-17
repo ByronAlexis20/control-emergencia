@@ -43,6 +43,7 @@
 					</div>
 				</hlayout>
 			</div>
+			<iframe id="reporte" hflex="1" vflex="1" ></iframe>
 		</vlayout>
 	</window>
 </zk>
