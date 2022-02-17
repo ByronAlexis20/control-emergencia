@@ -13,6 +13,7 @@
 <?link rel="stylesheet" href="/styles/vendor/font-awesome/css/font-awesome.min.css" ?>
 <?link rel="stylesheet" href="/styles/vendor/datatables/dataTables.bootstrap4.css" ?>
 <?link rel="stylesheet" href="/styles/css/sb-admin.css" ?>
+<?link rel="stylesheet" href="/styles/css/style.css" ?>
 <zk xmlns:n="native">	
 	<borderlayout hflex="1" vflex="1" apply="org.zkoss.bind.BindComposer" viewModel="@id('vm') @init('com.emergencia.control.MenuPrincipalControl')">
 		<north height="43px" border="none" style="background-color: #000000" hflex="1">

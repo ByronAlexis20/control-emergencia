@@ -1,30 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptInformeEvento" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="26a8ae6d-4b96-47a4-ba42-d2cbd22e3b1c">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="ConexionControlEmergencia"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="INFORME" class="java.lang.String"/>
+	<parameter name="RESUMEN" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[]]>
+		<![CDATA[select * from estado_civil where id_estado_civil = 1]]>
 	</queryString>
+	<field name="id_estado_civil" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_estado_civil"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_estado_civil"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="estado_civil"/>
+	</field>
+	<field name="estado_civil" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="estado_civil"/>
+		<property name="com.jaspersoft.studio.field.label" value="estado_civil"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="estado_civil"/>
+	</field>
+	<field name="estado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="estado"/>
+		<property name="com.jaspersoft.studio.field.label" value="estado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="estado_civil"/>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="126" splitType="Stretch">
+			<staticText>
+				<reportElement x="4" y="0" width="545" height="25" uuid="eca74549-c6a8-4010-b292-269903d772e2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="21" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUERPO DE BOMBEROS DE LA LIBERTAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="25" width="545" height="18" uuid="081ce2ac-1a37-4271-83e0-4882af388d3b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[“JOSUE ROBLES BODERO”]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="43" width="545" height="18" uuid="ff0ee9f5-3d54-41be-9f77-3155cf74ffeb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LA LIBERTAD - SANTA ELENA - ECUADOR]]></text>
+			</staticText>
+			<image scaleImage="FillFrame">
+				<reportElement x="245" y="64" width="70" height="60" uuid="155d6430-7858-42b0-a724-c56cf1585200"/>
+				<imageExpression><![CDATA["logo.png"]]></imageExpression>
+			</image>
+		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch"/>
+		<band height="36" splitType="Stretch">
+			<textField>
+				<reportElement x="5" y="15" width="544" height="15" uuid="d03499a2-daef-4ee0-86ee-cfbe964699bf">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{INFORME}]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch"/>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="5" y="0" width="544" height="15" uuid="4e02ce98-2b65-4a4f-b985-a861c3a4717e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial" size="11" isBold="true" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{RESUMEN}]]></textFieldExpression>
+			</textField>
+		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="56" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Transparent" x="6" y="3" width="549" height="50" uuid="f4d5ff57-8d37-4737-8e17-a0780ed967f7"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="6" y="7" width="549" height="43" uuid="6e1dad80-bbd8-40b5-acdc-a1d51e884940"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Dirección: Avenida 9 de Octubre y Calle 22 esquina
+Teléfono: 042785237 – 042785562 – Telefax: 042781561
+E-mail: jbomberospse@hotmail.com
+]]></text>
+			</staticText>
+		</band>
 	</pageFooter>
 	<summary>
 		<band height="42" splitType="Stretch"/>

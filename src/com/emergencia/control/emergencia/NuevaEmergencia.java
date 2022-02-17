@@ -20,7 +20,9 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -71,6 +73,17 @@ public class NuevaEmergencia {
 	@Wire Textbox txtNovedades;
 	@Wire Listbox lstPersonalEmergencia;
 	
+	//divs para las flechas de los pasos
+	@Wire Div divDatosPersonales;
+	@Wire Div divPersonalEmergencia;
+	@Wire Div divOtros;
+	
+	//botones de control
+	@Wire Button btnVolver;
+	@Wire Button btnGrabar;
+	@Wire Button btnSalir;
+	@Wire Button btnSiguiente;
+	
 	List<Me> listaMeses;
 	List<Provincia> listaProvincia;
 	List<Canton> listaCanton;
@@ -106,15 +119,30 @@ public class NuevaEmergencia {
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
+		divDatosPersonales.setClass("paso-activo active");
+		btnVolver.setVisible(false);
+		btnGrabar.setVisible(false);
 		emergencia = (Emergencia) Executions.getCurrent().getArg().get("Emergencia");
 		if(emergencia != null) {
-			recuperarDatos();
+			//recuperarDatos();
 		}else {
 			emergencia = new Emergencia();
 		}
 	}
 	
-	private void recuperarDatos() {
+	@Command
+	public void siguiente() {
+		divDatosPersonales.setClass("paso-completado");
+		divPersonalEmergencia.setClass("paso-activo active");
+	}
+	
+	@Command
+	public void volver() {
+		
+	}
+	
+	
+	public void recuperarDatos() {
 		cboProvincia.setText(emergencia.getParroquia().getCanton().getProvincia().getProvincia());
 		provinciaSeleccionado = emergencia.getParroquia().getCanton().getProvincia();
 		seleccionarProvincia();

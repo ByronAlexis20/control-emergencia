@@ -32,9 +32,9 @@
 		<class>com.emergencia.model.entity.PersonalEmergencia</class>
 		<class>com.emergencia.model.entity.PersonalPrehospitalaria</class>
 		<properties>
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/control-emergenia"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/control-emergencia?useSSL=false"/>
 			<property name="javax.persistence.jdbc.user" value="root"/>
-			<property name="javax.persistence.jdbc.password" value="tricampeon2015"/>
+			<property name="javax.persistence.jdbc.password" value="admin123"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
 		</properties>
 	</persistence-unit>
