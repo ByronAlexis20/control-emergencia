@@ -84,6 +84,12 @@ public class NuevaEmergencia {
 	@Wire Button btnSalir;
 	@Wire Button btnSiguiente;
 	
+	@Wire Div winDatosPersonales;
+	@Wire Div winPersonalEmergencia;
+	@Wire Div winOtros;
+	
+	Integer inx = 0;
+	
 	List<Me> listaMeses;
 	List<Provincia> listaProvincia;
 	List<Canton> listaCanton;
@@ -119,12 +125,20 @@ public class NuevaEmergencia {
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
+		
 		divDatosPersonales.setClass("paso-activo active");
+		divPersonalEmergencia.setClass("paso-inactivo");
+		divOtros.setClass("paso-inactivo");
+		
+		winDatosPersonales.setVisible(true);
+		winPersonalEmergencia.setVisible(false);
+		winOtros.setVisible(false);
+		
 		btnVolver.setVisible(false);
 		btnGrabar.setVisible(false);
 		emergencia = (Emergencia) Executions.getCurrent().getArg().get("Emergencia");
 		if(emergencia != null) {
-			//recuperarDatos();
+			recuperarDatos();
 		}else {
 			emergencia = new Emergencia();
 		}
@@ -132,15 +146,66 @@ public class NuevaEmergencia {
 	
 	@Command
 	public void siguiente() {
-		divDatosPersonales.setClass("paso-completado");
-		divPersonalEmergencia.setClass("paso-activo active");
+		inx ++;
+		if(inx == 1) {
+			if (validarDatos() == false) {
+				inx --;
+				return;
+			}
+			moverStep(inx);
+		}else {
+			moverStep(inx);
+		}
 	}
 	
 	@Command
 	public void volver() {
-		
+		inx --;
+		moverStep(inx);
 	}
-	
+	private void moverStep(Integer i) {
+		switch(i) {
+			case 0:
+				divDatosPersonales.setClass("paso-activo active");
+				divPersonalEmergencia.setClass("paso-inactivo");
+				divOtros.setClass("paso-inactivo");
+				btnVolver.setVisible(false);
+				btnSiguiente.setVisible(true);
+				btnGrabar.setVisible(false);
+				
+				winDatosPersonales.setVisible(true);
+				winPersonalEmergencia.setVisible(false);
+				winOtros.setVisible(false);
+				
+				break;
+			case 1:
+				divDatosPersonales.setClass("paso-completado");
+				divPersonalEmergencia.setClass("paso-activo active");
+				divOtros.setClass("paso-inactivo");
+				btnVolver.setVisible(true);
+				btnSiguiente.setVisible(true);
+				btnGrabar.setVisible(false);
+				
+				winDatosPersonales.setVisible(false);
+				winPersonalEmergencia.setVisible(true);
+				winOtros.setVisible(false);
+				
+				break;
+			case 2:
+				divDatosPersonales.setClass("paso-completado");
+				divPersonalEmergencia.setClass("paso-completado");
+				divOtros.setClass("paso-activo active");
+				btnVolver.setVisible(true);
+				btnSiguiente.setVisible(false);
+				btnGrabar.setVisible(true);
+				
+				winDatosPersonales.setVisible(false);
+				winPersonalEmergencia.setVisible(false);
+				winOtros.setVisible(true);
+				
+				break;
+		}
+	}
 	
 	public void recuperarDatos() {
 		cboProvincia.setText(emergencia.getParroquia().getCanton().getProvincia().getProvincia());
@@ -257,7 +322,7 @@ public class NuevaEmergencia {
 		try {
 			boolean band = true;
 			if(txtDia.getText().isEmpty()) {
-				Clients.showNotification("Debe registrar el dia","info",txtDia,"end_center",2000);
+				Clients.showNotification("Debe registrar el día","info",txtDia,"end_center",2000);
 				txtDia.focus();
 				return false;
 			}

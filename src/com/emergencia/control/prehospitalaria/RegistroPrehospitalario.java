@@ -20,8 +20,10 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Datebox;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
@@ -77,6 +79,25 @@ public class RegistroPrehospitalario {
 	@Wire Combobox cboParroquia;
 	@Wire Combobox cboProvincia;
 	
+	//divs para las flechas de los pasos
+	@Wire Div divDatosGenerales;
+	@Wire Div divPersonalEmergencia;
+	@Wire Div divSignosVitales;
+	@Wire Div divLesiones;
+	
+	@Wire Div winDatosGenerales;
+	@Wire Div winPersonalEmergencia;
+	@Wire Div winSignosVitales;
+	@Wire Div winLesiones;
+	
+	//botones de control
+	@Wire Button btnVolver;
+	@Wire Button btnGrabar;
+	@Wire Button btnSalir;
+	@Wire Button btnSiguiente;
+	
+	Integer inx = 0;
+	
 	List<SignoVital> listaSignoVital;
 	List<Procedimiento> listaProcedimiento;
 	List<LocalizacionLesion> listaLocalizacionLesion;
@@ -113,6 +134,19 @@ public class RegistroPrehospitalario {
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
 		Selectors.wireComponents(view, this, false);
+		divDatosGenerales.setClass("paso-activo active");
+		divPersonalEmergencia.setClass("paso-inactivo");
+		divSignosVitales.setClass("paso-inactivo");
+		divLesiones.setClass("paso-inactivo");
+		
+		winDatosGenerales.setVisible(true);
+		winPersonalEmergencia.setVisible(false);
+		winSignosVitales.setVisible(false);
+		winLesiones.setVisible(false);
+		
+		btnVolver.setVisible(false);
+		btnGrabar.setVisible(false);
+		
 		prehospitalario = (Prehospitalaria) Executions.getCurrent().getArg().get("Prehospitalaria");
 		if(prehospitalario != null) {
 			recuperarDatos();
@@ -120,6 +154,95 @@ public class RegistroPrehospitalario {
 			prehospitalario = new Prehospitalaria();
 		}
 	}
+	
+	@Command
+	public void siguiente() {
+		inx ++;
+		if(inx == 1) {
+			if (validarDatos() == false) {
+				inx --;
+				return;
+			}
+			moverStep(inx);
+		}else {
+			moverStep(inx);
+		}
+	}
+	
+	@Command
+	public void volver() {
+		inx --;
+		moverStep(inx);
+	}
+	private void moverStep(Integer i) {
+		switch(i) {
+			case 0:
+				divDatosGenerales.setClass("paso-activo active");
+				divPersonalEmergencia.setClass("paso-inactivo");
+				divSignosVitales.setClass("paso-inactivo");
+				divLesiones.setClass("paso-inactivo");
+				
+				btnVolver.setVisible(false);
+				btnSiguiente.setVisible(true);
+				btnGrabar.setVisible(false);
+				
+				winDatosGenerales.setVisible(true);
+				winPersonalEmergencia.setVisible(false);
+				winSignosVitales.setVisible(false);
+				winLesiones.setVisible(false);
+				
+				break;
+			case 1:
+				divDatosGenerales.setClass("paso-completado");
+				divPersonalEmergencia.setClass("paso-activo active");
+				divSignosVitales.setClass("paso-inactivo");
+				divLesiones.setClass("paso-inactivo");
+				
+				btnVolver.setVisible(true);
+				btnSiguiente.setVisible(true);
+				btnGrabar.setVisible(false);
+				
+				winDatosGenerales.setVisible(false);
+				winPersonalEmergencia.setVisible(true);
+				winSignosVitales.setVisible(false);
+				winLesiones.setVisible(false);
+				
+				break;
+			case 2:
+				divDatosGenerales.setClass("paso-completado");
+				divPersonalEmergencia.setClass("paso-completado");
+				divSignosVitales.setClass("paso-activo active");
+				divLesiones.setClass("paso-inactivo");
+				
+				btnVolver.setVisible(true);
+				btnSiguiente.setVisible(true);
+				btnGrabar.setVisible(false);
+				
+				winDatosGenerales.setVisible(false);
+				winPersonalEmergencia.setVisible(false);
+				winSignosVitales.setVisible(true);
+				winLesiones.setVisible(false);
+				
+				break;
+			case 3:
+				divDatosGenerales.setClass("paso-completado");
+				divPersonalEmergencia.setClass("paso-completado");
+				divSignosVitales.setClass("paso-completado");
+				divLesiones.setClass("paso-activo active");
+				
+				btnVolver.setVisible(true);
+				btnSiguiente.setVisible(false);
+				btnGrabar.setVisible(true);
+				
+				winDatosGenerales.setVisible(false);
+				winPersonalEmergencia.setVisible(false);
+				winSignosVitales.setVisible(false);
+				winLesiones.setVisible(true);
+				
+				break;
+		}
+	}
+	
 	
 	private void recuperarDatos() {
 		txtCedulaUsuario.setText(prehospitalario.getCedulaUsuario());
