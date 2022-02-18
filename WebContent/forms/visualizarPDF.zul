@@ -1,0 +1,5 @@
+<zk>
+  <window border="normal" title="Visualizar pdf" apply="com.emergencia.control.VisualizarPDF" closable="true">
+        <iframe id="reporte" height="700px" width="900px" autohide="true"></iframe>
+  </window>
+</zk>

@@ -300,6 +300,11 @@ public class NuevaEmergencia {
 			
 		}
 	}
+	
+	private void cargarInforme() {
+		
+	}
+	
 	private void cargarDatos() {
 		emergencia.setAnio(Integer.parseInt(txtAnio.getText()));
 		emergencia.setAvenida(txtAvenida.getText());

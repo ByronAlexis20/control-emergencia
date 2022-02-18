@@ -4,9 +4,9 @@
 		apply="org.zkoss.bind.BindComposer" border="none" position="center"
 		mode="overlapped" class="modal-title"
 		viewModel="@id('vm') @init('com.emergencia.control.controlVehiculo.RegistroEmergencia')">
-		<caption label="Ingrese datos" height="25px"/>
-		<vlayout>
-			<grid>
+		<caption label="Ingrese datos del movimiento del vehículo" height="25px"/>
+		<vlayout hflex="1" vflex="1">
+			<grid hflex="1" vflex="1">
 				<columns>
 					<column align="right" hflex="min" />
 					<column align="left" hflex="1" />
@@ -52,7 +52,7 @@
 					</row>
 				</rows>
 			</grid>
-			<grid>
+			<grid hflex="1">
 				<columns>
 					<column align="right" hflex="min" />
 					<column align="left" hflex="1" />

@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -26,12 +28,15 @@ import org.zkoss.zul.Timebox;
 import org.zkoss.zul.Window;
 
 import com.emergencia.model.dao.ControlVehiculoDAO;
+import com.emergencia.model.dao.PersonalPrehospitalariaDAO;
 import com.emergencia.model.dao.UsuarioDAO;
 import com.emergencia.model.dao.VehiculoDAO;
 import com.emergencia.model.entity.ControlVehiculo;
+import com.emergencia.model.entity.PersonalPrehospitalaria;
 import com.emergencia.model.entity.Prehospitalaria;
 import com.emergencia.model.entity.Usuario;
 import com.emergencia.model.entity.Vehiculo;
+import com.emergencia.util.PrintReport;
 
 public class RegistroPrehospitalaria {
 	@Wire Window winRegistroPrehospitalario;
@@ -77,6 +82,8 @@ public class RegistroPrehospitalaria {
 	UsuarioDAO usuarioDAO = new UsuarioDAO();
 	Usuario choferSeleccionado;
 	Usuario cuarteleroSeleccionado;
+	
+	PersonalPrehospitalariaDAO personalPrehospitalariaDAO = new PersonalPrehospitalariaDAO();
 	
 	@AfterCompose
 	public void aferCompose(@ContextParam(ContextType.VIEW) Component view) throws IOException{
@@ -146,6 +153,7 @@ public class RegistroPrehospitalaria {
 							controlDAO.getEntityManager().getTransaction().commit();
 							Clients.showNotification("Proceso Ejecutado con exito.");
 							BindUtils.postGlobalCommand(null, null, "Prehospitalaria.buscarSinControlVehiculo", null);
+							mostrarInforme(control);
 							salir();						
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -157,6 +165,53 @@ public class RegistroPrehospitalaria {
 		}catch(Exception ex) {
 		}
 	}
+	
+	private void mostrarInforme(ControlVehiculo con) {
+		try {
+			String tipoEmergencia = "";
+			if(con.getEmergencia().getTipoEmergencia().getGrupo().equals("APH")) {
+				tipoEmergencia = "prehospitalaria";
+			}else if(con.getEmergencia().getTipoEmergencia().getGrupo().equals("CI")) {
+				tipoEmergencia = "contra incendio";
+			}else if(con.getEmergencia().getTipoEmergencia().getGrupo().equals("LS")) {
+				tipoEmergencia = "labor social";
+			}
+			String personal = "";
+			List<PersonalPrehospitalaria> listaPersonalPrehospitalario = personalPrehospitalariaDAO.buscarPorEmergencia(con.getPrehospitalaria().getIdPrehospitalaria());
+			for(PersonalPrehospitalaria per : listaPersonalPrehospitalario) {
+				personal = personal + "   - <b>" + per.getBombero().getGrado() + " " + per.getBombero().getPersona().getNombres() + " " + per.getBombero().getPersona().getApellidos() + "</b><br/>";
+			}
+			int milisegundos = (int)(con.getHoraLlegadaCentral().getTime() - con.getHoraLlegadaEmergencia().getTime());
+			
+			int minutos = (int) ((milisegundos / (1000*60)) % 60); 
+			int horas = (int) ((milisegundos / (1000*60*60)) % 24);
+			
+			SimpleDateFormat formatFecha = new SimpleDateFormat("dd-MMMMMMM-yyyy");
+			
+			String informe = "INFORME No. " + con.getnReporte() + " DE EVENTO POR EMERGENCIA";
+			String resumen = "En el dia <b>" + formatFecha.format(con.getPrehospitalaria().getFechaEvento()) + "</b> a las <b>" + 
+					con.getHoraSalidaBase() + "</b> se reportó la emergencia <b>" + tipoEmergencia + 
+					"</b> de tipo <b>" + con.getPrehospitalaria().getTipoEmergencia().getTipoEmergencia() + "</b>, sucedido en <b>" + con.getPrehospitalaria().getDireccionEvento() + 
+					"</b> al mismo que acudió el vehículo <b>" + con.getVehiculo().getTipoVehiculo().getTipoVehiculo() + " " + con.getVehiculo().getCodigo() + 
+					"</b> y asistieron los siguientes bomberos: <br/><br/><br/>" +
+					"<b>Personal que asiste a emergencia:</b> <br/><br/>" + 
+					personal + "<br/><br/>" + 
+					"<b>Chofer a cargo:</b> <br/><br/>" 
+					+ "   - <b>" + con.getChofer().getPersona().getNombres() + " " + con.getChofer().getPersona().getApellidos() + "</b><br/><br/>" + 
+					"A las <b>" + con.getHoraLlegadaEmergencia() + "</b> se llegó al sitio del incidente y a las <b>" + con.getHoraLlegadaCentral() + "</b> se " + 
+					"retornó a la compañía cubriendo un total de <b>" + horas + "</b> horas <b>" + minutos + "</b> minutos de atención. Después de la jornada los " + 
+					"bomberos estarán atentos en la base para acudir al llamado de alguna atencion de emergencia.";
+			
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("INFORME", informe);
+			params.put("RESUMEN", resumen);
+			PrintReport report = new PrintReport();
+			report.crearDescargarReporte("/reportes/informe/rptInformeEvento.jasper",usuarioDAO, params);
+		}catch(Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
+	
 	private void copiarDatos() {
 		control.setChofer(choferSeleccionado);
 		control.setCuartelero(cuarteleroSeleccionado);

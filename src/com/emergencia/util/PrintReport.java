@@ -68,6 +68,46 @@ public class PrintReport {
 		}
 	}
 
+	public void crearDescargarReporte(String path, ClaseDAO claseDAO,Map<String, Object> param) {
+		try {
+			String pathAbsoluto = Executions.getCurrent()
+					.getDesktop().getWebApp()
+					.getRealPath("/");
+			String nombreReporte = pathAbsoluto + path;
+			Connection cn = claseDAO.abreConexion();
+
+			String nombreArchivo = null;
+			nombreArchivo = pathAbsoluto + "temp";
+			//Clients.showNotification("nombre de ruta: " + nombreArchivo);
+
+			System.out.println(nombreArchivo);
+			//pregunta si la carpeta existe
+			File folder = new File(nombreArchivo);
+			if (folder.exists()) {
+			}else {
+				folder.mkdir();
+			}
+
+			// Obtiene un nombre aleatorio para el reporte
+			nombreArchivo = nombreArchivo + "/" + UUID.randomUUID().toString() + ".pdf";
+			//Messagebox.show("nombre de ruta y archivo: " + nombreArchivo);
+
+			byte[] b = null;
+			b = JasperRunManager.runReportToPdf(nombreReporte, param, cn);
+			FileOutputStream fos = new FileOutputStream(nombreArchivo);
+			fos.write(b);
+			fos.close();
+			
+			Filedownload.save(new File(nombreArchivo), "pdf"); 
+			/*
+			nombreArchivo = nombreArchivo + "/" + UUID.randomUUID().toString() + ".pdf";
+			Messagebox.show("nombre de ruta y archivo: " + nombreArchivo);
+			 */
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
 	public String crearArchivo(String path, ClaseDAO claseDAO,Map<String, Object> param) {
 		try {
 			String pathAbsoluto = Executions.getCurrent()
